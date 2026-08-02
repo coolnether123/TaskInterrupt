@@ -5,6 +5,7 @@
     <AssemblyName>TaskBreak.Tests</AssemblyName>
     <RootNamespace>TaskBreak.Tests</RootNamespace>
     <Deterministic>true</Deterministic>
+    <RwtTestSupportProject Condition="'$(RwtTestSupportProject)' == ''">$(MSBuildThisFileDirectory)..\..\..\Worktrees\RimWorld-Tooling\phase-a\test-support\RimWorld.ModTestSupport\RimWorld.ModTestSupport.csproj</RwtTestSupportProject>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Source\Domain\TaskBreakDecision.cs"
@@ -15,5 +16,9 @@
              Link="TaskBreakPolicy.cs" />
     <Compile Include="..\Source\Runtime\ActivationGate.cs"
              Link="ActivationGate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(RwtTestSupportProject)" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
   </ItemGroup>
 </Project>

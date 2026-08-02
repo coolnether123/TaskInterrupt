@@ -51,7 +51,7 @@ Animals and arbitrary selectable entities are intentionally outside scope.
 
 - RimWorld 1.6
 - Harmony
-- Spine 1.2 or newer
+- Spine 1.0
 
 See [research](docs/research/duplicate-check.md),
 [architecture](docs/architecture.md), [compatibility](docs/compatibility.md),

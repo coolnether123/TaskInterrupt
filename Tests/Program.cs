@@ -1,17 +1,20 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
 using TaskBreak.Domain;
 using TaskBreak.Runtime;
+using static RimWorld.ModTestSupport.Test;
 
 namespace TaskBreak.Tests
 {
     internal static class Program
     {
-        private static int passed;
-
         private static int Main()
         {
+            Start("Task Break contracts");
             Run("ordinary task is interruptible", OrdinaryTaskIsAllowed);
             Run("forced task requires confirmation", ForcedTaskConfirms);
             Run("protected states fail closed", ProtectedStatesFailClosed);
@@ -27,15 +30,14 @@ namespace TaskBreak.Tests
             Run("input stays on RimWorld's keyboard gizmo path",
                 OnlyVanillaKeyboardGizmoOwnsInput);
             Run("mod gizmo sorts after vanilla", ModGizmoSortsAfterVanilla);
-            Run("implementation avoids draft dance", NoDraftDanceInSource);
+            Run("compiled implementation avoids draft dance", NoDraftDanceInAssembly);
             Run("active medical patients are protected",
                 ActiveMedicalPatientsAreProtected);
             Run("gizmo assessment is amortized per frame",
                 GizmoAssessmentIsAmortizedPerFrame);
             Run("Alt settings navigation consumes the gizmo",
                 AltSettingsNavigationConsumesGizmo);
-            Console.WriteLine($"PASS: {passed} Task Break contracts");
-            return 0;
+            return Finish();
         }
 
         private static void OrdinaryTaskIsAllowed()
@@ -157,22 +159,35 @@ namespace TaskBreak.Tests
                 "vanilla forbid must symmetrically ignore Task Break");
         }
 
-        private static void NoDraftDanceInSource()
+        private static void NoDraftDanceInAssembly()
         {
             string root = RepositoryRoot();
-            string controller = File.ReadAllText(Path.Combine(
+            using AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(
+                Path.Combine(
                 root,
-                "Source",
-                "Runtime",
-                "TaskBreakController.cs"));
-            Require(!controller.Contains(".Drafted =", StringComparison.Ordinal),
+                "1.6",
+                "Assemblies",
+                "TaskBreak.dll"));
+            MethodReference[] calls = assembly.MainModule.Types
+                .Where(type => type.Namespace.StartsWith(
+                    "TaskBreak",
+                    StringComparison.Ordinal))
+                .SelectMany(type => type.Methods)
+                .Where(method => method.HasBody)
+                .SelectMany(method => method.Body.Instructions)
+                .Where(instruction =>
+                    instruction.OpCode == OpCodes.Call ||
+                    instruction.OpCode == OpCodes.Callvirt)
+                .Select(instruction => instruction.Operand as MethodReference)
+                .Where(method => method != null)
+                .ToArray();
+
+            Require(!calls.Any(method => method.Name == "set_Drafted"),
                 "Task Break must not mutate draft state");
-            Require(!controller.Contains("ClearQueuedJobs", StringComparison.Ordinal),
+            Require(!calls.Any(method => method.Name == "ClearQueuedJobs"),
                 "Task Break must preserve queued jobs");
-            Require(controller.Contains(
-                    "EndCurrentJob(JobCondition.InterruptForced)",
-                    StringComparison.Ordinal),
-                "Task Break must use the vanilla forced interruption path");
+            Require(calls.Any(method => method.Name == "EndCurrentJob"),
+                "Task Break must use RimWorld's normal job-ending API");
         }
 
         private static void AssignedKeyUsesNativeGizmoHotkey()
@@ -400,19 +415,5 @@ namespace TaskBreak.Tests
                 ".."));
         }
 
-        private static void Run(string name, Action action)
-        {
-            action();
-            passed++;
-            Console.WriteLine("PASS: " + name);
-        }
-
-        private static void Require(bool condition, string message)
-        {
-            if (!condition)
-            {
-                throw new InvalidOperationException(message);
-            }
-        }
     }
 }

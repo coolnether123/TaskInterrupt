@@ -7,5 +7,17 @@
   "project": "Source/Mod.csproj",
   "configuration": "Release",
   "assemblyName": "TaskBreak",
-  "packageId": "CoolNether123.TaskBreak"
+  "packageId": "CoolNether123.TaskBreak",
+  "releaseIncludePaths": [
+    "About",
+    "1.6/Assemblies/TaskBreak.dll",
+    "Defs",
+    "Languages",
+    "Patches",
+    "LICENSE"
+  ],
+  "dependencies": [
+    "harmony",
+    "spine"
+  ]
 }

@@ -3,6 +3,8 @@ using System.Linq;
 using HarmonyLib;
 using TaskBreak.Bootstrap;
 using TaskBreak.Presentation;
+using Spine.Api;
+using Spine.Harmony;
 using Verse;
 
 namespace TaskBreak.Patches
@@ -10,22 +12,17 @@ namespace TaskBreak.Patches
     internal static class TaskBreakPatches
     {
         private const string HarmonyId = "CoolNether123.TaskBreak";
-        private static bool installed;
+        private static readonly IHarmonyPatchInstaller Installer =
+            SpineApi.Patching.CreateInstaller(HarmonyId, "[Task Break]");
 
         internal static void Install()
         {
-            if (installed)
-            {
-                return;
-            }
-
-            var harmony = new Harmony(HarmonyId);
-            harmony.Patch(
+            Installer.TryPatch(
+                "pawn gizmos",
                 AccessTools.Method(typeof(Pawn), nameof(Pawn.GetGizmos)),
                 postfix: new HarmonyMethod(
                     typeof(TaskBreakPatches),
                     nameof(PawnGizmosPostfix)));
-            installed = true;
         }
 
         private static void PawnGizmosPostfix(

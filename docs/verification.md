@@ -7,9 +7,12 @@ surface; it owns no mouse-input adapter or global input poll.
 ## Current artifact
 
 - Shipping DLL SHA-256:
-  `88DF4680FC4428F3543F12FE79A6D5EEE7BA4E004962DAB8C44EFBB96EE8FAC9`.
-- Shipping DLL size: 19,968 bytes.
-- Automated contracts: 15/15 passed.
+  `B394220B871A48A33CD787ADC94D32D84EF9FD228BA53C2C63C97D768FDA44AC`.
+- Shipping DLL size: 19,456 bytes.
+- Assembly version: 1.0.0.0.
+- Automated contracts: 15/15 passed, 76 assertions.
+- Package validation: `RWT-BUILD-PACKAGE-VALID`; the shipping package has one
+  DLL.
 - Harmony ownership: one `Pawn.GetGizmos` postfix.
 - Default binding: primary `F`, secondary `None`.
 
@@ -34,11 +37,10 @@ Vehicle Framework, Save Our Ship 2, Ideology, and Biotech.
 | Developer mode | Passed. `devMode=True` after reload. |
 | Logs | Passed. No matching in-game exception, no OnGUI misuse, and no Task Break error. |
 
-Evidence root:
-`C:\Users\PrecisionX\AppData\Local\Temp\RimWorldAgentTasks\1.6\coolnether-suite-7dec0af702844a49b737a13f4b23608f`
+Evidence session: `coolnether-suite-7dec0af702844a49b737a13f4b23608f`.
 
 Final capture:
-`ipc\captures\final-suite-ready-20260802-062141-836.png`
+`final-suite-ready-20260802-062141-836.png`
 
 ## Covered safety behavior
 
@@ -53,3 +55,10 @@ path.
 The unpublished Spine dependency still produces RimWorld's metadata warning
 about a missing public distribution URL. Runtime behavior is unaffected; no URL
 is invented here.
+
+The current candidate is a centralized-service and assembly-metadata rebuild
+against Spine SHA-256
+`3E857A09793BBFF839D0C18D197E480C9365B6384148F49F48669F068BBB9086`.
+The combined live lane above remains exact evidence for its named historical
+assembly; the parent release pass must record a final combined launch for this
+candidate.

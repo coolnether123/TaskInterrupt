@@ -8,42 +8,24 @@ namespace TaskBreak.Settings
         internal static readonly IReadOnlyList<SettingDefinition> Definitions =
             new[]
             {
-                new SettingDefinition
-                {
-                    Id = "controls.header",
-                    Type = SettingType.Header,
-                    Label = "Controls",
-                    LabelKey = "TaskBreak_Settings_Controls",
-                    SortOrder = 0,
-                    ShowInSimpleView = true
-                },
-                new SettingDefinition
-                {
-                    Id = "controls.gizmo",
-                    FieldName = nameof(TaskBreakSettings.ShowGizmo),
-                    ScribeKey = "showGizmo",
-                    Type = SettingType.Bool,
-                    Label = "Show task break command",
-                    LabelKey = "TaskBreak_Settings_ShowGizmo",
-                    TooltipKey = "TaskBreak_Settings_ShowGizmo_Tip",
-                    DefaultValue = true,
-                    SortOrder = 10,
-                    ShowInSimpleView = true
-                },
-                new SettingDefinition
-                {
-                    Id = "safety.forced",
-                    FieldName = nameof(
-                        TaskBreakSettings.ConfirmForcedTasks),
-                    ScribeKey = "confirmForcedTasks",
-                    Type = SettingType.Bool,
-                    Label = "Confirm forced tasks",
-                    LabelKey = "TaskBreak_Settings_ConfirmForced",
-                    TooltipKey = "TaskBreak_Settings_ConfirmForced_Tip",
-                    DefaultValue = true,
-                    SortOrder = 20,
-                    ShowInSimpleView = true
-                }
+                SettingDefinitions.Header(
+                    "controls.header",
+                    "Controls",
+                    "TaskBreak_Settings_Controls"),
+                SettingDefinitions.Toggle(
+                    "controls.gizmo",
+                    nameof(TaskBreakSettings.ShowGizmo),
+                    "Show task break command",
+                    "TaskBreak_Settings_ShowGizmo",
+                    tooltipKey: "TaskBreak_Settings_ShowGizmo_Tip",
+                    scribeKey: "showGizmo"),
+                SettingDefinitions.Toggle(
+                    "safety.forced",
+                    nameof(TaskBreakSettings.ConfirmForcedTasks),
+                    "Confirm forced tasks",
+                    "TaskBreak_Settings_ConfirmForced",
+                    tooltipKey: "TaskBreak_Settings_ConfirmForced_Tip",
+                    scribeKey: "confirmForcedTasks")
             };
     }
 }

@@ -1,7 +1,24 @@
 {
   "rimWorldVersion": "1.6.4871",
-  "shippingDllSha256": "88DF4680FC4428F3543F12FE79A6D5EEE7BA4E004962DAB8C44EFBB96EE8FAC9",
+  "shippingDllSha256": "B394220B871A48A33CD787ADC94D32D84EF9FD228BA53C2C63C97D768FDA44AC",
+  "shippingDllSizeBytes": 19456,
+  "assemblyVersion": "1.0.0.0",
   "automatedContracts": "15/15",
+  "automatedAssertions": 76,
+  "packageValidation": "RWT-BUILD-PACKAGE-VALID",
+  "shippingDllCount": 1,
+  "releaseIncludePaths": [
+    "About",
+    "1.6/Assemblies/TaskBreak.dll",
+    "Defs",
+    "Languages",
+    "Patches",
+    "LICENSE"
+  ],
+  "sourceBaseCommit": "252cae3490830b0b879bec6e4a2dee821cb25246",
+  "sourceStateAtBuild": "working tree release candidate; commit pending",
+  "spineSha256": "3E857A09793BBFF839D0C18D197E480C9365B6384148F49F48669F068BBB9086",
+  "runtimeArtifactNotice": "The finalLane record remains exact evidence for its named historical assembly. A final combined launch is required for this metadata-only rebuild.",
   "inputModel": "RimWorld native keyboard gizmo hotkey only",
   "harmonyPatchCount": 1,
   "finalLane": {

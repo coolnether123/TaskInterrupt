@@ -28,7 +28,7 @@ forbidden definition symmetrically list only each other in
 both commands and rebindings remain intact, the false startup warning is
 avoided, and unrelated binding conflicts continue to be detected normally.
 
-Spine 1.2 owns settings rendering, scribing, contextual Alt-click routing,
+Spine 1.0 owns settings rendering, scribing, contextual Alt-click routing,
 scrolling, and highlighting. Task Break contributes two setting definitions
 and one rectangle binding. Gameplay safety semantics remain in Task Break.
 
