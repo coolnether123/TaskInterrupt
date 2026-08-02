@@ -16,7 +16,9 @@ directly to vanilla for every other binding or event. The update postfix reads
 only Task Break's two assigned keys. While the gizmo is visible it polls only
 side buttons, because RimWorld's command renderer already handles keyboard
 events; while the gizmo is hidden it polls either assigned keyboard or mouse
-key. It does nothing behind an open window or focused search field. Both paths
+key. It remains active with RimWorld's normal inspect pane and immediate
+overlays, but does nothing behind a focused search field, a non-immediate
+dialog, or a window that absorbs all input. Both paths
 call the same controller entrypoint as the gizmo, including the exact
 unavailable reason, and identical primary and secondary bindings are checked
 once. It stores no gameplay state and never consumes an IMGUI event. While
@@ -44,7 +46,7 @@ verified mod requires behavior beyond the vanilla public contracts.
 
 ## One-use helpers
 
-Six helpers currently have one direct production caller:
+Seven helpers currently have one direct production caller:
 
 - `TaskBreakController.FirstDecision` keeps selection and policy traversal out
   of the gizmo renderer. It should remain a controller boundary unless a
@@ -67,3 +69,8 @@ Six helpers currently have one direct production caller:
   a Task Break input-policy seam because its hidden/visible and duplicate-slot
   behavior is directly regression-tested without loading Unity; it should not
   move into Spine unless another consumer needs exactly the same policy.
+- `AssignedInputSuppression.ShouldSuppress` has one production caller. It
+  should remain a Task Break input-safety seam so the ordinary play stack and
+  blocking dialogs can be regression-tested without loading Unity. Moving this
+  three-flag policy into Spine would be premature unless another consumer
+  needs the same hidden-binding behavior.

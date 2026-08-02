@@ -89,8 +89,10 @@ namespace TaskBreak.Patches
                 TaskBreakDefOf.TaskBreak_CancelCurrentTask;
             if (Current.ProgramState != ProgramState.Playing ||
                 Find.WindowStack == null ||
-                Find.WindowStack.Count > 0 ||
-                Find.WindowStack.AnySearchWidgetFocused ||
+                AssignedInputSuppression.ShouldSuppress(
+                    Find.WindowStack.AnySearchWidgetFocused,
+                    Find.WindowStack.AnyWindowAbsorbingAllInput,
+                    Find.WindowStack.NonImmediateDialogWindowOpen) ||
                 keyPrefs == null ||
                 keyDef == null)
             {

@@ -28,6 +28,10 @@ namespace TaskBreak.Tests
                 MouseBindingUsesCommandPath);
             Run("hidden keyboard and mouse bindings remain active",
                 HiddenBindingsRemainActive);
+            Run("ordinary play windows do not suppress assigned input",
+                OrdinaryPlayWindowsDoNotSuppressAssignedInput);
+            Run("input-capturing windows suppress assigned input",
+                InputCapturingWindowsSuppressAssignedInput);
             Run("duplicate binding activates once",
                 DuplicateBindingActivatesOnce);
             Run("controls dialog captures side mouse bindings",
@@ -297,10 +301,13 @@ namespace TaskBreak.Tests
                     StringComparison.Ordinal),
                 "primary and secondary side-button bindings must recognize Unity side-button input");
             Require(patches.Contains(
-                    "Find.WindowStack.Count > 0",
+                    "Find.WindowStack.AnyWindowAbsorbingAllInput",
                     StringComparison.Ordinal) &&
                 patches.Contains(
                     "Find.WindowStack.AnySearchWidgetFocused",
+                    StringComparison.Ordinal) &&
+                patches.Contains(
+                    "Find.WindowStack.NonImmediateDialogWindowOpen",
                     StringComparison.Ordinal) &&
                 patches.Contains(
                     "TaskBreakController.ActivateSelected();",
@@ -308,7 +315,7 @@ namespace TaskBreak.Tests
                 patches.Contains(
                     "AssignedKeyActivation.IsPressed(",
                     StringComparison.Ordinal),
-                "assigned input must run once from Update, stay inactive behind windows, and share the command action");
+                "assigned input must run once from Update, stay inactive behind input-capturing windows, and share the command action");
             Require(!command.Contains(
                     "Input.GetKeyDown",
                     StringComparison.Ordinal) &&
@@ -361,6 +368,37 @@ namespace TaskBreak.Tests
                     mouse6, 0, true, mouse3, mouse6,
                     key => key == mouse6),
                 "a visible gizmo must add only RimWorld's missing side-mouse path");
+        }
+
+        private static void OrdinaryPlayWindowsDoNotSuppressAssignedInput()
+        {
+            // A normal selected-pawn frame contains two non-absorbing
+            // ImmediateWindows and MainTabWindow_Inspect. None is a
+            // non-immediate Dialog and no search widget is focused.
+            Require(!AssignedInputSuppression.ShouldSuppress(
+                    searchWidgetFocused: false,
+                    windowAbsorbsAllInput: false,
+                    nonImmediateDialogOpen: false),
+                "the ordinary ImmediateWindow/Inspect/ImmediateWindow stack must not disable F or side-mouse bindings");
+        }
+
+        private static void InputCapturingWindowsSuppressAssignedInput()
+        {
+            Require(AssignedInputSuppression.ShouldSuppress(
+                    searchWidgetFocused: true,
+                    windowAbsorbsAllInput: false,
+                    nonImmediateDialogOpen: false),
+                "typing in a focused search widget must suppress gameplay bindings");
+            Require(AssignedInputSuppression.ShouldSuppress(
+                    searchWidgetFocused: false,
+                    windowAbsorbsAllInput: true,
+                    nonImmediateDialogOpen: false),
+                "an input-absorbing overlay must suppress gameplay bindings");
+            Require(AssignedInputSuppression.ShouldSuppress(
+                    searchWidgetFocused: false,
+                    windowAbsorbsAllInput: false,
+                    nonImmediateDialogOpen: true),
+                "settings, keybinding, confirmation, and other dialog windows must suppress gameplay bindings");
         }
 
         private static void DuplicateBindingActivatesOnce()

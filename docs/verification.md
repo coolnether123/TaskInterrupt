@@ -110,3 +110,20 @@ must not be claimed beyond the evidence above.
 - The allowlisted release package passed
   `RWT-BUILD-RELEASE-PACKAGE-VALID` and `RWT-BUILD-PACKAGE-VALID`; it contains
   the DLL but no symbols, source, tests, or local evidence.
+
+## 2026-08-02 ordinary-window activation fix
+
+- A combined-suite run exposed that normal play keeps two `ImmediateWindow`
+  entries and `MainTabWindow_Inspect` in `WindowStack`. The former blanket
+  `Count > 0` guard therefore prevented hidden `F` and Mouse3-Mouse6 bindings
+  from activating during ordinary play.
+- Assigned input now remains active for that normal non-blocking stack and is
+  suppressed only for a focused search widget, a non-immediate dialog, or a
+  window that absorbs all input. Settings, binding, confirmation, and other
+  modal dialogs remain protected. The direct gizmo path is unchanged.
+- All 20 automated contracts pass. The release build is 22,528 bytes with
+  SHA-256
+  `D9C9D87F3E4028DA5B875FB5D4E5F90E912CFF095E2512B1D0D9936A2894FC89`.
+  The allowlisted `TaskBreak-window-fix-package-20260802-0532` package passed
+  both package validation layers and excludes symbols, source, tests, and
+  local evidence.
