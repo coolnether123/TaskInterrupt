@@ -24,18 +24,8 @@ namespace TaskBreak.Tests
                 ContextualFReuseIsSymmetric);
             Run("assigned key uses native gizmo hotkey",
                 AssignedKeyUsesNativeGizmoHotkey);
-            Run("mouse binding uses the command path",
-                MouseBindingUsesCommandPath);
-            Run("hidden keyboard and mouse bindings remain active",
-                HiddenBindingsRemainActive);
-            Run("ordinary play windows do not suppress assigned input",
-                OrdinaryPlayWindowsDoNotSuppressAssignedInput);
-            Run("input-capturing windows suppress assigned input",
-                InputCapturingWindowsSuppressAssignedInput);
-            Run("duplicate binding activates once",
-                DuplicateBindingActivatesOnce);
-            Run("controls dialog captures side mouse bindings",
-                ControlsDialogCapturesSideMouseBindings);
+            Run("input stays on RimWorld's keyboard gizmo path",
+                OnlyVanillaKeyboardGizmoOwnsInput);
             Run("mod gizmo sorts after vanilla", ModGizmoSortsAfterVanilla);
             Run("implementation avoids draft dance", NoDraftDanceInSource);
             Run("active medical patients are protected",
@@ -222,7 +212,7 @@ namespace TaskBreak.Tests
                 "the mod command must stay to the far right of vanilla gizmos");
         }
 
-        private static void ControlsDialogCapturesSideMouseBindings()
+        private static void OnlyVanillaKeyboardGizmoOwnsInput()
         {
             string root = RepositoryRoot();
             string patches = File.ReadAllText(Path.Combine(
@@ -230,99 +220,24 @@ namespace TaskBreak.Tests
                 "Source",
                 "Patches",
                 "TaskBreakPatches.cs"));
-            Require(patches.Contains(
-                    "typeof(Dialog_DefineBinding)",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "nameof(Dialog_DefineBinding.DoWindowContents)",
-                    StringComparison.Ordinal),
-                "Task Break must extend RimWorld's normal binding dialog");
-            int scopeGuard = patches.IndexOf(
-                "___keyDef != TaskBreakDefOf.TaskBreak_CancelCurrentTask",
-                StringComparison.Ordinal);
-            int setBinding = patches.IndexOf(
-                "___keyPrefsData.SetBinding(___keyDef, ___slot, keyCode)",
-                StringComparison.Ordinal);
-            Require(scopeGuard >= 0 &&
-                setBinding > scopeGuard &&
-                patches.IndexOf(
-                    "return true;",
-                    scopeGuard,
-                    StringComparison.Ordinal) < setBinding,
-                "mouse capture must return to vanilla before affecting another keybinding");
-            int mouseDownGuard = patches.IndexOf(
-                "current.type != EventType.MouseDown",
-                StringComparison.Ordinal);
-            int useEvent = patches.IndexOf(
-                "current.Use();",
-                StringComparison.Ordinal);
-            Require(mouseDownGuard >= 0 &&
-                patches.Contains(
-                    "current.button < 3",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "current.button > 6",
-                    StringComparison.Ordinal),
-                "Mouse3 through Mouse6 must be captured from their real IMGUI mouse event");
-            Require(patches.Contains(
-                    "EraseConflictingBindingsForKeyCode",
-                    StringComparison.Ordinal) &&
-                setBinding >= 0,
-                "captured input must use RimWorld's slot and conflict handling");
-            Require(useEvent > mouseDownGuard &&
-                patches.IndexOf("EventType.Repaint", StringComparison.Ordinal) < 0,
-                "Event.Use must be reached only after rejecting every non-MouseDown pass");
-        }
-
-        private static void MouseBindingUsesCommandPath()
-        {
-            string root = RepositoryRoot();
             string command = File.ReadAllText(Path.Combine(
                 root,
                 "Source",
                 "Presentation",
                 "Command_TaskBreak.cs"));
-            string patches = File.ReadAllText(Path.Combine(
-                root,
-                "Source",
-                "Patches",
-                "TaskBreakPatches.cs"));
             Require(patches.Contains(
-                    "nameof(UIRoot_Play.UIRootUpdate)",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "KeyPrefs.BindingSlot.A",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "KeyPrefs.BindingSlot.B",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "GetBoundKeyCode(",
+                    "typeof(Pawn), nameof(Pawn.GetGizmos)",
                     StringComparison.Ordinal),
-                "primary and secondary side-button bindings must recognize Unity side-button input");
-            Require(patches.Contains(
-                    "Find.WindowStack.AnyWindowAbsorbingAllInput",
+                "Task Break must add only its pawn gizmo patch");
+            Require(!patches.Contains("Dialog_DefineBinding",
                     StringComparison.Ordinal) &&
-                patches.Contains(
-                    "Find.WindowStack.AnySearchWidgetFocused",
+                !patches.Contains("UIRoot_Play",
                     StringComparison.Ordinal) &&
-                patches.Contains(
-                    "Find.WindowStack.NonImmediateDialogWindowOpen",
+                !patches.Contains("Input.GetKeyDown",
                     StringComparison.Ordinal) &&
-                patches.Contains(
-                    "TaskBreakController.ActivateSelected();",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "AssignedKeyActivation.IsPressed(",
+                !patches.Contains("Mouse3",
                     StringComparison.Ordinal),
-                "assigned input must run once from Update, stay inactive behind input-capturing windows, and share the command action");
-            Require(!command.Contains(
-                    "Input.GetKeyDown",
-                    StringComparison.Ordinal) &&
-                !command.Contains(
-                    "GizmoState.Interacted",
-                    StringComparison.Ordinal),
-                "gizmo drawing must not convert Unity input into an unsafe IMGUI interaction");
+                "Task Break must not own mouse input, binding dialogs, or a global input poll");
             Require(command.Contains(
                     "alsoClickIfOtherInGroupClicked = false;",
                     StringComparison.Ordinal),
@@ -343,83 +258,7 @@ namespace TaskBreak.Tests
             Require(command.Contains(
                     "action = TaskBreakController.ActivateSelected;",
                     StringComparison.Ordinal),
-                "the gizmo and polled bindings must use the same activation entrypoint");
-        }
-
-        private static void HiddenBindingsRemainActive()
-        {
-            const int f = 102;
-            const int mouse3 = 326;
-            const int mouse6 = 329;
-
-            Require(AssignedKeyActivation.IsPressed(
-                    f, 0, false, mouse3, mouse6,
-                    key => key == f),
-                "a hidden gizmo must retain an arbitrary keyboard binding");
-            Require(AssignedKeyActivation.IsPressed(
-                    0, mouse3, false, mouse3, mouse6,
-                    key => key == mouse3),
-                "a hidden gizmo must retain a secondary side-mouse binding");
-            Require(!AssignedKeyActivation.IsPressed(
-                    f, 0, true, mouse3, mouse6,
-                    key => key == f),
-                "a visible gizmo must leave keyboard activation to RimWorld");
-            Require(AssignedKeyActivation.IsPressed(
-                    mouse6, 0, true, mouse3, mouse6,
-                    key => key == mouse6),
-                "a visible gizmo must add only RimWorld's missing side-mouse path");
-        }
-
-        private static void OrdinaryPlayWindowsDoNotSuppressAssignedInput()
-        {
-            // A normal selected-pawn frame contains two non-absorbing
-            // ImmediateWindows and MainTabWindow_Inspect. None is a
-            // non-immediate Dialog and no search widget is focused.
-            Require(!AssignedInputSuppression.ShouldSuppress(
-                    searchWidgetFocused: false,
-                    windowAbsorbsAllInput: false,
-                    nonImmediateDialogOpen: false),
-                "the ordinary ImmediateWindow/Inspect/ImmediateWindow stack must not disable F or side-mouse bindings");
-        }
-
-        private static void InputCapturingWindowsSuppressAssignedInput()
-        {
-            Require(AssignedInputSuppression.ShouldSuppress(
-                    searchWidgetFocused: true,
-                    windowAbsorbsAllInput: false,
-                    nonImmediateDialogOpen: false),
-                "typing in a focused search widget must suppress gameplay bindings");
-            Require(AssignedInputSuppression.ShouldSuppress(
-                    searchWidgetFocused: false,
-                    windowAbsorbsAllInput: true,
-                    nonImmediateDialogOpen: false),
-                "an input-absorbing overlay must suppress gameplay bindings");
-            Require(AssignedInputSuppression.ShouldSuppress(
-                    searchWidgetFocused: false,
-                    windowAbsorbsAllInput: false,
-                    nonImmediateDialogOpen: true),
-                "settings, keybinding, confirmation, and other dialog windows must suppress gameplay bindings");
-        }
-
-        private static void DuplicateBindingActivatesOnce()
-        {
-            const int mouse3 = 326;
-            int probes = 0;
-            bool pressed = AssignedKeyActivation.IsPressed(
-                mouse3,
-                mouse3,
-                false,
-                mouse3,
-                329,
-                key =>
-                {
-                    probes++;
-                    return key == mouse3;
-                });
-
-            Require(pressed, "a duplicated assigned button must remain active");
-            Require(probes == 1,
-                "the same button in both slots must be polled only once");
+                "the vanilla gizmo and keyboard hotkey must share one activation entrypoint");
         }
 
         private static void ActiveMedicalPatientsAreProtected()

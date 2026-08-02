@@ -4,26 +4,15 @@
 
 Task Break calls `IsCurrentJobPlayerInterruptible` and
 `EndCurrentJob(InterruptForced)` rather than replacing or patching them. Mods
-that refine those methods therefore remain authoritative. Task Break owns
-three Harmony patches: a postfix on `Pawn.GetGizmos`, a prefix scoped to its
-own entry in RimWorld's active binding dialog, and a lightweight
-`UIRoot_Play.UIRootUpdate` postfix for assigned input that RimWorld cannot
-route through a hidden or side-button gizmo. Its command uses a unique owner
+that refine those methods therefore remain authoritative. Task Break owns one
+Harmony patch: a postfix on `Pawn.GetGizmos`. Its command uses a unique owner
 ID, label, and group key. Its default `F` binding overlaps vanilla's item-only
 Toggle forbidden command but remains context-separated on controllable pawns
 and fully configurable. The two definitions symmetrically ignore only each
 other in RimWorld's native conflict model; other binding conflicts remain
-active. A small command-level adapter is required
-because Unity reports a physical side-button click as `MouseDown`, while
-RimWorld's base `Command` hotkey path only checks `KeyDown`. The adapter and
-gizmo call the same controller entrypoint and exact disabled-reason policy.
-Both primary and secondary binding slots recognize `Mouse3` through `Mouse6`.
-Task Break extends the normal Controls binding dialog for its own definition so
-those buttons can be assigned by the player; it does not capture mouse input in
-other binding dialogs or during ordinary UI use. All
-keyboard bindings remain on the untouched base `Command` path while the gizmo
-is visible; hiding the gizmo keeps both assigned keyboard and mouse slots
-active through the narrow update poll.
+active. Keyboard bindings remain on the untouched base `Command` path. Task
+Break does not patch the Controls dialog, poll global input, or add mouse
+binding behavior. Hiding the gizmo also removes its contextual hotkey surface.
 
 The current compatibility surface investigated includes Achtung, Perspective
 Shift, Simple Baby Carry, Common Sense, Medieval Overhaul, Vanilla Factions

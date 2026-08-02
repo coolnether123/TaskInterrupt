@@ -31,11 +31,10 @@ The keybinding is configured in RimWorld's normal controls and defaults to
 context-separated: Task Break is available for controllable pawns and Toggle
 forbidden is available for items. Those two definitions explicitly ignore only
 each other for conflict reporting, so vanilla forbid remains intact without a
-false startup warning. It can be rebound to any keyboard key or to
-Mouse 3 through Mouse 6 in either binding slot. Task Break adds side-button
-capture only while its own binding dialog is waiting for input; other controls
-and ordinary mouse clicks remain unchanged. The gizmo can be hidden in mod
-settings.
+false startup warning. It can be rebound to another keyboard key through
+RimWorld's ordinary controls. Task Break does not install a mouse-input adapter
+or a global input poll. The gizmo can be hidden in mod settings; hiding it also
+hides its native contextual hotkey surface.
 Alt-clicking the gizmo opens and highlights that setting via Spine's shared
 contextual-settings convention.
 

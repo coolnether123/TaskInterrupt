@@ -1,25 +1,12 @@
-Task Break final exact-binary lane
-Session: TaskBreak-ff20ba1136b24acb80474caf1db06c89
-RimWorld: 1.6.4871 rev574
-TaskBreak.dll SHA-256: 4CBB664EB666FEAEE003814F0ECA81CAA75A05832ECBA5CD8149777BC82496D5
-Player.log SHA-256: B6540E253F3D97E0C4FE19C173938E97B87C0973037D34076298F183008104A7
+Task Break keyboard-only final verification
 
-Active mods:
-- Ludeon.RimWorld
-- brrainz.harmony
-- Coolnether123.RimWorldAgent
-- CoolNether123.Spine
-- CoolNether123.TaskBreak
+Session: coolnether-suite-7dec0af702844a49b737a13f4b23608f
+RimWorld: 1.6.4871
+DLL SHA-256: 88DF4680FC4428F3543F12FE79A6D5EEE7BA4E004962DAB8C44EFBB96EE8FAC9
 
-Observed results:
-- Primary Mouse3 activation changed GotoWander job 530 to Wait_Wander job 555.
-- Secondary Mouse3 activation changed Wait job 573 to GotoWander job 574.
-- Draft remained false; queued jobs, carried item, and reservations remained empty.
-- Alt-left-click opened Dialog_ModSettings and left job 574 unchanged.
-- Primary Mouse3 and secondary None persisted through save and reload.
-- No Task Break error or exception was present.
-- Shutdown completed with exit code 0 and no forced termination.
-
-Known external warnings:
-- Spine does not yet advertise a public download or Workshop URL.
-- Spine's ConnectedOutlineDrawer emits its existing startup-attribute warning.
+- Native F changed Wait job 563 to Wait_Wander job 988.
+- Draft remained false; queue, carried item, and reservations remained empty.
+- Task Break owned one Pawn.GetGizmos postfix and no global input patch.
+- FinalSuite_Current reloaded paused at completion generation 1.
+- Developer mode remained enabled.
+- No matching in-game exception or Task Break error was present.

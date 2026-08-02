@@ -8,20 +8,12 @@ Task Break has four small responsibilities:
    confirmation, interruption, and repeat-input suppression.
 4. `Command_TaskBreak` and `TaskBreakPatches` provide the native gizmo surface.
 
-The mod owns exactly three Harmony patches: a `Pawn.GetGizmos` postfix, a
-narrow `Dialog_DefineBinding.DoWindowContents` prefix, and a small
-`UIRoot_Play.UIRootUpdate` postfix. The dialog prefix captures Mouse3-Mouse6
-only while Task Break's own binding dialog is awaiting input and returns
-directly to vanilla for every other binding or event. The update postfix reads
-only Task Break's two assigned keys. While the gizmo is visible it polls only
-side buttons, because RimWorld's command renderer already handles keyboard
-events; while the gizmo is hidden it polls either assigned keyboard or mouse
-key. It remains active with RimWorld's normal inspect pane and immediate
-overlays, but does nothing behind a focused search field, a non-immediate
-dialog, or a window that absorbs all input. Both paths
-call the same controller entrypoint as the gizmo, including the exact
-unavailable reason, and identical primary and secondary bindings are checked
-once. It stores no gameplay state and never consumes an IMGUI event. While
+The mod owns exactly one Harmony patch: a `Pawn.GetGizmos` postfix. Its
+`Command_Action` uses RimWorld's normal `KeyBindingDef` and `hotKey` path, so
+the game owns keyboard routing, dialog suppression, conflict handling, and
+event consumption. Task Break adds no binding-dialog patch, mouse adapter, or
+global input poll. It stores no gameplay state and never consumes an IMGUI
+event. While
 commands are visible, it
 indexes active medical targets on demand at most once per map/rendered frame and
 shares one aggregate selection decision across the grouped pawn commands for
