@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KeyBindingDef[defName="Command_ItemForbid"]</xpath>
+    <value>
+      <ignoreConflictsWith>
+        <li>TaskBreak_CancelCurrentTask</li>
+      </ignoreConflictsWith>
+    </value>
+  </Operation>
+</Patch>

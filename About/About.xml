@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Task Break</name>
+  <author>CoolNether123</author>
+  <packageId>CoolNether123.TaskBreak</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>CoolNether123.Spine</packageId>
+      <displayName>Spine</displayName>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>CoolNether123.Spine</li>
+  </loadAfter>
+  <description>Adds a safe Break task command for controllable colonists, slaves, children, and overseen colony mechs.
+
+Task Break stops the current interruptible task without drafting or undrafting. RimWorld releases the task's reservations and handles carried items normally, while queued tasks remain queued. Medical care, labor, deathrest, caravan formation, rituals, quests, mental states, drafted behavior, and game-protected tasks are left alone. Forced tasks ask for confirmation by default.
+
+The keybinding defaults to F and remains configurable through RimWorld's normal controls. Vanilla's F command applies to items while Task Break applies to controllable pawns. The binding dialog accepts keyboard keys and Mouse 3 through Mouse 6 in either slot.</description>
+</ModMetaData>

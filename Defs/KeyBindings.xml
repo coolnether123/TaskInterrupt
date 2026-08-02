@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KeyBindingDef ParentName="SelectionSpecialKeyBinding">
+    <defName>TaskBreak_CancelCurrentTask</defName>
+    <label>Task Break: cancel current task</label>
+    <defaultKeyCodeA>F</defaultKeyCodeA>
+    <defaultKeyCodeB>None</defaultKeyCodeB>
+    <ignoreConflictsWith>
+      <li>Command_ItemForbid</li>
+    </ignoreConflictsWith>
+  </KeyBindingDef>
+</Defs>

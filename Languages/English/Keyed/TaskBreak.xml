@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TaskBreak_Name>Task Break</TaskBreak_Name>
+  <TaskBreak_Command>Break task</TaskBreak_Command>
+  <TaskBreak_Command_Tip>Stop the selected pawns' current tasks and let them choose what to do next. Queued tasks remain queued. Alt-click to open settings.</TaskBreak_Command_Tip>
+  <TaskBreak_Settings_Controls>Controls and safety</TaskBreak_Settings_Controls>
+  <TaskBreak_Settings_ShowGizmo>Show task break command</TaskBreak_Settings_ShowGizmo>
+  <TaskBreak_Settings_ShowGizmo_Tip>Show the small Break task command for controllable colonists, slaves, children, and overseen colony mechs.</TaskBreak_Settings_ShowGizmo_Tip>
+  <TaskBreak_Settings_ConfirmForced>Confirm forced tasks</TaskBreak_Settings_ConfirmForced>
+  <TaskBreak_Settings_ConfirmForced_Tip>Ask before breaking a task the player explicitly forced.</TaskBreak_Settings_ConfirmForced_Tip>
+  <TaskBreak_ConfirmForced>At least one of the {0} selected pawns is doing forced work. Break the safe tasks anyway?</TaskBreak_ConfirmForced>
+  <TaskBreak_Result>Stopped {0}; skipped {1} protected or unavailable.</TaskBreak_Result>
+  <TaskBreak_Reason_NotControlled>This pawn is not under direct player control.</TaskBreak_Reason_NotControlled>
+  <TaskBreak_Reason_NoTask>No current task to break.</TaskBreak_Reason_NoTask>
+  <TaskBreak_Reason_Incapacitated>Incapacitated pawns cannot have their task broken.</TaskBreak_Reason_Incapacitated>
+  <TaskBreak_Reason_MentalState>Mental-state behavior is not player-controlled.</TaskBreak_Reason_MentalState>
+  <TaskBreak_Reason_Drafted>Undraft the pawn before breaking a civilian task.</TaskBreak_Reason_Drafted>
+  <TaskBreak_Reason_Deathrest>Deathrest is protected.</TaskBreak_Reason_Deathrest>
+  <TaskBreak_Reason_Caravan>Caravan formation is protected.</TaskBreak_Reason_Caravan>
+  <TaskBreak_Reason_Organized>This pawn is taking part in an organized activity.</TaskBreak_Reason_Organized>
+  <TaskBreak_Reason_GameProtected>RimWorld or another mod has marked this task uninterruptible.</TaskBreak_Reason_GameProtected>
+  <TaskBreak_Reason_MustComplete>This task must finish before another can begin.</TaskBreak_Reason_MustComplete>
+  <TaskBreak_Reason_Quest>Quest-controlled tasks are protected.</TaskBreak_Reason_Quest>
+  <TaskBreak_Reason_Ritual>Ritual tasks are protected.</TaskBreak_Reason_Ritual>
+  <TaskBreak_Reason_Labor>Labor and birth are protected.</TaskBreak_Reason_Labor>
+  <TaskBreak_Reason_Medical>Medical care is protected.</TaskBreak_Reason_Medical>
+  <TaskBreak_Reason_Cooldown>Wait a moment before breaking another task.</TaskBreak_Reason_Cooldown>
+</LanguageData>

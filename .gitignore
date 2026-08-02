@@ -1,0 +1,8 @@
+Engineering/artifacts/
+*.user
+*.suo
+*.pdb
+*.log
+bin/
+obj/
+AGENTS.md

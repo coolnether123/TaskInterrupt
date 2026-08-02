@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "packageId": "CoolNether123.TaskBreak",
+  "rimWorldVersion": "1.6.4871 rev574",
+  "sourceCommit": "uncommitted-greenfield",
+  "build": {
+    "id": "task-break-build-20260801-k",
+    "toolingCommit": "9075d53d2b0a8e1e4aa4e6e539dc118ddc244b19",
+    "versionManifestSha256": "0174C74429A3B1D9B272002A055FDBBC6645A0BF24A085E8BF39FDD3407B505B",
+    "gameAssemblySha256": "4A170804FBFEFABDB620D8914E584E58F822A58C6E304DCB76A67003588DAB28",
+    "modAssemblySha256": "4CBB664EB666FEAEE003814F0ECA81CAA75A05832ECBA5CD8149777BC82496D5",
+    "spineAssemblySha256": "196532364DE045CB10BE23C3C7A2AB1E2E5D4A66E4F12AFBA655DCDE1E7C12DB",
+    "harmonyAssemblySha256": "7B9E756306FA3D7620E02A857C8927A6AB04973F9BD8A77D3866700A6DEAC55C",
+    "agentAssemblySha256": "A94035AB7410E2763B45197798822678841B78A1C79BDA4B189C61C4FE51B1B2"
+  },
+  "finalLane": {
+    "session": "TaskBreak-ff20ba1136b24acb80474caf1db06c89",
+    "activeMods": [
+      "Ludeon.RimWorld",
+      "brrainz.harmony",
+      "Coolnether123.RimWorldAgent",
+      "CoolNether123.Spine",
+      "CoolNether123.TaskBreak"
+    ],
+    "logSha256": "B6540E253F3D97E0C4FE19C173938E97B87C0973037D34076298F183008104A7",
+    "laneManifestSha256": "05D64D64FF2550D819C407BB1959D8B6BBD41C867232A790830684D05FEAC674",
+    "results": [
+      "Primary Mouse3 changed job 530 to 555 without draft, queue, carry, or reservation mutation.",
+      "Secondary Mouse3 changed job 573 to 574 under the same invariants.",
+      "Alt-left-click opened one settings dialog and left job 574 unchanged.",
+      "Primary Mouse3 and secondary None persisted through save and reload.",
+      "Lane stopped normally with exit code 0."
+    ]
+  },
+  "portableEvidence": [
+    {
+      "path": "Engineering/evidence/final-mouse3-far-right.png",
+      "sha256": "E97DF1949ACB7B85F8266578B6B9E891A3D1158C97BDF950AAED5AE1E6D4B22F"
+    },
+    {
+      "path": "Engineering/evidence/final-alt-highlight.png",
+      "sha256": "8D1F8C2A45B529B48841B1A04C02E6E5FB56F28A303E21E691C4CD326C93918B"
+    },
+    {
+      "path": "Engineering/evidence/medical-patient-protected.png",
+      "sha256": "5698FD7E1FADBE35F8B2873C3DC4FEB73303EB260E7127BE20A7D3A6447431AF"
+    },
+    {
+      "path": "Engineering/evidence/forced-confirmation.png",
+      "sha256": "50BA3BDBBBDE77B1643A8BE4B804738040475A70DE4350F0F53EDD6DADC5D985"
+    }
+  ],
+  "release": {
+    "id": "task-break-release-20260801-k",
+    "validation": [
+      "RWT-BUILD-RELEASE-PACKAGE-VALID",
+      "RWT-BUILD-PACKAGE-VALID"
+    ],
+    "previewSha256": "E97DF1949ACB7B85F8266578B6B9E891A3D1158C97BDF950AAED5AE1E6D4B22F",
+    "licenseSha256": "7942115C67A258A6F955EF971F48E7A04C8A1CDCEC8F862CED392F93DA44F05A"
+  }
+}
