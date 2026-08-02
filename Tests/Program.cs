@@ -26,6 +26,10 @@ namespace TaskBreak.Tests
                 AssignedKeyUsesNativeGizmoHotkey);
             Run("mouse binding uses the command path",
                 MouseBindingUsesCommandPath);
+            Run("hidden keyboard and mouse bindings remain active",
+                HiddenBindingsRemainActive);
+            Run("duplicate binding activates once",
+                DuplicateBindingActivatesOnce);
             Run("controls dialog captures side mouse bindings",
                 ControlsDialogCapturesSideMouseBindings);
             Run("mod gizmo sorts after vanilla", ModGizmoSortsAfterVanilla);
@@ -242,31 +246,28 @@ namespace TaskBreak.Tests
                     scopeGuard,
                     StringComparison.Ordinal) < setBinding,
                 "mouse capture must return to vanilla before affecting another keybinding");
-            Require(patches.Contains(
-                    "current.type == EventType.MouseDown",
+            int mouseDownGuard = patches.IndexOf(
+                "current.type != EventType.MouseDown",
+                StringComparison.Ordinal);
+            int useEvent = patches.IndexOf(
+                "current.Use();",
+                StringComparison.Ordinal);
+            Require(mouseDownGuard >= 0 &&
+                patches.Contains(
+                    "current.button < 3",
                     StringComparison.Ordinal) &&
                 patches.Contains(
-                    "current.button >= 3",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "current.button <= 6",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "Input.GetKeyDown(",
+                    "current.button > 6",
                     StringComparison.Ordinal),
-                "Mouse3 through Mouse6 must work through both IMGUI and Unity input state");
+                "Mouse3 through Mouse6 must be captured from their real IMGUI mouse event");
             Require(patches.Contains(
                     "EraseConflictingBindingsForKeyCode",
                     StringComparison.Ordinal) &&
                 setBinding >= 0,
                 "captured input must use RimWorld's slot and conflict handling");
-            Require(patches.Contains(
-                    "keyCode == (KeyCode)((int)KeyCode.Mouse0 + current.button)",
-                    StringComparison.Ordinal) &&
-                patches.Contains(
-                    "return false;",
-                    StringComparison.Ordinal),
-                "only a real current IMGUI mouse event may be consumed");
+            Require(useEvent > mouseDownGuard &&
+                patches.IndexOf("EventType.Repaint", StringComparison.Ordinal) < 0,
+                "Event.Use must be reached only after rejecting every non-MouseDown pass");
         }
 
         private static void MouseBindingUsesCommandPath()
@@ -299,12 +300,15 @@ namespace TaskBreak.Tests
                     "Find.WindowStack.Count > 0",
                     StringComparison.Ordinal) &&
                 patches.Contains(
-                    "TaskBreakController.BreakSelected();",
+                    "Find.WindowStack.AnySearchWidgetFocused",
                     StringComparison.Ordinal) &&
                 patches.Contains(
-                    ": keyDef.JustPressed;",
+                    "TaskBreakController.ActivateSelected();",
+                    StringComparison.Ordinal) &&
+                patches.Contains(
+                    "AssignedKeyActivation.IsPressed(",
                     StringComparison.Ordinal),
-                "side-button activation must run once from Update, stay inactive behind windows, and preserve hidden keyboard bindings");
+                "assigned input must run once from Update, stay inactive behind windows, and share the command action");
             Require(!command.Contains(
                     "Input.GetKeyDown",
                     StringComparison.Ordinal) &&
@@ -326,9 +330,58 @@ namespace TaskBreak.Tests
                 "Runtime",
                 "TaskBreakController.cs"));
             Require(controller.Contains(
-                    "TaskBreakText.Reason(firstBlockReason)",
+                    "TaskBreakText.Reason(decision.BlockReason)",
                     StringComparison.Ordinal),
-                "direct hotkey activation must preserve a specific unavailable explanation");
+                "every activation surface must preserve the command's specific unavailable explanation");
+            Require(command.Contains(
+                    "action = TaskBreakController.ActivateSelected;",
+                    StringComparison.Ordinal),
+                "the gizmo and polled bindings must use the same activation entrypoint");
+        }
+
+        private static void HiddenBindingsRemainActive()
+        {
+            const int f = 102;
+            const int mouse3 = 326;
+            const int mouse6 = 329;
+
+            Require(AssignedKeyActivation.IsPressed(
+                    f, 0, false, mouse3, mouse6,
+                    key => key == f),
+                "a hidden gizmo must retain an arbitrary keyboard binding");
+            Require(AssignedKeyActivation.IsPressed(
+                    0, mouse3, false, mouse3, mouse6,
+                    key => key == mouse3),
+                "a hidden gizmo must retain a secondary side-mouse binding");
+            Require(!AssignedKeyActivation.IsPressed(
+                    f, 0, true, mouse3, mouse6,
+                    key => key == f),
+                "a visible gizmo must leave keyboard activation to RimWorld");
+            Require(AssignedKeyActivation.IsPressed(
+                    mouse6, 0, true, mouse3, mouse6,
+                    key => key == mouse6),
+                "a visible gizmo must add only RimWorld's missing side-mouse path");
+        }
+
+        private static void DuplicateBindingActivatesOnce()
+        {
+            const int mouse3 = 326;
+            int probes = 0;
+            bool pressed = AssignedKeyActivation.IsPressed(
+                mouse3,
+                mouse3,
+                false,
+                mouse3,
+                329,
+                key =>
+                {
+                    probes++;
+                    return key == mouse3;
+                });
+
+            Require(pressed, "a duplicated assigned button must remain active");
+            Require(probes == 1,
+                "the same button in both slots must be polled only once");
         }
 
         private static void ActiveMedicalPatientsAreProtected()

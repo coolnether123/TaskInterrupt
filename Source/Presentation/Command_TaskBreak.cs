@@ -23,7 +23,7 @@ namespace TaskBreak.Presentation
             alsoClickIfOtherInGroupClicked = false;
             Order = float.MaxValue;
             shrinkable = true;
-            action = TaskBreakController.BreakSelected;
+            action = TaskBreakController.ActivateSelected;
 
             TaskBreakDecision decision =
                 TaskBreakController.FirstDecision();

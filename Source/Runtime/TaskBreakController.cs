@@ -58,7 +58,22 @@ namespace TaskBreak.Runtime
             return result;
         }
 
-        internal static void BreakSelected()
+        internal static void ActivateSelected()
+        {
+            TaskBreakDecision decision = FirstDecision();
+            if (!decision.CanBreak)
+            {
+                Messages.Message(
+                    TaskBreakText.Reason(decision.BlockReason),
+                    MessageTypeDefOf.RejectInput,
+                    historical: false);
+                return;
+            }
+
+            BreakSelected();
+        }
+
+        private static void BreakSelected()
         {
             IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
             bool needsConfirmation = pawns.Any(pawn =>

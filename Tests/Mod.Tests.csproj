@@ -15,5 +15,7 @@
              Link="TaskBreakPolicy.cs" />
     <Compile Include="..\Source\Runtime\ActivationGate.cs"
              Link="ActivationGate.cs" />
+    <Compile Include="..\Source\Runtime\AssignedKeyActivation.cs"
+             Link="AssignedKeyActivation.cs" />
   </ItemGroup>
 </Project>

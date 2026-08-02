@@ -8,16 +8,19 @@ Task Break has four small responsibilities:
    confirmation, interruption, and repeat-input suppression.
 4. `Command_TaskBreak` and `TaskBreakPatches` provide the native gizmo surface.
 
-The mod patches `Pawn.GetGizmos` with a postfix and narrowly prefixes
-`Dialog_DefineBinding.DoWindowContents` only to capture Mouse3-Mouse6 while
-Task Break's own binding dialog is awaiting input. The prefix returns directly
-to vanilla for every other binding and every non-side-button event. A small
-`UIRoot_Play.UIRootUpdate` postfix reads only Task Break's assigned side-button
-bindings, because RimWorld's command renderer recognizes keyboard events but
-not side-mouse events. It does nothing behind an open window and uses the
-ordinary `KeyBindingDef.JustPressed` path only when the gizmo is hidden, so a
-hidden command remains fully rebindable without duplicating visible keyboard
-activation. It stores no gameplay state. While commands are visible, it
+The mod owns exactly three Harmony patches: a `Pawn.GetGizmos` postfix, a
+narrow `Dialog_DefineBinding.DoWindowContents` prefix, and a small
+`UIRoot_Play.UIRootUpdate` postfix. The dialog prefix captures Mouse3-Mouse6
+only while Task Break's own binding dialog is awaiting input and returns
+directly to vanilla for every other binding or event. The update postfix reads
+only Task Break's two assigned keys. While the gizmo is visible it polls only
+side buttons, because RimWorld's command renderer already handles keyboard
+events; while the gizmo is hidden it polls either assigned keyboard or mouse
+key. It does nothing behind an open window or focused search field. Both paths
+call the same controller entrypoint as the gizmo, including the exact
+unavailable reason, and identical primary and secondary bindings are checked
+once. It stores no gameplay state and never consumes an IMGUI event. While
+commands are visible, it
 indexes active medical targets on demand at most once per map/rendered frame and
 shares one aggregate selection decision across the grouped pawn commands for
 that frame. This avoids multiplying a map scan by both selection size and
@@ -41,7 +44,7 @@ verified mod requires behavior beyond the vanilla public contracts.
 
 ## One-use helpers
 
-Five helpers currently have one direct caller:
+Six helpers currently have one direct production caller:
 
 - `TaskBreakController.FirstDecision` keeps selection and policy traversal out
   of the gizmo renderer. It should remain a controller boundary unless a
@@ -60,3 +63,7 @@ Five helpers currently have one direct caller:
 - `TaskBreakPatches.Install` is the mod's idempotent patch lifecycle boundary.
   It should remain separate from the mod constructor so Harmony ownership and
   future uninstall behavior stay isolated, even though bootstrap calls it once.
+- `AssignedKeyActivation.IsPressed` has one production caller. It should remain
+  a Task Break input-policy seam because its hidden/visible and duplicate-slot
+  behavior is directly regression-tested without loading Unity; it should not
+  move into Spine unless another consumer needs exactly the same policy.

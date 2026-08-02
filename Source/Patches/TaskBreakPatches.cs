@@ -58,18 +58,16 @@ namespace TaskBreak.Patches
             }
 
             Event current = Event.current;
-            KeyCode keyCode;
-            if (current != null &&
-                current.type == EventType.MouseDown &&
-                current.button >= 3 &&
-                current.button <= 6)
-            {
-                keyCode = (KeyCode)((int)KeyCode.Mouse0 + current.button);
-            }
-            else if (!TryGetPressedSideKey(out keyCode))
+            if (current == null ||
+                current.type != EventType.MouseDown ||
+                current.button < 3 ||
+                current.button > 6)
             {
                 return true;
             }
+
+            KeyCode keyCode =
+                (KeyCode)((int)KeyCode.Mouse0 + current.button);
 
             ___keyPrefsData.EraseConflictingBindingsForKeyCode(
                 ___keyDef,
@@ -80,12 +78,7 @@ namespace TaskBreak.Patches
                     historical: false));
             ___keyPrefsData.SetBinding(___keyDef, ___slot, keyCode);
             __instance.Close();
-            if (current != null &&
-                current.type == EventType.MouseDown &&
-                keyCode == (KeyCode)((int)KeyCode.Mouse0 + current.button))
-            {
-                current.Use();
-            }
+            current.Use();
             return false;
         }
 
@@ -97,6 +90,7 @@ namespace TaskBreak.Patches
             if (Current.ProgramState != ProgramState.Playing ||
                 Find.WindowStack == null ||
                 Find.WindowStack.Count > 0 ||
+                Find.WindowStack.AnySearchWidgetFocused ||
                 keyPrefs == null ||
                 keyDef == null)
             {
@@ -109,31 +103,17 @@ namespace TaskBreak.Patches
             KeyCode secondary = keyPrefs.GetBoundKeyCode(
                 keyDef,
                 KeyPrefs.BindingSlot.B);
-            KeyCode pressedSideKey;
-            bool pressed = TaskBreakMod.Settings.ShowGizmo
-                ? TryGetPressedSideKey(out pressedSideKey) &&
-                    (pressedSideKey == primary ||
-                     pressedSideKey == secondary)
-                : keyDef.JustPressed;
-            if (pressed)
+            bool sideButtonsOnly = TaskBreakMod.Settings.ShowGizmo;
+            if (AssignedKeyActivation.IsPressed(
+                (int)primary,
+                (int)secondary,
+                sideButtonsOnly,
+                (int)KeyCode.Mouse3,
+                (int)KeyCode.Mouse6,
+                key => Input.GetKeyDown((KeyCode)key)))
             {
-                TaskBreakController.BreakSelected();
+                TaskBreakController.ActivateSelected();
             }
-        }
-
-        private static bool TryGetPressedSideKey(out KeyCode key)
-        {
-            for (int button = 3; button <= 6; button++)
-            {
-                key = (KeyCode)((int)KeyCode.Mouse0 + button);
-                if (Input.GetKeyDown(key))
-                {
-                    return true;
-                }
-            }
-
-            key = KeyCode.None;
-            return false;
         }
 
         private static void PawnGizmosPostfix(

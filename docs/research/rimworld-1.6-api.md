@@ -49,11 +49,12 @@ physical side-button click as `MouseDown`, while the base RimWorld command
 checks only `KeyDownEvent`, and the vanilla binding dialog likewise accepts
 only key events. Task Break narrowly extends its own binding dialog to accept
 Mouse3 through Mouse6 and then uses vanilla `KeyPrefsData` slot and conflict
-handling. During play it translates that configured mouse button into the same
-`GizmoState.Interacted` result used by an ordinary command activation. The
-adapter checks both persisted binding slots for `Mouse3`
-through `Mouse6`. Keyboard rebindings continue through the untouched native
-path.
+handling. During play its update adapter checks both persisted slots and calls
+the same controller entrypoint as the native command. With the gizmo visible,
+the adapter accepts only Mouse3 through Mouse6 so keyboard events remain
+native. With the gizmo hidden, it accepts any assigned keyboard or mouse key.
+Duplicate slot assignments are polled once, and the binding dialog consumes
+only its actual MouseDown event, never Layout or Repaint.
 
 The postfix does not patch `EndCurrentJob` or
 `IsCurrentJobPlayerInterruptible`; it calls them normally, preserving other

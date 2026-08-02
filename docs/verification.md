@@ -84,9 +84,29 @@ must not be claimed beyond the evidence above.
   displays RimWorld's ordinary `F` badge in the icon's upper-left corner.
 - Vanilla **Allow/forbid** and Task Break mutually ignore one another for
   conflict reporting while retaining their selection-specific behavior.
-- All 16 automated contracts passed after the change. The shipping DLL is
-  21,504 bytes with SHA-256
+- All 16 automated contracts passed after the change. That intermediate DLL
+  was 21,504 bytes with SHA-256
   `C1F12BD49AC0FC9E03294D4A168FB2AFFA1B33AF8B777EAFEA65106F94F57ACD`.
 - The eight-mod session loaded with `primary=F`, `secondary=None` and no
   keybinding-conflict warning. Players can still rebind the action to any
   supported keyboard or mouse binding in RimWorld's Controls menu.
+
+## 2026-08-02 input compatibility hardening
+
+- Hidden-gizmo activation now checks both assigned slots directly, preserving
+  arbitrary keyboard bindings and Mouse3 through Mouse6. Visible keyboard
+  activation remains on RimWorld's native gizmo path, while only side buttons
+  use the update adapter.
+- Gizmo, keyboard, and mouse activation all enter
+  `TaskBreakController.ActivateSelected`, so unavailable actions use the same
+  exact localized reason. Identical primary and secondary assignments are
+  polled once.
+- The binding-dialog prefix consumes input only after a real MouseDown event;
+  Layout and Repaint passes return untouched. An open window or focused search
+  field blocks gameplay activation during rebinding and text entry.
+- All 18 automated contracts pass. The release build is 22,016 bytes with
+  SHA-256
+  `23D63043F43CFC64A35B148623D4E2D190EE16DF51001AE4333B30146F3CB284`.
+- The allowlisted release package passed
+  `RWT-BUILD-RELEASE-PACKAGE-VALID` and `RWT-BUILD-PACKAGE-VALID`; it contains
+  the DLL but no symbols, source, tests, or local evidence.
