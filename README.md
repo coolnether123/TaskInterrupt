@@ -53,6 +53,12 @@ Animals and arbitrary selectable entities are intentionally outside scope.
 - Harmony
 - Spine 1.0
 
+## Installation
+
+Install Harmony and Spine, copy Task Break into RimWorld's `Mods` directory,
+then enable Harmony, Spine, and Task Break. The default **F** binding can be
+changed from RimWorld's normal Controls page.
+
 See [research](docs/research/duplicate-check.md),
 [architecture](docs/architecture.md), [compatibility](docs/compatibility.md),
 and [verification](docs/verification.md).

@@ -62,3 +62,11 @@ against Spine SHA-256
 The combined live lane above remains exact evidence for its named historical
 assembly; the parent release pass must record a final combined launch for this
 candidate.
+## Final release-candidate gate — 2026-08-03
+
+Passed 15 contracts (76 assertions), clean build, and package checks. Live
+activation changed an ordinary Wait job to normal AI work without drafting the
+pawn or leaving reservations. The F key label stayed at the top-left of the
+rightmost mod gizmo. The same action passed beside RimHUD and Achtung after
+Achtung's first-run help dialog was dismissed; the tooltip now stays focused on
+the command rather than advertising Alt-click.

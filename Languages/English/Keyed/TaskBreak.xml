@@ -2,7 +2,7 @@
 <LanguageData>
   <TaskBreak_Name>Task Break</TaskBreak_Name>
   <TaskBreak_Command>Break task</TaskBreak_Command>
-  <TaskBreak_Command_Tip>Stop the selected pawns' current tasks and let them choose what to do next. Queued tasks remain queued. Alt-click to open settings.</TaskBreak_Command_Tip>
+  <TaskBreak_Command_Tip>Stop the selected pawns' current tasks and let them choose what to do next. Queued tasks remain queued.</TaskBreak_Command_Tip>
   <TaskBreak_Settings_Controls>Controls and safety</TaskBreak_Settings_Controls>
   <TaskBreak_Settings_ShowGizmo>Show task break command</TaskBreak_Settings_ShowGizmo>
   <TaskBreak_Settings_ShowGizmo_Tip>Show the small Break task command for controllable colonists, slaves, children, and overseen colony mechs.</TaskBreak_Settings_ShowGizmo_Tip>
