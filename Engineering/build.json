@@ -14,7 +14,8 @@
     "Defs",
     "Languages",
     "Patches",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "dependencies": [
     "harmony",
