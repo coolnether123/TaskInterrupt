@@ -2,18 +2,18 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <AssemblyName>TaskBreak.Tests</AssemblyName>
-    <RootNamespace>TaskBreak.Tests</RootNamespace>
+    <AssemblyName>TaskInterrupt.Tests</AssemblyName>
+    <RootNamespace>TaskInterrupt.Tests</RootNamespace>
     <Deterministic>true</Deterministic>
     <RwtTestSupportProject Condition="'$(RwtTestSupportProject)' == ''">$(MSBuildThisFileDirectory)..\..\..\Worktrees\RimWorld-Tooling\phase-a\test-support\RimWorld.ModTestSupport\RimWorld.ModTestSupport.csproj</RwtTestSupportProject>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Source\Domain\TaskBreakDecision.cs"
-             Link="TaskBreakDecision.cs" />
-    <Compile Include="..\Source\Domain\TaskBreakFacts.cs"
-             Link="TaskBreakFacts.cs" />
-    <Compile Include="..\Source\Domain\TaskBreakPolicy.cs"
-             Link="TaskBreakPolicy.cs" />
+    <Compile Include="..\Source\Domain\TaskInterruptDecision.cs"
+             Link="TaskInterruptDecision.cs" />
+    <Compile Include="..\Source\Domain\TaskInterruptFacts.cs"
+             Link="TaskInterruptFacts.cs" />
+    <Compile Include="..\Source\Domain\TaskInterruptPolicy.cs"
+             Link="TaskInterruptPolicy.cs" />
     <Compile Include="..\Source\Runtime\ActivationGate.cs"
              Link="ActivationGate.cs" />
   </ItemGroup>

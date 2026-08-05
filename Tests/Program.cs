@@ -4,17 +4,17 @@ using System.Linq;
 using System.Xml.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using TaskBreak.Domain;
-using TaskBreak.Runtime;
+using TaskInterrupt.Domain;
+using TaskInterrupt.Runtime;
 using static RimWorld.ModTestSupport.Test;
 
-namespace TaskBreak.Tests
+namespace TaskInterrupt.Tests
 {
     internal static class Program
     {
         private static int Main()
         {
-            Start("Task Break contracts");
+            Start("Task Interrupt contracts");
             Run("ordinary task is interruptible", OrdinaryTaskIsAllowed);
             Run("forced task requires confirmation", ForcedTaskConfirms);
             Run("protected states fail closed", ProtectedStatesFailClosed);
@@ -42,7 +42,7 @@ namespace TaskBreak.Tests
 
         private static void OrdinaryTaskIsAllowed()
         {
-            TaskBreakDecision decision = TaskBreakPolicy.Evaluate(Facts());
+            TaskInterruptDecision decision = TaskInterruptPolicy.Evaluate(Facts());
             Require(decision.CanBreak, "ordinary work should be stoppable");
             Require(!decision.RequiresForcedConfirmation,
                 "ordinary work should not require confirmation");
@@ -50,7 +50,7 @@ namespace TaskBreak.Tests
 
         private static void ForcedTaskConfirms()
         {
-            TaskBreakDecision decision = TaskBreakPolicy.Evaluate(
+            TaskInterruptDecision decision = TaskInterruptPolicy.Evaluate(
                 Facts(isPlayerForced: true));
             Require(decision.CanBreak, "forced work remains explicitly stoppable");
             Require(decision.RequiresForcedConfirmation,
@@ -60,37 +60,37 @@ namespace TaskBreak.Tests
         private static void ProtectedStatesFailClosed()
         {
             AssertBlocked(Facts(isPlayerControlled: false),
-                TaskBreakBlockReason.NotPlayerControlled);
+                TaskInterruptBlockReason.NotPlayerControlled);
             AssertBlocked(Facts(hasCurrentTask: false),
-                TaskBreakBlockReason.NoCurrentTask);
+                TaskInterruptBlockReason.NoCurrentTask);
             AssertBlocked(Facts(isIncapacitated: true),
-                TaskBreakBlockReason.Incapacitated);
+                TaskInterruptBlockReason.Incapacitated);
             AssertBlocked(Facts(isInMentalState: true),
-                TaskBreakBlockReason.MentalState);
+                TaskInterruptBlockReason.MentalState);
             AssertBlocked(Facts(isDrafted: true),
-                TaskBreakBlockReason.Drafted);
+                TaskInterruptBlockReason.Drafted);
             AssertBlocked(Facts(isDeathresting: true),
-                TaskBreakBlockReason.Deathrest);
+                TaskInterruptBlockReason.Deathrest);
             AssertBlocked(Facts(isFormingCaravan: true),
-                TaskBreakBlockReason.FormingCaravan);
+                TaskInterruptBlockReason.FormingCaravan);
             AssertBlocked(Facts(hasOrganizedLord: true),
-                TaskBreakBlockReason.OrganizedActivity);
+                TaskInterruptBlockReason.OrganizedActivity);
             AssertBlocked(Facts(mustCompleteBeforeNextTask: true),
-                TaskBreakBlockReason.MustComplete);
+                TaskInterruptBlockReason.MustComplete);
             AssertBlocked(Facts(isQuestOwned: true),
-                TaskBreakBlockReason.QuestOwned);
+                TaskInterruptBlockReason.QuestOwned);
             AssertBlocked(Facts(isRitualOwned: true),
-                TaskBreakBlockReason.RitualOwned);
+                TaskInterruptBlockReason.RitualOwned);
             AssertBlocked(Facts(isInLabor: true),
-                TaskBreakBlockReason.Labor);
+                TaskInterruptBlockReason.Labor);
             AssertBlocked(Facts(isMedicalCare: true),
-                TaskBreakBlockReason.MedicalCare);
+                TaskInterruptBlockReason.MedicalCare);
         }
 
         private static void GameContractWins()
         {
             AssertBlocked(Facts(isPlayerInterruptible: false),
-                TaskBreakBlockReason.GameProtected);
+                TaskInterruptBlockReason.GameProtected);
         }
 
         private static void RepeatActivationIsBounded()
@@ -137,13 +137,13 @@ namespace TaskBreak.Tests
                 root,
                 "Defs",
                 "KeyBindings.xml"));
-            string ignoredByTaskBreak = keyBindings.Root?
+            string ignoredByTaskInterrupt = keyBindings.Root?
                 .Element("KeyBindingDef")?
                 .Element("ignoreConflictsWith")?
                 .Element("li")?
                 .Value;
-            Require(ignoredByTaskBreak == "Command_ItemForbid",
-                "Task Break must ignore only its contextual vanilla F peer");
+            Require(ignoredByTaskInterrupt == "Command_ItemForbid",
+                "Task Interrupt must ignore only its contextual vanilla F peer");
 
             var vanillaPatch = XDocument.Load(Path.Combine(
                 root,
@@ -154,9 +154,9 @@ namespace TaskBreak.Tests
                     "Defs/KeyBindingDef[defName=\"Command_ItemForbid\"]",
                     StringComparison.Ordinal) &&
                 patchText.Contains(
-                    "TaskBreak_CancelCurrentTask",
+                    "TaskInterrupt_CancelCurrentTask",
                     StringComparison.Ordinal),
-                "vanilla forbid must symmetrically ignore Task Break");
+                "vanilla forbid must symmetrically ignore Task Interrupt");
         }
 
         private static void NoDraftDanceInAssembly()
@@ -167,10 +167,10 @@ namespace TaskBreak.Tests
                 root,
                 "1.6",
                 "Assemblies",
-                "TaskBreak.dll"));
+                "TaskInterrupt.dll"));
             MethodReference[] calls = assembly.MainModule.Types
                 .Where(type => type.Namespace.StartsWith(
-                    "TaskBreak",
+                    "TaskInterrupt",
                     StringComparison.Ordinal))
                 .SelectMany(type => type.Methods)
                 .Where(method => method.HasBody)
@@ -183,11 +183,11 @@ namespace TaskBreak.Tests
                 .ToArray();
 
             Require(!calls.Any(method => method.Name == "set_Drafted"),
-                "Task Break must not mutate draft state");
+                "Task Interrupt must not mutate draft state");
             Require(!calls.Any(method => method.Name == "ClearQueuedJobs"),
-                "Task Break must preserve queued jobs");
+                "Task Interrupt must preserve queued jobs");
             Require(calls.Any(method => method.Name == "EndCurrentJob"),
-                "Task Break must use RimWorld's normal job-ending API");
+                "Task Interrupt must use RimWorld's normal job-ending API");
         }
 
         private static void AssignedKeyUsesNativeGizmoHotkey()
@@ -197,18 +197,18 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Definitions",
-                "TaskBreakDefOf.cs"));
+                "TaskInterruptDefOf.cs"));
             string command = File.ReadAllText(Path.Combine(
                 root,
                 "Source",
                 "Presentation",
-                "Command_TaskBreak.cs"));
+                "Command_TaskInterrupt.cs"));
             Require(defOf.Contains(
-                    "public static KeyBindingDef TaskBreak_CancelCurrentTask;",
+                    "public static KeyBindingDef TaskInterrupt_CancelCurrentTask;",
                     StringComparison.Ordinal),
                 "RimWorld binds only public static DefOf fields");
             Require(command.Contains(
-                    "hotKey = TaskBreakDefOf.TaskBreak_CancelCurrentTask;",
+                    "hotKey = TaskInterruptDefOf.TaskInterrupt_CancelCurrentTask;",
                     StringComparison.Ordinal),
                 "the command must let RimWorld render and activate its key");
         }
@@ -220,7 +220,7 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Presentation",
-                "Command_TaskBreak.cs"));
+                "Command_TaskInterrupt.cs"));
             Require(command.Contains(
                     "Order = float.MaxValue;",
                     StringComparison.Ordinal),
@@ -234,16 +234,16 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Patches",
-                "TaskBreakPatches.cs"));
+                "TaskInterruptPatches.cs"));
             string command = File.ReadAllText(Path.Combine(
                 root,
                 "Source",
                 "Presentation",
-                "Command_TaskBreak.cs"));
+                "Command_TaskInterrupt.cs"));
             Require(patches.Contains(
                     "typeof(Pawn), nameof(Pawn.GetGizmos)",
                     StringComparison.Ordinal),
-                "Task Break must add only its pawn gizmo patch");
+                "Task Interrupt must add only its pawn gizmo patch");
             Require(!patches.Contains("Dialog_DefineBinding",
                     StringComparison.Ordinal) &&
                 !patches.Contains("UIRoot_Play",
@@ -252,7 +252,7 @@ namespace TaskBreak.Tests
                     StringComparison.Ordinal) &&
                 !patches.Contains("Mouse3",
                     StringComparison.Ordinal),
-                "Task Break must not own mouse input, binding dialogs, or a global input poll");
+                "Task Interrupt must not own mouse input, binding dialogs, or a global input poll");
             Require(command.Contains(
                     "alsoClickIfOtherInGroupClicked = false;",
                     StringComparison.Ordinal),
@@ -265,13 +265,13 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Runtime",
-                "TaskBreakController.cs"));
+                "TaskInterruptController.cs"));
             Require(controller.Contains(
-                    "TaskBreakText.Reason(decision.BlockReason)",
+                    "TaskInterruptText.Reason(decision.BlockReason)",
                     StringComparison.Ordinal),
                 "every activation surface must preserve the command's specific unavailable explanation");
             Require(command.Contains(
-                    "action = TaskBreakController.ActivateSelected;",
+                    "action = TaskInterruptController.ActivateSelected;",
                     StringComparison.Ordinal),
                 "the vanilla gizmo and keyboard hotkey must share one activation entrypoint");
         }
@@ -283,7 +283,7 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Runtime",
-                "PawnTaskBreakAssessment.cs"));
+                "PawnTaskInterruptAssessment.cs"));
             Require(assessment.Contains(
                     "IsActiveMedicalPatient(pawn)",
                     StringComparison.Ordinal),
@@ -308,7 +308,7 @@ namespace TaskBreak.Tests
             Require(!assessment.Contains(
                     "reservationManager.IsReserved",
                     StringComparison.Ordinal),
-                "unrelated reservations must not disable Task Break");
+                "unrelated reservations must not disable Task Interrupt");
         }
 
         private static void GizmoAssessmentIsAmortizedPerFrame()
@@ -318,12 +318,12 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Runtime",
-                "PawnTaskBreakAssessment.cs"));
+                "PawnTaskInterruptAssessment.cs"));
             string controller = File.ReadAllText(Path.Combine(
                 root,
                 "Source",
                 "Runtime",
-                "TaskBreakController.cs"));
+                "TaskInterruptController.cs"));
             Require(assessment.Contains(
                     "indexedFrame != currentFrame",
                     StringComparison.Ordinal) &&
@@ -347,7 +347,7 @@ namespace TaskBreak.Tests
                 root,
                 "Source",
                 "Presentation",
-                "Command_TaskBreak.cs"));
+                "Command_TaskInterrupt.cs"));
             Require(command.Contains(
                     "if (BindSettings(",
                     StringComparison.Ordinal),
@@ -358,7 +358,7 @@ namespace TaskBreak.Tests
                 "a consumed Alt-click must not reach the command action");
         }
 
-        private static TaskBreakFacts Facts(
+        private static TaskInterruptFacts Facts(
             bool isPlayerControlled = true,
             bool hasCurrentTask = true,
             bool isIncapacitated = false,
@@ -375,7 +375,7 @@ namespace TaskBreak.Tests
             bool isMedicalCare = false,
             bool isPlayerForced = false)
         {
-            return new TaskBreakFacts(
+            return new TaskInterruptFacts(
                 isPlayerControlled,
                 hasCurrentTask,
                 isIncapacitated,
@@ -394,10 +394,10 @@ namespace TaskBreak.Tests
         }
 
         private static void AssertBlocked(
-            TaskBreakFacts facts,
-            TaskBreakBlockReason expected)
+            TaskInterruptFacts facts,
+            TaskInterruptBlockReason expected)
         {
-            TaskBreakDecision decision = TaskBreakPolicy.Evaluate(facts);
+            TaskInterruptDecision decision = TaskInterruptPolicy.Evaluate(facts);
             Require(!decision.CanBreak, $"{expected} should be blocked");
             Require(decision.BlockReason == expected,
                 $"expected {expected}, got {decision.BlockReason}");
