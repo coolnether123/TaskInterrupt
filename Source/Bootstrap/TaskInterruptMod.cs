@@ -1,7 +1,6 @@
 using Spine.Api;
 using Spine.UI.SettingsFramework;
 using TaskInterrupt.Patches;
-using TaskInterrupt.Runtime;
 using TaskInterrupt.Settings;
 using Verse;
 
@@ -21,10 +20,10 @@ namespace TaskInterrupt.Bootstrap
             TaskInterruptPatches.Install();
         }
 
-        // Goofy mode renames the settings entry too. The mod list itself still
-        // reads About.xml, which is loaded once at startup and cannot follow a
-        // runtime toggle.
+        // Deliberately not routed through TaskInterruptText: Goofy mode renames
+        // the command and its messages, not the mod. Someone looking for the
+        // settings page should always find it under the same name.
         protected override string SettingsCategoryLabel =>
-            TaskInterruptText.Translate("TaskInterrupt_Name");
+            "TaskInterrupt_Name".Translate();
     }
 }
