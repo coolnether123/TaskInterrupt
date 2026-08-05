@@ -1,18 +1,19 @@
 using Spine.Api;
 using Verse;
 
-namespace TaskBreak.Settings
+namespace TaskInterrupt.Settings
 {
-    public sealed class TaskBreakSettings : ModSettings
+    public sealed class TaskInterruptSettings : ModSettings
     {
         public bool ShowGizmo = true;
         public bool ConfirmForcedTasks = true;
+        public bool GoofyMode;
 
         public override void ExposeData()
         {
             SpineApi.Settings.Scribe(
                 this,
-                TaskBreakSettingsRegistry.Definitions);
+                TaskInterruptSettingsRegistry.Definitions);
             base.ExposeData();
         }
     }

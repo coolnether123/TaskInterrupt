@@ -1,35 +1,35 @@
 using RimWorld;
 using Spine.UI.ContextualSettings;
-using TaskBreak.Bootstrap;
-using TaskBreak.Definitions;
-using TaskBreak.Domain;
-using TaskBreak.Runtime;
+using TaskInterrupt.Bootstrap;
+using TaskInterrupt.Definitions;
+using TaskInterrupt.Domain;
+using TaskInterrupt.Runtime;
 using UnityEngine;
 using Verse;
 
-namespace TaskBreak.Presentation
+namespace TaskInterrupt.Presentation
 {
-    internal sealed class Command_TaskBreak : Command_Action
+    internal sealed class Command_TaskInterrupt : Command_Action
     {
         private const int SharedGroupKey = 188137392;
 
-        internal Command_TaskBreak()
+        internal Command_TaskInterrupt()
         {
-            defaultLabel = "TaskBreak_Command".Translate();
-            defaultDesc = "TaskBreak_Command_Tip".Translate();
+            defaultLabel = TaskInterruptText.Translate("TaskInterrupt_Command");
+            defaultDesc = TaskInterruptText.Translate("TaskInterrupt_Command_Tip");
             icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt");
-            hotKey = TaskBreakDefOf.TaskBreak_CancelCurrentTask;
+            hotKey = TaskInterruptDefOf.TaskInterrupt_CancelCurrentTask;
             groupKey = SharedGroupKey;
             alsoClickIfOtherInGroupClicked = false;
             Order = float.MaxValue;
             shrinkable = true;
-            action = TaskBreakController.ActivateSelected;
+            action = TaskInterruptController.ActivateSelected;
 
-            TaskBreakDecision decision =
-                TaskBreakController.FirstDecision();
+            TaskInterruptDecision decision =
+                TaskInterruptController.FirstDecision();
             if (!decision.CanBreak)
             {
-                Disable(TaskBreakText.Reason(decision.BlockReason));
+                Disable(TaskInterruptText.Reason(decision.BlockReason));
             }
         }
 
@@ -65,7 +65,7 @@ namespace TaskBreak.Presentation
 
         private static bool BindSettings(Rect visibleRect)
         {
-            return TaskBreakMod.ContextualSettings?.Bind(
+            return TaskInterruptMod.ContextualSettings?.Bind(
                     visibleRect,
                     ContextualSettingsTarget.Exact(
                         "controls.gizmo",
