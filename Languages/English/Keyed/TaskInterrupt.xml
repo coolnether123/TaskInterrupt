@@ -31,7 +31,6 @@
   <!-- Goofy mode. Every key below shadows the plain key of the same name and is
        used only while the Goofy mode setting is on. A translation that omits
        these falls back to the plain wording rather than showing a missing key. -->
-  <TaskInterrupt_Goofy_Name>Bless You</TaskInterrupt_Goofy_Name>
   <TaskInterrupt_Goofy_Command>Sneeze</TaskInterrupt_Goofy_Command>
   <TaskInterrupt_Goofy_Command_Tip>Interrupt task? Nawwwwwwwwww. Sneeze? Yeahhhhh.\n\nStops whatever the selected pawns are doing. Queued tasks stay queued. Nobody actually catches anything.</TaskInterrupt_Goofy_Command_Tip>
   <TaskInterrupt_Goofy_ConfirmForced>At least one of the {0} selected pawns is doing work you personally ordered. Sneeze on the safe ones anyway?</TaskInterrupt_Goofy_ConfirmForced>
