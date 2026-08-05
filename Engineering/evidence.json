@@ -1,7 +1,8 @@
 {
   "rimWorldVersion": "1.6.4871",
-  "shippingDllSha256": "B394220B871A48A33CD787ADC94D32D84EF9FD228BA53C2C63C97D768FDA44AC",
-  "shippingDllSizeBytes": 19456,
+  "recordDate": "2026-08-05",
+  "shippingDllSha256": "7B8B969A4C545C3DEB8DD499D1E8831A777FD9FA8C746A311A9440262C0B3761",
+  "shippingDllSizeBytes": 22016,
   "assemblyVersion": "1.0.0.0",
   "automatedContracts": "15/15",
   "automatedAssertions": 76,
@@ -9,25 +10,27 @@
   "shippingDllCount": 1,
   "releaseIncludePaths": [
     "About",
-    "1.6/Assemblies/TaskBreak.dll",
+    "1.6/Assemblies/TaskInterrupt.dll",
     "Defs",
     "Languages",
     "Patches",
-    "LICENSE"
+    "Sounds",
+    "LICENSE",
+    "README.md"
   ],
-  "sourceBaseCommit": "252cae3490830b0b879bec6e4a2dee821cb25246",
-  "sourceStateAtBuild": "working tree release candidate; commit pending",
-  "spineSha256": "3E857A09793BBFF839D0C18D197E480C9365B6384148F49F48669F068BBB9086",
-  "runtimeArtifactNotice": "The finalLane record remains exact evidence for its named historical assembly. A final combined launch is required for this metadata-only rebuild.",
+  "spineSha256": "FEFFA6D8EEF395D5C494BA335D0AD2A7823792C91A5967CBE2DBC2417FFD18CD",
+  "spineSizeBytes": 113152,
   "inputModel": "RimWorld native keyboard gizmo hotkey only",
   "harmonyPatchCount": 1,
+  "runtimeArtifactNotice": "The finalLane block below predates the Task Break to Task Interrupt rename and names the mod and its Harmony owner ID as they were at that time. It is retained as exact evidence for that historical assembly, not as a description of the current one.",
   "finalLane": {
     "sessionId": "coolnether-suite-7dec0af702844a49b737a13f4b23608f",
     "saveName": "FinalSuite_Current",
+    "recordedUnderName": "Task Break",
     "results": [
       "F changed Wait job 563 to Wait_Wander job 988 through the native command hotkey.",
       "Draft, queued jobs, carried item, and reservations remained unchanged.",
-      "Task Break owned one Pawn.GetGizmos postfix and no input patch.",
+      "The mod owned one Pawn.GetGizmos postfix and no input patch.",
       "Save and reload completed generation 1 paused with developer mode enabled.",
       "No matching in-game exception was present."
     ]
