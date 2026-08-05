@@ -37,6 +37,16 @@ namespace TaskInterrupt.Patches
                 return;
             }
 
+            // A drafted pawn has no civilian task to interrupt, and the drafted
+            // gizmo row is already crowded. Offering a permanently disabled
+            // command there is noise, so contribute nothing at all. A mixed
+            // selection still gets the command from its undrafted pawns, and
+            // the drafted ones are reported as skipped when it is used.
+            if (__instance.Drafted)
+            {
+                return;
+            }
+
             __result = (__result ?? Enumerable.Empty<Gizmo>())
                 .Concat(new Gizmo[] { new Command_TaskInterrupt() });
         }

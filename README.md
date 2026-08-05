@@ -19,8 +19,13 @@ Task Interrupt deliberately refuses to interrupt:
 - deathrest;
 - caravan formation;
 - rituals, quest tasks, and other organized lord activities;
-- mental-state, drafted, downed, or dead pawns; and
+- mental-state, downed, or dead pawns; and
 - tasks marked as required to finish before another begins.
+
+A drafted pawn shows no command at all. Drafting already replaces the civilian
+task, so the command would only ever be a disabled button competing for space in
+an already crowded gizmo row. Selecting a drafted pawn alongside undrafted ones
+still shows the command; the drafted pawns are reported as skipped.
 
 Forced work is supported but asks for confirmation by default. A short
 per-pawn guard prevents a held or rapidly repeated input from cancelling each
