@@ -1,22 +1,22 @@
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
-using TaskBreak.Domain;
+using TaskInterrupt.Domain;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
-namespace TaskBreak.Runtime
+namespace TaskInterrupt.Runtime
 {
-    internal static class PawnTaskBreakAssessment
+    internal static class PawnTaskInterruptAssessment
     {
         private static readonly HashSet<Pawn> ActiveMedicalPatients =
             new HashSet<Pawn>();
         private static Map indexedMap;
         private static int indexedFrame = -1;
 
-        internal static TaskBreakDecision Evaluate(Pawn pawn)
+        internal static TaskInterruptDecision Evaluate(Pawn pawn)
         {
             Job job = pawn?.jobs?.curJob;
             bool playerControlled = pawn != null &&
@@ -29,7 +29,7 @@ namespace TaskBreak.Runtime
                  HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn)) ||
                 IsActiveMedicalPatient(pawn);
 
-            var facts = new TaskBreakFacts(
+            var facts = new TaskInterruptFacts(
                 playerControlled,
                 job != null,
                 pawn == null || pawn.Dead || pawn.Downed,
@@ -45,7 +45,7 @@ namespace TaskBreak.Runtime
                 pawn?.health?.hediffSet?.InLabor() ?? false,
                 medicalCare,
                 job?.playerForced ?? false);
-            return TaskBreakPolicy.Evaluate(facts);
+            return TaskInterruptPolicy.Evaluate(facts);
         }
 
         private static bool IsActiveMedicalPatient(Pawn patient)

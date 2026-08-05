@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
-using TaskBreak.Bootstrap;
-using TaskBreak.Domain;
+using TaskInterrupt.Bootstrap;
+using TaskInterrupt.Domain;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace TaskBreak.Runtime
+namespace TaskInterrupt.Runtime
 {
-    internal static class TaskBreakController
+    internal static class TaskInterruptController
     {
         private const int RepeatGuardTicks = 30;
         private static readonly ActivationGate ActivationGate =
             new ActivationGate(RepeatGuardTicks);
-        private static TaskBreakDecision cachedFirstDecision;
+        private static TaskInterruptDecision cachedFirstDecision;
         private static int cachedDecisionFrame = -1;
 
         internal static IReadOnlyList<Pawn> SelectedSupportedPawns()
@@ -27,7 +27,7 @@ namespace TaskBreak.Runtime
                 .ToList();
         }
 
-        internal static TaskBreakDecision FirstDecision()
+        internal static TaskInterruptDecision FirstDecision()
         {
             int currentFrame = Time.frameCount;
             if (cachedDecisionFrame == currentFrame)
@@ -36,12 +36,12 @@ namespace TaskBreak.Runtime
             }
 
             IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
-            TaskBreakDecision result = new TaskBreakDecision(
-                TaskBreakBlockReason.NoCurrentTask);
+            TaskInterruptDecision result = new TaskInterruptDecision(
+                TaskInterruptBlockReason.NoCurrentTask);
             for (int i = 0; i < pawns.Count; i++)
             {
-                TaskBreakDecision decision =
-                    PawnTaskBreakAssessment.Evaluate(pawns[i]);
+                TaskInterruptDecision decision =
+                    PawnTaskInterruptAssessment.Evaluate(pawns[i]);
                 if (i == 0)
                 {
                     result = decision;
@@ -60,30 +60,31 @@ namespace TaskBreak.Runtime
 
         internal static void ActivateSelected()
         {
-            TaskBreakDecision decision = FirstDecision();
+            TaskInterruptDecision decision = FirstDecision();
             if (!decision.CanBreak)
             {
                 Messages.Message(
-                    TaskBreakText.Reason(decision.BlockReason),
+                    TaskInterruptText.Reason(decision.BlockReason),
                     MessageTypeDefOf.RejectInput,
                     historical: false);
                 return;
             }
 
-            BreakSelected();
+            InterruptSelected();
         }
 
-        private static void BreakSelected()
+        private static void InterruptSelected()
         {
             IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
             bool needsConfirmation = pawns.Any(pawn =>
-                PawnTaskBreakAssessment.Evaluate(pawn)
+                PawnTaskInterruptAssessment.Evaluate(pawn)
                     .RequiresForcedConfirmation);
             if (needsConfirmation &&
-                TaskBreakMod.Settings.ConfirmForcedTasks)
+                TaskInterruptMod.Settings.ConfirmForcedTasks)
             {
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                    "TaskBreak_ConfirmForced".Translate(pawns.Count),
+                    TaskInterruptText.Translate(
+                        "TaskInterrupt_ConfirmForced", pawns.Count),
                     () => Execute(pawns),
                     destructive: false));
                 return;
@@ -96,22 +97,22 @@ namespace TaskBreak.Runtime
         {
             int stopped = 0;
             int skipped = 0;
-            TaskBreakBlockReason firstBlockReason =
-                TaskBreakBlockReason.None;
+            TaskInterruptBlockReason firstBlockReason =
+                TaskInterruptBlockReason.None;
             for (int i = 0; i < pawns.Count; i++)
             {
                 Pawn pawn = pawns[i];
-                TaskBreakDecision decision =
-                    PawnTaskBreakAssessment.Evaluate(pawn);
+                TaskInterruptDecision decision =
+                    PawnTaskInterruptAssessment.Evaluate(pawn);
                 if (!decision.CanBreak ||
                     !ActivationGate.TryEnter(
                         pawn.thingIDNumber,
                         Find.TickManager.TicksGame))
                 {
-                    if (firstBlockReason == TaskBreakBlockReason.None)
+                    if (firstBlockReason == TaskInterruptBlockReason.None)
                     {
                         firstBlockReason = decision.CanBreak
-                            ? TaskBreakBlockReason.ActivationCooldown
+                            ? TaskInterruptBlockReason.ActivationCooldown
                             : decision.BlockReason;
                     }
                     skipped++;
@@ -120,21 +121,23 @@ namespace TaskBreak.Runtime
 
                 pawn.jobs.curJob.playerInterruptedForced = true;
                 pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                GoofyMode.Celebrate(pawn);
                 stopped++;
             }
 
             if (stopped == 0 &&
-                firstBlockReason != TaskBreakBlockReason.None)
+                firstBlockReason != TaskInterruptBlockReason.None)
             {
                 Messages.Message(
-                    TaskBreakText.Reason(firstBlockReason),
+                    TaskInterruptText.Reason(firstBlockReason),
                     MessageTypeDefOf.RejectInput,
                     historical: false);
             }
             else if (skipped > 0)
             {
                 Messages.Message(
-                    "TaskBreak_Result".Translate(stopped, skipped),
+                    TaskInterruptText.Translate(
+                        "TaskInterrupt_Result", stopped, skipped),
                     MessageTypeDefOf.NeutralEvent,
                     historical: false);
             }

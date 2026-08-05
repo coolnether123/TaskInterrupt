@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Task Break</name>
+  <name>Task Interrupt</name>
   <author>CoolNether123</author>
-  <packageId>CoolNether123.TaskBreak</packageId>
+  <packageId>CoolNether123.TaskInterrupt</packageId>
   <modVersion>1.0.0</modVersion>
   <supportedVersions>
     <li>1.6</li>
@@ -25,7 +25,7 @@
   </loadAfter>
   <description>Adds a safe Break task command for controllable colonists, slaves, children, and overseen colony mechs.
 
-Task Break stops the current interruptible task without drafting or undrafting. RimWorld releases the task's reservations and handles carried items normally, while queued tasks remain queued. Medical care, labor, deathrest, caravan formation, rituals, quests, mental states, drafted behavior, and game-protected tasks are left alone. Forced tasks ask for confirmation by default.
+Task Interrupt stops the current interruptible task without drafting or undrafting. RimWorld releases the task's reservations and handles carried items normally, while queued tasks remain queued. Medical care, labor, deathrest, caravan formation, rituals, quests, mental states, drafted behavior, and game-protected tasks are left alone. Forced tasks ask for confirmation by default.
 
-The rightmost command shows its F keybinding in the top-left and remains configurable through RimWorld's normal controls. Vanilla's F command applies to items while Task Break applies to controllable pawns. Task Break adds no mouse-input adapter or global input poll.</description>
+The rightmost command shows its F keybinding in the top-left and remains configurable through RimWorld's normal controls. Vanilla's F command applies to items while Task Interrupt applies to controllable pawns. Task Interrupt adds no mouse-input adapter or global input poll.</description>
 </ModMetaData>

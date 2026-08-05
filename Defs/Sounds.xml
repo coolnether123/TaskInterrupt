@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Cosmetic. Only played when the Goofy mode setting is enabled; the def is
+       always loaded so that toggling the setting needs no reload. -->
+  <SoundDef>
+    <defName>TaskInterrupt_Achoo</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>TaskInterrupt/Achoo</clipPath>
+          </li>
+          <li Class="AudioGrain_Clip">
+            <clipPath>TaskInterrupt/Achoo2</clipPath>
+          </li>
+        </grains>
+        <volumeRange>26~32</volumeRange>
+        <pitchRange>0.88~1.14</pitchRange>
+        <distRange>0~32</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

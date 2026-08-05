@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using TaskBreak.Bootstrap;
-using TaskBreak.Presentation;
+using TaskInterrupt.Bootstrap;
+using TaskInterrupt.Presentation;
 using Spine.Api;
 using Spine.Harmony;
 using Verse;
 
-namespace TaskBreak.Patches
+namespace TaskInterrupt.Patches
 {
-    internal static class TaskBreakPatches
+    internal static class TaskInterruptPatches
     {
-        private const string HarmonyId = "CoolNether123.TaskBreak";
+        private const string HarmonyId = "CoolNether123.TaskInterrupt";
         private static readonly IHarmonyPatchInstaller Installer =
-            SpineApi.Patching.CreateInstaller(HarmonyId, "[Task Break]");
+            SpineApi.Patching.CreateInstaller(HarmonyId, "[Task Interrupt]");
 
         internal static void Install()
         {
@@ -21,7 +21,7 @@ namespace TaskBreak.Patches
                 "pawn gizmos",
                 AccessTools.Method(typeof(Pawn), nameof(Pawn.GetGizmos)),
                 postfix: new HarmonyMethod(
-                    typeof(TaskBreakPatches),
+                    typeof(TaskInterruptPatches),
                     nameof(PawnGizmosPostfix)));
         }
 
@@ -29,7 +29,7 @@ namespace TaskBreak.Patches
             Pawn __instance,
             ref IEnumerable<Gizmo> __result)
         {
-            if (!TaskBreakMod.Settings.ShowGizmo ||
+            if (!TaskInterruptMod.Settings.ShowGizmo ||
                 __instance == null ||
                 !(__instance.IsColonistPlayerControlled ||
                   __instance.IsColonyMechPlayerControlled))
@@ -38,7 +38,7 @@ namespace TaskBreak.Patches
             }
 
             __result = (__result ?? Enumerable.Empty<Gizmo>())
-                .Concat(new Gizmo[] { new Command_TaskBreak() });
+                .Concat(new Gizmo[] { new Command_TaskInterrupt() });
         }
     }
 }

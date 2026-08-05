@@ -1,6 +1,6 @@
-namespace TaskBreak.Domain
+namespace TaskInterrupt.Domain
 {
-    public enum TaskBreakBlockReason
+    public enum TaskInterruptBlockReason
     {
         None = 0,
         NotPlayerControlled,
@@ -20,21 +20,21 @@ namespace TaskBreak.Domain
         ActivationCooldown
     }
 
-    public readonly struct TaskBreakDecision
+    public readonly struct TaskInterruptDecision
     {
-        public TaskBreakDecision(
-            TaskBreakBlockReason blockReason,
+        public TaskInterruptDecision(
+            TaskInterruptBlockReason blockReason,
             bool requiresForcedConfirmation = false)
         {
             BlockReason = blockReason;
             RequiresForcedConfirmation =
-                blockReason == TaskBreakBlockReason.None &&
+                blockReason == TaskInterruptBlockReason.None &&
                 requiresForcedConfirmation;
         }
 
-        public TaskBreakBlockReason BlockReason { get; }
+        public TaskInterruptBlockReason BlockReason { get; }
 
-        public bool CanBreak => BlockReason == TaskBreakBlockReason.None;
+        public bool CanBreak => BlockReason == TaskInterruptBlockReason.None;
 
         public bool RequiresForcedConfirmation { get; }
     }

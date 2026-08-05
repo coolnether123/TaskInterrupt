@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TaskInterrupt_Name>Task Interrupt</TaskInterrupt_Name>
+  <TaskInterrupt_Command>Break task</TaskInterrupt_Command>
+  <TaskInterrupt_Command_Tip>Stop the selected pawns' current tasks and let them choose what to do next. Queued tasks remain queued.</TaskInterrupt_Command_Tip>
+  <TaskInterrupt_Settings_Controls>Controls and safety</TaskInterrupt_Settings_Controls>
+  <TaskInterrupt_Settings_ShowGizmo>Show task break command</TaskInterrupt_Settings_ShowGizmo>
+  <TaskInterrupt_Settings_ShowGizmo_Tip>Show the small Break task command for controllable colonists, slaves, children, and overseen colony mechs.</TaskInterrupt_Settings_ShowGizmo_Tip>
+  <TaskInterrupt_Settings_ConfirmForced>Confirm forced tasks</TaskInterrupt_Settings_ConfirmForced>
+  <TaskInterrupt_Settings_ConfirmForced_Tip>Ask before breaking a task the player explicitly forced.</TaskInterrupt_Settings_ConfirmForced_Tip>
+  <TaskInterrupt_Settings_Goofy>Goofy mode</TaskInterrupt_Settings_Goofy>
+  <TaskInterrupt_Settings_Goofy_Tip>Renames the command to Sneeze, rewrites every message it shows, and adds a puff of air and a sound when a task stops. Purely cosmetic: exactly the same tasks can be interrupted either way.</TaskInterrupt_Settings_Goofy_Tip>
+  <TaskInterrupt_ConfirmForced>At least one of the {0} selected pawns is doing forced work. Break the safe tasks anyway?</TaskInterrupt_ConfirmForced>
+  <TaskInterrupt_Result>Stopped {0}; skipped {1} protected or unavailable.</TaskInterrupt_Result>
+  <TaskInterrupt_Reason_NotControlled>This pawn is not under direct player control.</TaskInterrupt_Reason_NotControlled>
+  <TaskInterrupt_Reason_NoTask>No current task to break.</TaskInterrupt_Reason_NoTask>
+  <TaskInterrupt_Reason_Incapacitated>Incapacitated pawns cannot have their task broken.</TaskInterrupt_Reason_Incapacitated>
+  <TaskInterrupt_Reason_MentalState>Mental-state behavior is not player-controlled.</TaskInterrupt_Reason_MentalState>
+  <TaskInterrupt_Reason_Drafted>Undraft the pawn before breaking a civilian task.</TaskInterrupt_Reason_Drafted>
+  <TaskInterrupt_Reason_Deathrest>Deathrest is protected.</TaskInterrupt_Reason_Deathrest>
+  <TaskInterrupt_Reason_Caravan>Caravan formation is protected.</TaskInterrupt_Reason_Caravan>
+  <TaskInterrupt_Reason_Organized>This pawn is taking part in an organized activity.</TaskInterrupt_Reason_Organized>
+  <TaskInterrupt_Reason_GameProtected>RimWorld or another mod has marked this task uninterruptible.</TaskInterrupt_Reason_GameProtected>
+  <TaskInterrupt_Reason_MustComplete>This task must finish before another can begin.</TaskInterrupt_Reason_MustComplete>
+  <TaskInterrupt_Reason_Quest>Quest-controlled tasks are protected.</TaskInterrupt_Reason_Quest>
+  <TaskInterrupt_Reason_Ritual>Ritual tasks are protected.</TaskInterrupt_Reason_Ritual>
+  <TaskInterrupt_Reason_Labor>Labor and birth are protected.</TaskInterrupt_Reason_Labor>
+  <TaskInterrupt_Reason_Medical>Medical care is protected.</TaskInterrupt_Reason_Medical>
+  <TaskInterrupt_Reason_Cooldown>Wait a moment before breaking another task.</TaskInterrupt_Reason_Cooldown>
+
+  <!-- Goofy mode. Every key below shadows the plain key of the same name and is
+       used only while the Goofy mode setting is on. A translation that omits
+       these falls back to the plain wording rather than showing a missing key. -->
+  <TaskInterrupt_Goofy_Name>Bless You</TaskInterrupt_Goofy_Name>
+  <TaskInterrupt_Goofy_Command>Sneeze</TaskInterrupt_Goofy_Command>
+  <TaskInterrupt_Goofy_Command_Tip>Interrupt task? Nawwwwwwwwww. Sneeze? Yeahhhhh.\n\nStops whatever the selected pawns are doing. Queued tasks stay queued. Nobody actually catches anything.</TaskInterrupt_Goofy_Command_Tip>
+  <TaskInterrupt_Goofy_ConfirmForced>At least one of the {0} selected pawns is doing work you personally ordered. Sneeze on the safe ones anyway?</TaskInterrupt_Goofy_ConfirmForced>
+  <TaskInterrupt_Goofy_Result>Sneezed {0}; held it in for {1}.</TaskInterrupt_Goofy_Result>
+  <TaskInterrupt_Goofy_Reason_NotControlled>Not your pawn, not your sneeze.</TaskInterrupt_Goofy_Reason_NotControlled>
+  <TaskInterrupt_Goofy_Reason_NoTask>Nothing to sneeze at.</TaskInterrupt_Goofy_Reason_NoTask>
+  <TaskInterrupt_Goofy_Reason_Incapacitated>Too down to sneeze.</TaskInterrupt_Goofy_Reason_Incapacitated>
+  <TaskInterrupt_Goofy_Reason_MentalState>Already having a moment. No sneeze required.</TaskInterrupt_Goofy_Reason_MentalState>
+  <TaskInterrupt_Goofy_Reason_Drafted>Undraft first. Sneezing while armed is rude.</TaskInterrupt_Goofy_Reason_Drafted>
+  <TaskInterrupt_Goofy_Reason_Deathrest>Shhh. Deathresting. Absolutely no sneezing.</TaskInterrupt_Goofy_Reason_Deathrest>
+  <TaskInterrupt_Goofy_Reason_Caravan>Mid-packing. Sneeze later.</TaskInterrupt_Goofy_Reason_Caravan>
+  <TaskInterrupt_Goofy_Reason_Organized>Busy being social. Sneezing would be a whole thing.</TaskInterrupt_Goofy_Reason_Organized>
+  <TaskInterrupt_Goofy_Reason_GameProtected>The game says no sneezing here.</TaskInterrupt_Goofy_Reason_GameProtected>
+  <TaskInterrupt_Goofy_Reason_MustComplete>Finish this bit first, then sneeze.</TaskInterrupt_Goofy_Reason_MustComplete>
+  <TaskInterrupt_Goofy_Reason_Quest>Quest business. Sneeze-proof.</TaskInterrupt_Goofy_Reason_Quest>
+  <TaskInterrupt_Goofy_Reason_Ritual>You do not sneeze during the ritual.</TaskInterrupt_Goofy_Reason_Ritual>
+  <TaskInterrupt_Goofy_Reason_Labor>Absolutely not right now.</TaskInterrupt_Goofy_Reason_Labor>
+  <TaskInterrupt_Goofy_Reason_Medical>Not over the patient, please.</TaskInterrupt_Goofy_Reason_Medical>
+  <TaskInterrupt_Goofy_Reason_Cooldown>One sneeze at a time.</TaskInterrupt_Goofy_Reason_Cooldown>
+  <TaskInterrupt_Goofy_Achoo1>ACHOO!</TaskInterrupt_Goofy_Achoo1>
+  <TaskInterrupt_Goofy_Achoo2>AH-CHOO!</TaskInterrupt_Goofy_Achoo2>
+  <TaskInterrupt_Goofy_Achoo3>HHHTCHOO!</TaskInterrupt_Goofy_Achoo3>
+</LanguageData>

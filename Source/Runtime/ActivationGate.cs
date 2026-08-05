@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TaskBreak.Runtime
+namespace TaskInterrupt.Runtime
 {
     public sealed class ActivationGate
     {

@@ -1,8 +1,8 @@
-namespace TaskBreak.Domain
+namespace TaskInterrupt.Domain
 {
-    public readonly struct TaskBreakFacts
+    public readonly struct TaskInterruptFacts
     {
-        public TaskBreakFacts(
+        public TaskInterruptFacts(
             bool isPlayerControlled,
             bool hasCurrentTask,
             bool isIncapacitated,
