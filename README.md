@@ -60,7 +60,7 @@ Animals and arbitrary selectable entities are intentionally outside scope.
 
 ## Installation
 
-Install Harmony and SpineLib, copy Task Interrupt into RimWorld's `Mods` directory,
+Install Harmony and [SpineLib](https://steamcommunity.com/sharedfiles/filedetails/?id=3778463813), copy Task Interrupt into RimWorld's `Mods` directory,
 then enable Harmony, SpineLib, and Task Interrupt. The default **F** binding can be
 changed from RimWorld's normal Controls page.
 
