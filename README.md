@@ -40,7 +40,7 @@ false startup warning. It can be rebound to another keyboard key through
 RimWorld's ordinary controls. Task Interrupt does not install a mouse-input adapter
 or a global input poll. The gizmo can be hidden in mod settings; hiding it also
 hides its native contextual hotkey surface.
-Alt-clicking the gizmo opens and highlights that setting via Spine's shared
+Alt-clicking the gizmo opens and highlights that setting via SpineLib's shared
 contextual-settings convention.
 
 ## Supported pawns
@@ -56,12 +56,12 @@ Animals and arbitrary selectable entities are intentionally outside scope.
 
 - RimWorld 1.6
 - Harmony
-- Spine 1.0
+- SpineLib 1.0
 
 ## Installation
 
-Install Harmony and Spine, copy Task Interrupt into RimWorld's `Mods` directory,
-then enable Harmony, Spine, and Task Interrupt. The default **F** binding can be
+Install Harmony and SpineLib, copy Task Interrupt into RimWorld's `Mods` directory,
+then enable Harmony, SpineLib, and Task Interrupt. The default **F** binding can be
 changed from RimWorld's normal Controls page.
 
 See [research](docs/research/duplicate-check.md),
