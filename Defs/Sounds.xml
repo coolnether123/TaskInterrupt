@@ -19,7 +19,10 @@
         </grains>
         <volumeRange>26~32</volumeRange>
         <pitchRange>0.88~1.14</pitchRange>
-        <distRange>0~32</distRange>
+        <!-- 0~70 matches vanilla's dominant one-shot falloff. The original
+             0~32 was measured from the camera, not the pawn, so the sneeze
+             was inaudible at anything but a close zoom and read as broken. -->
+        <distRange>0~70</distRange>
       </li>
     </subSounds>
   </SoundDef>
