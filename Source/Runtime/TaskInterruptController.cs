@@ -84,9 +84,15 @@ namespace TaskInterrupt.Runtime
         private static void InterruptSelected()
         {
             IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
-            bool needsConfirmation = pawns.Any(pawn =>
-                PawnTaskInterruptAssessment.Evaluate(pawn)
-                    .RequiresForcedConfirmation);
+            // Only ask when more than one pawn is selected. Interrupting one
+            // pawn's forced work means the player changed their mind about that
+            // pawn and a prompt is just a click in the way. Interrupting several
+            // at once is the case where a forced task can be swept up without
+            // the player noticing it was in the selection.
+            bool needsConfirmation = pawns.Count > 1 &&
+                pawns.Any(pawn =>
+                    PawnTaskInterruptAssessment.Evaluate(pawn)
+                        .RequiresForcedConfirmation);
             if (needsConfirmation &&
                 TaskInterruptMod.Settings.ConfirmForcedTasks)
             {
