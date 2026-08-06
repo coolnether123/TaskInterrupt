@@ -6,6 +6,10 @@ using Verse;
 
 namespace TaskInterrupt.Bootstrap
 {
+    /// <summary>
+    /// Composes Spine-owned settings with the mod's single Harmony integration,
+    /// keeping startup concerns out of interruption policy and presentation.
+    /// </summary>
     public sealed class TaskInterruptMod : SpineMod<TaskInterruptSettings>
     {
         public TaskInterruptMod(ModContentPack content)

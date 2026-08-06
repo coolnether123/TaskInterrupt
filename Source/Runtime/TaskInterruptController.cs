@@ -9,6 +9,10 @@ using Verse.AI;
 
 namespace TaskInterrupt.Runtime
 {
+    /// <summary>
+    /// Owns deterministic selection batching, confirmation, and execution so
+    /// the command remains a thin RimWorld presentation adapter.
+    /// </summary>
     internal static class TaskInterruptController
     {
         private const int RepeatGuardTicks = 30;
@@ -19,6 +23,8 @@ namespace TaskInterrupt.Runtime
 
         internal static IReadOnlyList<Pawn> SelectedSupportedPawns()
         {
+            // Stable pawn order makes the reported first rejection independent
+            // of RimWorld's selection enumeration.
             return Find.Selector.SelectedPawns
                 .Where(pawn => pawn != null &&
                     (pawn.IsColonistPlayerControlled ||
@@ -35,6 +41,8 @@ namespace TaskInterrupt.Runtime
                 return cachedFirstDecision;
             }
 
+            // Grouped gizmos construct one command per pawn; a frame-local
+            // aggregate avoids repeating the full selection safety scan.
             IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
             TaskInterruptDecision result = new TaskInterruptDecision(
                 TaskInterruptBlockReason.NoCurrentTask);

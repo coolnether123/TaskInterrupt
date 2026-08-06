@@ -3,6 +3,10 @@ using Verse;
 
 namespace TaskInterrupt.Definitions
 {
+    /// <summary>
+    /// Provides the native keybinding definition through RimWorld's DefOf
+    /// lifecycle so input remains owned by the game's command system.
+    /// </summary>
     [DefOf]
     internal static class TaskInterruptDefOf
     {

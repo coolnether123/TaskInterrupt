@@ -3,6 +3,10 @@ using Verse;
 
 namespace TaskInterrupt.Settings
 {
+    /// <summary>
+    /// Stores global presentation and confirmation preferences; interruption
+    /// safety itself deliberately remains fixed policy rather than save data.
+    /// </summary>
     public sealed class TaskInterruptSettings : ModSettings
     {
         public bool ShowGizmo = true;

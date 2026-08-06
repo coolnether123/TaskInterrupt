@@ -2,6 +2,10 @@ using System.Collections.Generic;
 
 namespace TaskInterrupt.Runtime
 {
+    /// <summary>
+    /// Bounds repeated activation per pawn so held input cannot cancel each
+    /// replacement job selected by the AI immediately after an interruption.
+    /// </summary>
     public sealed class ActivationGate
     {
         private readonly int cooldownTicks;
@@ -15,6 +19,8 @@ namespace TaskInterrupt.Runtime
 
         public bool TryEnter(int pawnId, int currentTick)
         {
+            // A tick rollback denotes a new game session, so an old transient
+            // entry must not suppress the first activation after loading.
             if (lastActivationByPawn.TryGetValue(pawnId, out int lastTick) &&
                 currentTick >= lastTick &&
                 currentTick - lastTick < cooldownTicks)

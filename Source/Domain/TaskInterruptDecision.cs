@@ -1,5 +1,9 @@
 namespace TaskInterrupt.Domain
 {
+    /// <summary>
+    /// Identifies the first safety boundary that rejected an interruption so
+    /// the pure policy can remain independent of localized player feedback.
+    /// </summary>
     public enum TaskInterruptBlockReason
     {
         None = 0,
@@ -20,6 +24,10 @@ namespace TaskInterrupt.Domain
         ActivationCooldown
     }
 
+    /// <summary>
+    /// Carries the policy outcome and forced-work confirmation requirement as
+    /// one immutable result shared by commands and batch execution.
+    /// </summary>
     public readonly struct TaskInterruptDecision
     {
         public TaskInterruptDecision(
