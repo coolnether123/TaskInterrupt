@@ -3,6 +3,10 @@ using Spine.UI.SettingsFramework;
 
 namespace TaskInterrupt.Settings
 {
+    /// <summary>
+    /// Declares the complete settings surface once for Spine to render, bind,
+    /// and persist without a mod-specific settings window.
+    /// </summary>
     internal static class TaskInterruptSettingsRegistry
     {
         internal static readonly IReadOnlyList<SettingDefinition> Definitions =

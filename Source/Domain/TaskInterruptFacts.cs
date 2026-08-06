@@ -1,5 +1,9 @@
 namespace TaskInterrupt.Domain
 {
+    /// <summary>
+    /// Projects mutable Pawn and Job state into the game-independent facts the
+    /// safety policy needs, making the rejection matrix testable off-game.
+    /// </summary>
     public readonly struct TaskInterruptFacts
     {
         public TaskInterruptFacts(

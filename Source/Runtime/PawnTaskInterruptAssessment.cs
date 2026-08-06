@@ -9,6 +9,10 @@ using Verse.AI.Group;
 
 namespace TaskInterrupt.Runtime
 {
+    /// <summary>
+    /// Translates live pawn, job, lord, and medical activity into the immutable
+    /// facts consumed by the fail-closed policy.
+    /// </summary>
     internal static class PawnTaskInterruptAssessment
     {
         private static readonly HashSet<Pawn> ActiveMedicalPatients =
@@ -59,6 +63,9 @@ namespace TaskInterrupt.Runtime
             int currentFrame = Time.frameCount;
             if (indexedMap != map || indexedFrame != currentFrame)
             {
+                // Gizmo construction can assess every selected pawn repeatedly
+                // in one render frame; share the doctor-target scan without
+                // hiding direct job changes made while the game is paused.
                 ActiveMedicalPatients.Clear();
                 foreach (Pawn actor in map.mapPawns.AllPawnsSpawned)
                 {

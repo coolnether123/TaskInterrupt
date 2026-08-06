@@ -1,5 +1,9 @@
 namespace TaskInterrupt.Domain
 {
+    /// <summary>
+    /// Applies the fail-closed interruption rules without touching RimWorld
+    /// objects, UI, or job state.
+    /// </summary>
     public static class TaskInterruptPolicy
     {
         public static TaskInterruptDecision Evaluate(TaskInterruptFacts facts)

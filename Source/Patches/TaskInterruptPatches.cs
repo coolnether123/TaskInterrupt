@@ -9,6 +9,10 @@ using Verse;
 
 namespace TaskInterrupt.Patches
 {
+    /// <summary>
+    /// Connects the vanilla pawn-gizmo extension point to the native command
+    /// while keeping Harmony ownership outside presentation and policy.
+    /// </summary>
     internal static class TaskInterruptPatches
     {
         private const string HarmonyId = "CoolNether123.TaskInterrupt";
