@@ -19,14 +19,14 @@ namespace TaskInterrupt.Settings
                 SettingDefinitions.Toggle(
                     "controls.gizmo",
                     nameof(TaskInterruptSettings.ShowGizmo),
-                    "Show task interrupt command",
+                    "Show Interrupt Task Button",
                     "TaskInterrupt_Settings_ShowGizmo",
                     tooltipKey: "TaskInterrupt_Settings_ShowGizmo_Tip",
                     scribeKey: "showGizmo"),
                 SettingDefinitions.Toggle(
                     "safety.forced",
                     nameof(TaskInterruptSettings.ConfirmForcedTasks),
-                    "Confirm forced tasks",
+                    "Show Confirm Dialog when interrupting forced tasks",
                     "TaskInterrupt_Settings_ConfirmForced",
                     tooltipKey: "TaskInterrupt_Settings_ConfirmForced_Tip",
                     scribeKey: "confirmForcedTasks"),

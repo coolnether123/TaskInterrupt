@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <TaskInterrupt_Name>Task Interrupt</TaskInterrupt_Name>
-  <TaskInterrupt_Command>Break task</TaskInterrupt_Command>
+  <TaskInterrupt_Command>Interrupt Task</TaskInterrupt_Command>
   <TaskInterrupt_Command_Tip>Stop the selected pawns' current tasks and let them choose what to do next. Queued tasks remain queued.</TaskInterrupt_Command_Tip>
   <TaskInterrupt_Settings_Controls>Controls and safety</TaskInterrupt_Settings_Controls>
-  <TaskInterrupt_Settings_ShowGizmo>Show task break command</TaskInterrupt_Settings_ShowGizmo>
-  <TaskInterrupt_Settings_ShowGizmo_Tip>Show the small Break task command for controllable colonists, slaves, children, and overseen colony mechs.</TaskInterrupt_Settings_ShowGizmo_Tip>
-  <TaskInterrupt_Settings_ConfirmForced>Confirm forced tasks</TaskInterrupt_Settings_ConfirmForced>
-  <TaskInterrupt_Settings_ConfirmForced_Tip>Ask before breaking a task the player explicitly forced.</TaskInterrupt_Settings_ConfirmForced_Tip>
+  <TaskInterrupt_Settings_ShowGizmo>Show Interrupt Task Button</TaskInterrupt_Settings_ShowGizmo>
+  <TaskInterrupt_Settings_ShowGizmo_Tip>Show the Interrupt Task button for controllable colonists, slaves, children, and overseen colony mechs. Disabling this renders this mod useless.</TaskInterrupt_Settings_ShowGizmo_Tip>
+  <TaskInterrupt_Settings_ConfirmForced>Show Confirm Dialog when interrupting forced tasks</TaskInterrupt_Settings_ConfirmForced>
+  <TaskInterrupt_Settings_ConfirmForced_Tip>When interrupting multiple pawns at once, ask before interrupting a task you forced a pawn to perform.</TaskInterrupt_Settings_ConfirmForced_Tip>
   <TaskInterrupt_Settings_Goofy>Goofy mode</TaskInterrupt_Settings_Goofy>
   <TaskInterrupt_Settings_Goofy_Tip>Renames the command to Sneeze, rewrites every message it shows, and adds a puff of air and a sound when a task stops. Purely cosmetic: exactly the same tasks can be interrupted either way.</TaskInterrupt_Settings_Goofy_Tip>
-  <TaskInterrupt_ConfirmForced>At least one of the {0} selected pawns is doing forced work. Break the safe tasks anyway?</TaskInterrupt_ConfirmForced>
+  <TaskInterrupt_ConfirmForced>At least one of the {0} selected pawns is doing work you forced. Interrupt the safe tasks anyway?</TaskInterrupt_ConfirmForced>
   <TaskInterrupt_Result>Stopped {0}; skipped {1} protected or unavailable.</TaskInterrupt_Result>
   <TaskInterrupt_Reason_NotControlled>This pawn is not under direct player control.</TaskInterrupt_Reason_NotControlled>
-  <TaskInterrupt_Reason_NoTask>No current task to break.</TaskInterrupt_Reason_NoTask>
-  <TaskInterrupt_Reason_Incapacitated>Incapacitated pawns cannot have their task broken.</TaskInterrupt_Reason_Incapacitated>
+  <TaskInterrupt_Reason_NoTask>No current task to interrupt.</TaskInterrupt_Reason_NoTask>
+  <TaskInterrupt_Reason_Incapacitated>Incapacitated pawns cannot have their task interrupted.</TaskInterrupt_Reason_Incapacitated>
   <TaskInterrupt_Reason_MentalState>Mental-state behavior is not player-controlled.</TaskInterrupt_Reason_MentalState>
-  <TaskInterrupt_Reason_Drafted>Undraft the pawn before breaking a civilian task.</TaskInterrupt_Reason_Drafted>
+  <TaskInterrupt_Reason_Drafted>Undraft the pawn before interrupting a civilian task.</TaskInterrupt_Reason_Drafted>
   <TaskInterrupt_Reason_Deathrest>Deathrest is protected.</TaskInterrupt_Reason_Deathrest>
   <TaskInterrupt_Reason_Caravan>Caravan formation is protected.</TaskInterrupt_Reason_Caravan>
   <TaskInterrupt_Reason_Organized>This pawn is taking part in an organized activity.</TaskInterrupt_Reason_Organized>
@@ -26,7 +26,7 @@
   <TaskInterrupt_Reason_Ritual>Ritual tasks are protected.</TaskInterrupt_Reason_Ritual>
   <TaskInterrupt_Reason_Labor>Labor and birth are protected.</TaskInterrupt_Reason_Labor>
   <TaskInterrupt_Reason_Medical>Medical care is protected.</TaskInterrupt_Reason_Medical>
-  <TaskInterrupt_Reason_Cooldown>Wait a moment before breaking another task.</TaskInterrupt_Reason_Cooldown>
+  <TaskInterrupt_Reason_Cooldown>Wait a moment before interrupting another task.</TaskInterrupt_Reason_Cooldown>
 
   <!-- Goofy mode. Every key below shadows the plain key of the same name and is
        used only while the Goofy mode setting is on. A translation that omits
