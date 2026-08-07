@@ -107,10 +107,10 @@ Two defects this gate caught that the preceding suite build did not:
   compiler warnings.
 - The current shipping DLL is 22,016 bytes with SHA-256
   `E11F55BCDF68E65D6C1824F60464F29CA4B8977924EEF5FE0CC27B81BF83A015`.
-- The Steam release allowlist contains only the runtime payload: `About`, the
-  1.6 assembly, `Defs`, `Languages`, `Patches`, and `Sounds`. `LICENSE` and
-  `README.md` remain in the source repository but are intentionally excluded
-  from the Steam payload.
+- The Steam release allowlist contains only the runtime payload: `About`,
+  `LoadFolders.xml`, the 1.6 assembly, `Shared`, `Languages`, `Patches`, and
+  `Sounds`. `LICENSE` and `README.md` remain in the source repository but are
+  intentionally excluded from the Steam payload.
 - The fresh full compatibility lane passed native `F` activation and state
   safety with the complete `coolnether-suite` profile.
 
@@ -143,3 +143,29 @@ Captures:
 - Settings off: `A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-settings-before-20260807-052053-664.png`
 - Settings on and `Sneeze` label: `A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-current-20260807-052538-309.png`
 - Live Goofy activation: `A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-activation-after-20260807-052631-185.png`
+
+## Compatibility cascade and final focused lane — 2026-08-07
+
+The shared cascade executed 61 actions successfully for 1.6, 1.5, 1.4, 1.3,
+1.2, 1.1, 1.0, 0.19, 0.18, 0.17, 0.16, 0.15, 0.14, 0.13, and Alpha 4.
+The execution journal is recorded in `Engineering/cascade-evidence.json` with
+SHA-256 `CE55AF162CAE5F26FD5BFBCA5F85713764B24AFF149A81F587232439C9B7537C`.
+Each version has a staged `TaskInterrupt.dll` with a recorded size and hash.
+
+The final focused runtime lane was RimWorld 1.6.4871. It verified the native
+`Interrupt Task` gizmo, forced-job interruption to no current job, Alt-click
+settings navigation, Goofy mode save/reopen persistence, the live `Sneeze`
+label, and the same interruption behavior through `Sneeze`. The direct log
+scan found no Task Interrupt-generated error, warning, exception, or missing
+audio entries.
+
+Only 1.6 was runtime-tested because the harness reported 1.6 as the only
+runnable installed game and no older RimWorld executable was available on the
+configured game roots. The older targets are therefore compile/cascade
+verified, not runtime verified.
+
+The final Steam archive is
+`A:/Dev/RimWorld/Releases/TaskInterrupt-1.0.0-steam-rw1.6-20260807-final2.zip`.
+It contains 13 runtime files, includes `LoadFolders.xml` and `Shared/Defs`,
+and contains neither `README.md` nor `LICENSE`. The preview's corrected
+`CoolNether123` author credit is included in that archive.

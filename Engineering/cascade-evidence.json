@@ -1,0 +1,80 @@
+{
+  "recordDate": "2026-08-07",
+  "sourceHeadBeforeFinalReleaseMetadata": "5f1ebcdaf55ad8b723904dd92b0fddeac0f7bb88",
+  "cascade": {
+    "manifest": "Tools/CascadeManifest.json",
+    "planPath": "A:/Dev/Temp/TaskInterrupt-matrix-plan6.json",
+    "planSha256RecordedByJournal": "6C557EA415EE4FBA01429746D3A7C4CC57759B6E1317DEA8BA9534504A627FFB",
+    "journalPath": "A:/Dev/Temp/TaskInterrupt-matrix-20260807e.journal.jsonl",
+    "journalSha256": "CE55AF162CAE5F26FD5BFBCA5F85713764B24AFF149A81F587232439C9B7537C",
+    "completedActions": 61,
+    "result": "Succeeded",
+    "targetVersions": [
+      "1.6",
+      "1.5",
+      "1.4",
+      "1.3",
+      "1.2",
+      "1.1",
+      "1.0",
+      "0.19",
+      "0.18",
+      "0.17",
+      "0.16",
+      "0.15",
+      "0.14",
+      "0.13",
+      "Alpha4"
+    ]
+  },
+  "payloads": {
+    "1.6": { "sizeBytes": 32768, "sha256": "E23D96D11543AE4D6522C51D2990CAF9372A054154CBFC985FB91A2E26E1E77C" },
+    "1.5": { "sizeBytes": 30720, "sha256": "15FB2927D57FDF24F7B6587929A4C8CE343B9BFAC27806AB8F61EDD1B0D8D8EB" },
+    "1.4": { "sizeBytes": 30208, "sha256": "EA8B3114D867514C99AE499163C828EE8D57C0A489D1B5F4B570D0324881B0EB" },
+    "1.3": { "sizeBytes": 29696, "sha256": "0C130CFE0301A035ECA899C42BDD0F1C85687156B8712117AFB789868E0AAD38" },
+    "1.2": { "sizeBytes": 29696, "sha256": "36E3346F94A74A839098E97F8CB0613AA7096D6543ECC31323C6E01162F33C9E" },
+    "1.1": { "sizeBytes": 29696, "sha256": "6B524F02DD62051BD855F54E6DC9739F6B0CF99A71BAA43B96FE6166D4133437" },
+    "1.0": { "sizeBytes": 29184, "sha256": "8551B91C9E91D17198A1DFD5DD495FA5C4E82451552807029FD0AD8AAA012885" },
+    "0.19": { "sizeBytes": 29184, "sha256": "0B325CAECBD4D2BBB8D4ABACE6BC613B7A8DD6EDCDE10868B35887A8064577DD" },
+    "0.18": { "sizeBytes": 29184, "sha256": "3B5B0D31AA48862DD76674E24DBB6B763C3010FFD9B0153C323E46D03A5F9CFD" },
+    "0.17": { "sizeBytes": 29184, "sha256": "7B40B0D7E538A828C169A5C6ADDEA4489ECD7AB36A5B4E0A740385D76A7EE6CC" },
+    "0.16": { "sizeBytes": 28160, "sha256": "E1B15A7336C94BA913A2D648B4CE992897FB98A13AB07FB8FD6A44EF943452B3" },
+    "0.15": { "sizeBytes": 28160, "sha256": "CB48DEE3CF5BE85783964E56515C32246D77043C397045CE7FDDB749E950DCD2" },
+    "0.14": { "sizeBytes": 27648, "sha256": "0BF2B6E9163E5F43FF9B83EC0D7340DBBEE27CC0806355A3CA66ACB942BA2829" },
+    "0.13": { "sizeBytes": 27648, "sha256": "2608F527D2F48DA4A7F42235EE702115FD609955A492B66015627D65D601E60F" },
+    "Alpha4": { "sizeBytes": 27648, "sha256": "B34D0EE42547D60F90384F5CC00098D70B17FDDCC571D8C5CF3E3C9E52E8A5A9" }
+  },
+  "runtime": {
+    "harnessDoctorRunnableVersions": ["1.6"],
+    "runtimeTestedVersions": ["1.6"],
+    "olderVersionRuntimeStatus": "Not runtime-tested: no runnable older RimWorld executable was installed or found on the configured game roots.",
+    "gameExecutable": "H:/Games/RimWorld1-6-4871Win64/RimWorldWin64.exe",
+    "sessionId": "Codex-bfa2ac4503e64b5e884506574b9f3ac6",
+    "harmonySummary": "patchedMethods=7; CoolNether123.TaskInterrupt=1",
+    "ordinaryButton": "Interrupt Task semantic click activated; forced Wait_Wander ended with job.def=<none> and job.id=-1.",
+    "altClickSettings": "Alt-click opened RimWorld.Dialog_ModSettings for CoolNether123.TaskInterrupt.",
+    "goofySettings": "Goofy mode changed false to true, saved, reopened, and read back true.",
+    "goofyButton": "The live gizmo label changed to Sneeze.",
+    "goofyButtonAction": "Sneeze semantic click activated; forced Wait_Wander ended with job.def=<none> and job.id=-1.",
+    "logAudit": "No Task Interrupt-generated Error, Warning, Exception, or missing-audio lines were found in the final Player.log. Harness command/package records are not mod logging.",
+    "capturePaths": [
+      "A:/Dev/RimWorld/Runtime/AgentLanes/1.6/Codex-bfa2ac4503e64b5e884506574b9f3ac6/ipc/captures/final-ordinary-interrupt-20260807-080228-713.png",
+      "A:/Dev/RimWorld/Runtime/AgentLanes/1.6/Codex-bfa2ac4503e64b5e884506574b9f3ac6/ipc/captures/final-goofy-settings-20260807-20260807-080656-719.png"
+    ]
+  },
+  "steamPayload": {
+    "archive": "A:/Dev/RimWorld/Releases/TaskInterrupt-1.0.0-steam-rw1.6-20260807-final2.zip",
+    "fileCount": 13,
+    "containsReadme": false,
+    "containsLicense": false,
+    "dllSha256": "E23D96D11543AE4D6522C51D2990CAF9372A054154CBFC985FB91A2E26E1E77C",
+    "previewSha256": "3EE978BEC09B29AE6793747FA9552F5F6893BF45D40C45BED7D4AC5B86F4589E",
+    "requiredLayout": ["About", "LoadFolders.xml", "1.6/Assemblies/TaskInterrupt.dll", "Shared", "Languages", "Patches", "Sounds"]
+  },
+  "preview": {
+    "path": "About/Preview.png",
+    "sha256": "3EE978BEC09B29AE6793747FA9552F5F6893BF45D40C45BED7D4AC5B86F4589E",
+    "authorCredit": "CoolNether123",
+    "versionLabel": "1.0.0"
+  }
+}
