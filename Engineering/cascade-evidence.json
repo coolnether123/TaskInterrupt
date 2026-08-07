@@ -51,7 +51,7 @@
     "gameExecutable": "H:/Games/RimWorld1-6-4871Win64/RimWorldWin64.exe",
     "sessionId": "Codex-bfa2ac4503e64b5e884506574b9f3ac6",
     "harmonySummary": "patchedMethods=7; CoolNether123.TaskInterrupt=1",
-    "ordinaryButton": "Interrupt Task semantic click activated; forced Wait_Wander ended with job.def=<none> and job.id=-1.",
+    "ordinaryButton": "Interrupt semantic click activated; forced Wait_Wander ended with job.def=<none> and job.id=-1.",
     "altClickSettings": "Alt-click opened RimWorld.Dialog_ModSettings for CoolNether123.TaskInterrupt.",
     "goofySettings": "Goofy mode changed false to true, saved, reopened, and read back true.",
     "goofyButton": "The live gizmo label changed to Sneeze.",
