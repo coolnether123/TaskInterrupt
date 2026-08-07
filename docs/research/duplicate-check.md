@@ -16,7 +16,7 @@ queued jobs. The item was posted on 2026-03-18 and now reports that it was
 removed for Steam Community/content-guideline reasons. No public source or
 license was found, so no code was inspected or copied.
 
-Task Break remains distinct and justified because Stop Gizmo is unavailable,
+Task Interrupt remains distinct and justified because Stop Gizmo is unavailable,
 not maintained, broader in entity scope, collision-prone by default, and does
 not document the guarded medical, labor, caravan, ritual, quest, mental-state,
 deathrest, mixed-selection, or forced-work behavior required here.
@@ -28,7 +28,7 @@ Source: <https://steamcommunity.com/sharedfiles/filedetails/?id=3687438256>
 Achtung is an actively developed command-and-forced-work overhaul. Community
 documentation describes its stop behavior in the context of its own forced
 work and queued jobs. It is not a small standalone safety-focused replacement
-for cancelling an ordinary current task. Task Break does not copy or depend on
+for cancelling an ordinary current task. Task Interrupt does not copy or depend on
 Achtung and does not modify its job definitions.
 
 Sources:

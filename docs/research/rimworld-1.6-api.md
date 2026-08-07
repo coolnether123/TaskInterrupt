@@ -16,7 +16,7 @@ pawn on fire. Calling `EndCurrentJob(JobCondition.InterruptForced)` then:
 - keeps the existing queued-job collection; and
 - asks the think tree for the next job.
 
-Task Break sets the same `Job.playerInterruptedForced` marker used by vanilla
+Task Interrupt sets the same `Job.playerInterruptedForced` marker used by vanilla
 ordered-job interruption before calling this API. It does not call
 `ClearQueuedJobs`, `StopAll`, or draft-state setters.
 
@@ -24,7 +24,7 @@ ordered-job interruption before calling this API. It does not call
 
 `JobDef.playerInterruptible` and `forceCompleteBeforeNextJob` already express
 important safety decisions, including uninterruptible ability casting,
-vomiting, mind-controlled movement, and Biotech safety jobs. Task Break honors
+vomiting, mind-controlled movement, and Biotech safety jobs. Task Interrupt honors
 these fields dynamically for vanilla and modded job definitions.
 
 Additional authoritative state used by the policy:
@@ -42,7 +42,7 @@ Additional authoritative state used by the policy:
 `Command_Action`. The command uses a normal `KeyBindingDef`, so RimWorld owns
 key conflict presentation and produces only a `KeyDown` event. Both binding
 keyboard slots remain player-configurable. The primary defaults to `F`; vanilla also
-uses F for the item-only Toggle forbidden command, while Task Break is exposed
+uses F for the item-only Toggle forbidden command, while Task Interrupt is exposed
 for controllable pawns. The secondary defaults to `None`. The mod deliberately
 uses only RimWorld's native command hotkey path: it does not extend the binding
 dialog, translate mouse events, or poll input from `UIRoot_Play`. When the gizmo
