@@ -10,8 +10,9 @@
   "packageId": "CoolNether123.TaskInterrupt",
   "releaseIncludePaths": [
     "About",
+    "LoadFolders.xml",
     "1.6/Assemblies/TaskInterrupt.dll",
-    "Defs",
+    "Shared",
     "Languages",
     "Patches",
     "Sounds"
