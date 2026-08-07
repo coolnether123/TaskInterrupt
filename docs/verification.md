@@ -121,7 +121,7 @@ Focused live session: `TaskBreak-eb8d1908bf8c43069d8484abab714c96`.
 - The real in-game settings window showed `Goofy mode` off, then the live
   settings write used RimWorld's normal `Mod.WriteSettings()` path to turn it
   on. A follow-up in-game capture showed the green check and the command label
-  changed from `Interrupt Task` to `Sneeze`.
+  changed from `Interrupt` to `Sneeze`.
 - With a selected pawn on `Wait`, the native `F` hotkey changed the job to
   `Wait_Wander` while draft, queued-job, carried-item, and reservation state
   stayed clear. The Unity capture visibly showed `AH-CHOO!` over the pawn and
@@ -153,7 +153,7 @@ SHA-256 `CE55AF162CAE5F26FD5BFBCA5F85713764B24AFF149A81F587232439C9B7537C`.
 Each version has a staged `TaskInterrupt.dll` with a recorded size and hash.
 
 The final focused runtime lane was RimWorld 1.6.4871. It verified the native
-`Interrupt Task` gizmo, forced-job interruption to no current job, Alt-click
+`Interrupt` gizmo, forced-job interruption to no current job, Alt-click
 settings navigation, Goofy mode save/reopen persistence, the live `Sneeze`
 label, and the same interruption behavior through `Sneeze`. The direct log
 scan found no Task Interrupt-generated error, warning, exception, or missing
