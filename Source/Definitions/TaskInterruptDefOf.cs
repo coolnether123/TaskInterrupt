@@ -1,3 +1,6 @@
+#if TASK_INTERRUPT_HAS_DEFOF
+using System;
+using System.Reflection;
 using RimWorld;
 using Verse;
 
@@ -16,7 +19,17 @@ namespace TaskInterrupt.Definitions
 
         static TaskInterruptDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(TaskInterruptDefOf));
+            MethodInfo ensure = typeof(DefOfHelper).GetMethod(
+                "EnsureInitializedInCtor",
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(Type) },
+                null);
+            if (ensure != null)
+            {
+                ensure.Invoke(null, new object[] { typeof(TaskInterruptDefOf) });
+            }
         }
     }
 }
+#endif

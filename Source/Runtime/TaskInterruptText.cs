@@ -30,25 +30,24 @@ namespace TaskInterrupt.Runtime
             }
 
             string goofy = GoofyPrefix + key.Substring(Prefix.Length);
+#if TASK_INTERRUPT_NO_MOD_API
+            return key;
+#else
             return goofy.CanTranslate() ? goofy : key;
+#endif
         }
 
-        internal static TaggedString Translate(string key)
+        internal static string Translate(string key)
         {
-            return Key(key).Translate();
+            return Key(key).Translate().ToString();
         }
 
-        internal static TaggedString Translate(string key, NamedArgument arg)
+        internal static string Translate(string key, params object[] args)
         {
-            return Key(key).Translate(arg);
-        }
-
-        internal static TaggedString Translate(
-            string key,
-            NamedArgument first,
-            NamedArgument second)
-        {
-            return Key(key).Translate(first, second);
+            string translated = Translate(key);
+            return args == null || args.Length == 0
+                ? translated
+                : string.Format(translated, args);
         }
 
         internal static string Reason(TaskInterruptBlockReason reason)

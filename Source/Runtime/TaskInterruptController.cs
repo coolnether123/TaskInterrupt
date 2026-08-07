@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using TaskInterrupt.Bootstrap;
+using TaskInterrupt.Compatibility;
 using TaskInterrupt.Domain;
 using UnityEngine;
 using Verse;
@@ -21,15 +21,14 @@ namespace TaskInterrupt.Runtime
         private static TaskInterruptDecision cachedFirstDecision;
         private static int cachedDecisionFrame = -1;
 
-        internal static IReadOnlyList<Pawn> SelectedSupportedPawns()
+        internal static List<Pawn> SelectedSupportedPawns()
         {
             // Stable pawn order makes the reported first rejection independent
             // of RimWorld's selection enumeration.
-            return Find.Selector.SelectedPawns
+            return TaskInterruptApi.SelectedPawns()
                 .Where(pawn => pawn != null &&
-                    (pawn.IsColonistPlayerControlled ||
-                     pawn.IsColonyMechPlayerControlled))
-                .OrderBy(pawn => pawn.thingIDNumber)
+                    TaskInterruptApi.IsPlayerControlled(pawn))
+                .OrderBy(TaskInterruptApi.ThingId)
                 .ToList();
         }
 
@@ -43,7 +42,7 @@ namespace TaskInterrupt.Runtime
 
             // Grouped gizmos construct one command per pawn; a frame-local
             // aggregate avoids repeating the full selection safety scan.
-            IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
+            List<Pawn> pawns = SelectedSupportedPawns();
             TaskInterruptDecision result = new TaskInterruptDecision(
                 TaskInterruptBlockReason.NoCurrentTask);
             for (int i = 0; i < pawns.Count; i++)
@@ -71,10 +70,9 @@ namespace TaskInterrupt.Runtime
             TaskInterruptDecision decision = FirstDecision();
             if (!decision.CanBreak)
             {
-                Messages.Message(
+                TaskInterruptUiApi.ShowMessage(
                     TaskInterruptText.Reason(decision.BlockReason),
-                    MessageTypeDefOf.RejectInput,
-                    historical: false);
+                    "RejectInput");
                 return;
             }
 
@@ -83,7 +81,7 @@ namespace TaskInterrupt.Runtime
 
         private static void InterruptSelected()
         {
-            IReadOnlyList<Pawn> pawns = SelectedSupportedPawns();
+            List<Pawn> pawns = SelectedSupportedPawns();
             // Only ask when more than one pawn is selected. Interrupting one
             // pawn's forced work means the player changed their mind about that
             // pawn and a prompt is just a click in the way. Interrupting several
@@ -96,18 +94,23 @@ namespace TaskInterrupt.Runtime
             if (needsConfirmation &&
                 TaskInterruptMod.Settings.ConfirmForcedTasks)
             {
-                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                    TaskInterruptText.Translate(
-                        "TaskInterrupt_ConfirmForced", pawns.Count),
-                    () => Execute(pawns),
-                    destructive: false));
+                if (TaskInterruptUiApi.Confirm(
+                        TaskInterruptText.Translate(
+                            "TaskInterrupt_ConfirmForced", pawns.Count),
+                        () => Execute(pawns)))
+                {
+                    return;
+                }
+
+                // Very old builds do not expose a confirmation window. Keep
+                // the forced-work safety rule fail-closed on those APIs.
                 return;
             }
 
             Execute(pawns);
         }
 
-        private static void Execute(IReadOnlyList<Pawn> pawns)
+        private static void Execute(List<Pawn> pawns)
         {
             int stopped = 0;
             int skipped = 0;
@@ -120,8 +123,8 @@ namespace TaskInterrupt.Runtime
                     PawnTaskInterruptAssessment.Evaluate(pawn);
                 if (!decision.CanBreak ||
                     !ActivationGate.TryEnter(
-                        pawn.thingIDNumber,
-                        Find.TickManager.TicksGame))
+                        TaskInterruptApi.ThingId(pawn),
+                        TaskInterruptApi.CurrentTick()))
                 {
                     if (firstBlockReason == TaskInterruptBlockReason.None)
                     {
@@ -133,8 +136,12 @@ namespace TaskInterrupt.Runtime
                     continue;
                 }
 
-                pawn.jobs.curJob.playerInterruptedForced = true;
-                pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                TaskInterruptApi.MarkPlayerInterruptedForced(pawn);
+                if (!TaskInterruptApi.EndCurrentJob(pawn))
+                {
+                    skipped++;
+                    continue;
+                }
                 GoofyMode.Celebrate(pawn);
                 stopped++;
             }
@@ -142,18 +149,16 @@ namespace TaskInterrupt.Runtime
             if (stopped == 0 &&
                 firstBlockReason != TaskInterruptBlockReason.None)
             {
-                Messages.Message(
+                TaskInterruptUiApi.ShowMessage(
                     TaskInterruptText.Reason(firstBlockReason),
-                    MessageTypeDefOf.RejectInput,
-                    historical: false);
+                    "RejectInput");
             }
             else if (skipped > 0)
             {
-                Messages.Message(
+                TaskInterruptUiApi.ShowMessage(
                     TaskInterruptText.Translate(
                         "TaskInterrupt_Result", stopped, skipped),
-                    MessageTypeDefOf.NeutralEvent,
-                    historical: false);
+                    "NeutralEvent");
             }
         }
     }

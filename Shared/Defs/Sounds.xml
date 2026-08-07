@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
-  <!-- Cosmetic. Only played when the Goofy mode setting is enabled; the def is
-       always loaded so that toggling the setting needs no reload. -->
   <SoundDef>
     <defName>TaskInterrupt_Achoo</defName>
     <context>MapOnly</context>
     <maxSimultaneous>3</maxSimultaneous>
     <subSounds>
       <li>
-        <!-- Four takes so a colony-wide interrupt does not sound like one
-             sample fired four times. All four are loudness-matched to within
-             2 dB, so which one plays is not something a player can hear. -->
         <grains>
           <li Class="AudioGrain_Clip">
             <clipPath>TaskInterrupt/Sneeze0</clipPath>
@@ -28,12 +22,8 @@
         </grains>
         <volumeRange>26~32</volumeRange>
         <pitchRange>0.88~1.14</pitchRange>
-        <!-- 0~70 matches vanilla's dominant one-shot falloff. The original
-             0~32 was measured from the camera, not the pawn, so the sneeze
-             was inaudible at anything but a close zoom and read as broken. -->
         <distRange>0~70</distRange>
       </li>
     </subSounds>
   </SoundDef>
-
 </Defs>

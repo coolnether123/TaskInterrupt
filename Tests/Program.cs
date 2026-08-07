@@ -116,6 +116,7 @@ namespace TaskInterrupt.Tests
             string root = RepositoryRoot();
             var document = XDocument.Load(Path.Combine(
                 root,
+                "Shared",
                 "Defs",
                 "KeyBindings.xml"));
             string first = document.Root?
@@ -135,6 +136,7 @@ namespace TaskInterrupt.Tests
             string root = RepositoryRoot();
             var keyBindings = XDocument.Load(Path.Combine(
                 root,
+                "Shared",
                 "Defs",
                 "KeyBindings.xml"));
             string ignoredByTaskInterrupt = keyBindings.Root?
