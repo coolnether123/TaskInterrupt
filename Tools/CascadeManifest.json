@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "task-interrupt",
-  "strategy": "support-branches",
+  "strategy": "matrix",
+  "allowRealExecution": true,
   "sourceBranch": "main",
   "sourceVersion": "1.6",
   "supportVersions": [
@@ -60,7 +61,7 @@
   },
   "hooks": [],
   "additionalActions": [],
-  "copyBack": true,
+  "copyBack": false,
   "push": false,
-  "restoreSource": true
+  "restoreSource": false
 }
