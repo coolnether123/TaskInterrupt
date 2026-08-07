@@ -3,7 +3,7 @@
 Task Interrupt is a RimWorld 1.6 quality-of-life mod for stopping a controllable
 pawn's current task without the draft/undraft dance.
 
-Select one pawn or a mixed group and use **Break task**. Every safe selected
+Select one pawn or a mixed group and use **Interrupt Task**. Every safe selected
 pawn stops the current task, keeps any queued tasks, and immediately returns
 to normal AI decision-making. The command uses RimWorld's own interruption and
 cleanup path, so reservations and carried items receive normal job-driver

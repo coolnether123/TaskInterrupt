@@ -2,7 +2,7 @@
 <Defs>
   <KeyBindingDef ParentName="SelectionSpecialKeyBinding">
     <defName>TaskInterrupt_CancelCurrentTask</defName>
-    <label>Task Interrupt: cancel current task</label>
+    <label>Task Interrupt: interrupt current task</label>
     <defaultKeyCodeA>F</defaultKeyCodeA>
     <defaultKeyCodeB>None</defaultKeyCodeB>
     <ignoreConflictsWith>

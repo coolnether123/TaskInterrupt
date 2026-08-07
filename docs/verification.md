@@ -24,7 +24,7 @@ was refreshed.
 ## Final combined live lane
 
 Session `coolnether-suite-7dec0af702844a49b737a13f4b23608f` loaded Task
-Break with Spine, Better Work Tab, the other seven gameplay mods, Harmony,
+Interrupt alongside Spine, Better Work Tab, the other seven gameplay mods, Harmony,
 Vehicle Framework, Save Our Ship 2, Ideology, and Biotech.
 
 | Scenario | Result |
@@ -73,7 +73,7 @@ the command rather than advertising Alt-click.
 
 ## Public-release gate — 2026-08-05
 
-Re-run after the Task Break to Task Interrupt rename, the drafted-pawn gizmo
+Re-run after the Task Interrupt rename, the drafted-pawn gizmo
 rule, and Goofy mode. Everything below was measured on this date.
 
 - `dotnet run --project Tests\Mod.Tests.csproj -c Release` reported
