@@ -1,7 +1,10 @@
-using RimWorld;
+#if TASK_INTERRUPT_USE_SPINE
 using Spine.UI.ContextualSettings;
+#endif
 using TaskInterrupt.Bootstrap;
+#if TASK_INTERRUPT_HAS_DEFOF
 using TaskInterrupt.Definitions;
+#endif
 using TaskInterrupt.Domain;
 using TaskInterrupt.Runtime;
 using UnityEngine;
@@ -22,11 +25,14 @@ namespace TaskInterrupt.Presentation
             defaultLabel = TaskInterruptText.Translate("TaskInterrupt_Command");
             defaultDesc = TaskInterruptText.Translate("TaskInterrupt_Command_Tip");
             icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt");
+#if TASK_INTERRUPT_HAS_DEFOF
             hotKey = TaskInterruptDefOf.TaskInterrupt_CancelCurrentTask;
+#endif
             groupKey = SharedGroupKey;
+#if TASK_INTERRUPT_USE_SPINE
             alsoClickIfOtherInGroupClicked = false;
             Order = float.MaxValue;
-            shrinkable = true;
+#endif
             action = TaskInterruptController.ActivateSelected;
 
             TaskInterruptDecision decision =
@@ -37,6 +43,7 @@ namespace TaskInterrupt.Presentation
             }
         }
 
+#if TASK_INTERRUPT_USE_SPINE
         public override GizmoResult GizmoOnGUI(
             Vector2 topLeft,
             float maxWidth,
@@ -73,7 +80,8 @@ namespace TaskInterrupt.Presentation
                     visibleRect,
                     ContextualSettingsTarget.Exact(
                         "controls.gizmo",
-                        "controls.header")) == true;
+                    "controls.header")) == true;
         }
+#endif
     }
 }

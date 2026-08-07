@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-using Spine.UI.SettingsFramework;
-
 namespace TaskInterrupt.Settings
 {
+#if TASK_INTERRUPT_USE_SPINE
+    using System.Collections.Generic;
+    using Spine.UI.SettingsFramework;
+
     /// <summary>
     /// Declares the complete settings surface once for Spine to render, bind,
     /// and persist without a mod-specific settings window.
@@ -43,4 +44,9 @@ namespace TaskInterrupt.Settings
                     scribeKey: "goofyMode")
             };
     }
+#else
+    internal static class TaskInterruptSettingsRegistry
+    {
+    }
+#endif
 }

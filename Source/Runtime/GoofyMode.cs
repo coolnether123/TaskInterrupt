@@ -1,8 +1,10 @@
-using RimWorld;
 using TaskInterrupt.Bootstrap;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+#if TASK_INTERRUPT_HAS_MODERN_EFFECTS || !TASK_INTERRUPT_LEGACY_API
+using RimWorld;
+#endif
 
 namespace TaskInterrupt.Runtime
 {
@@ -44,6 +46,9 @@ namespace TaskInterrupt.Runtime
         /// </summary>
         internal static void Celebrate(Pawn pawn)
         {
+#if TASK_INTERRUPT_LEGACY_API && !TASK_INTERRUPT_HAS_MODERN_EFFECTS
+            return;
+#else
             if (!Active || pawn == null || !pawn.Spawned)
             {
                 return;
@@ -75,6 +80,7 @@ namespace TaskInterrupt.Runtime
                 sound.PlayOneShot(
                     SoundInfo.InMap(new TargetInfo(pawn.Position, map)));
             }
+#endif
         }
 
         /// <summary>
@@ -84,13 +90,15 @@ namespace TaskInterrupt.Runtime
         private static string Shout(Pawn pawn)
         {
             int seed = pawn.thingIDNumber;
+#if !TASK_INTERRUPT_NO_MOD_API
             if (Find.TickManager != null)
             {
                 seed += Find.TickManager.TicksGame / 60;
             }
+#endif
 
             int index = Mathf.Abs(seed) % ShoutKeys.Length;
-            return ShoutKeys[index].Translate();
+            return ShoutKeys[index].Translate().ToString();
         }
     }
 }

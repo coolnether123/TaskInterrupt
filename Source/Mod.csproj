@@ -2,12 +2,90 @@
   <PropertyGroup>
     <RwtIsRimWorldMod>true</RwtIsRimWorldMod>
     <TargetFramework>net472</TargetFramework>
+    <Configurations>Debug;Release;1.6;1.5;1.4;1.3;1.2;1.1;1.0;0.19;0.18;0.17;0.16;0.15;0.14;0.13;Alpha4</Configurations>
     <AssemblyName>TaskInterrupt</AssemblyName>
     <RootNamespace>TaskInterrupt</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DisableImplicitConfigurationDefines>true</DisableImplicitConfigurationDefines>
     <OutputPath>..\1.6\Assemblies\</OutputPath>
     <RwtUseHarmony>true</RwtUseHarmony>
-    <RwtUseSpine>true</RwtUseSpine>
-    <RwtUseUnityImGui>true</RwtUseUnityImGui>
+    <RwtUseSpine>false</RwtUseSpine>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '1.6'">
+    <RwtIsRimWorldMod>true</RwtIsRimWorldMod>
+    <RwtUseSpine>true</RwtUseSpine>
+    <DefineConstants>TASK_INTERRUPT_USE_SPINE;TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TRACE</DefineConstants>
+    <OutputPath>..\1.6\Assemblies\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '1.5'">
+    <RwtIsRimWorldMod>true</RwtIsRimWorldMod>
+    <TargetFramework>net472</TargetFramework>
+    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_HAS_MODERN_EFFECTS;TASK_INTERRUPT_LEGACY_API;TRACE</DefineConstants>
+    <OutputPath>..\$(Configuration)\Assemblies\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '1.4' Or '$(Configuration)' == '1.3' Or '$(Configuration)' == '1.2' Or '$(Configuration)' == '1.1'">
+    <RwtIsRimWorldMod>true</RwtIsRimWorldMod>
+    <TargetFramework>net472</TargetFramework>
+    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_LEGACY_API;TRACE</DefineConstants>
+    <OutputPath>..\$(Configuration)\Assemblies\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '1.0' Or '$(Configuration)' == '0.19' Or '$(Configuration)' == '0.18' Or '$(Configuration)' == '0.17'">
+    <RwtIsRimWorldMod>false</RwtIsRimWorldMod>
+    <TargetFramework>net35</TargetFramework>
+    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
+    <OutputPath Condition="'$(Configuration)' == '1.0'">..\1.0\Assemblies\</OutputPath>
+    <OutputPath Condition="'$(Configuration)' != '1.0'">..\$(Configuration)\Assemblies\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '0.16' Or '$(Configuration)' == '0.15'">
+    <RwtIsRimWorldMod>false</RwtIsRimWorldMod>
+    <TargetFramework>net35</TargetFramework>
+    <DefineConstants>TASK_INTERRUPT_NO_MOD_API;TASK_INTERRUPT_STATIC_BOOTSTRAP;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
+    <OutputPath>..\$(Configuration)\Assemblies\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '0.14' Or '$(Configuration)' == '0.13' Or '$(Configuration)' == 'Alpha4'">
+    <RwtIsRimWorldMod>false</RwtIsRimWorldMod>
+    <TargetFramework>net35</TargetFramework>
+    <DefineConstants>TASK_INTERRUPT_NO_MOD_API;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
+    <OutputPath Condition="'$(Configuration)' == 'Alpha4'">..\Alpha4\Assemblies\</OutputPath>
+    <OutputPath Condition="'$(Configuration)' != 'Alpha4'">..\$(Configuration)\Assemblies\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == '0.14' Or '$(Configuration)' == '0.13'">
+    <DefineConstants>TASK_INTERRUPT_NO_MOD_API;TASK_INTERRUPT_STATIC_BOOTSTRAP;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(RwtIsRimWorldMod)' != 'true'">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(RimWorldManagedDir)\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(RimWorldManagedDir)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI" Condition="Exists('$(RimWorldManagedDir)\UnityEngine.UI.dll')">
+      <HintPath>$(RimWorldManagedDir)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony"
+               Condition="'$(Configuration)' == '1.0' Or '$(Configuration)' == '0.19' Or '$(Configuration)' == '0.18' Or '$(Configuration)' == '0.17' Or '$(Configuration)' == '0.16' Or '$(Configuration)' == '0.15' Or '$(Configuration)' == '0.14' Or '$(Configuration)' == '0.13' Or '$(Configuration)' == 'Alpha4'">
+      <HintPath>$(NuGetPackageRoot)lib.harmony\2.3.6\lib\net35\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony"
+               Condition="'$(Configuration)' != '1.0' And '$(Configuration)' != '0.19' And '$(Configuration)' != '0.18' And '$(Configuration)' != '0.17' And '$(Configuration)' != '0.16' And '$(Configuration)' != '0.15' And '$(Configuration)' != '0.14' And '$(Configuration)' != '0.13' And '$(Configuration)' != 'Alpha4'">
+      <HintPath>$(RwtDependencyHarmony)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
 </Project>
