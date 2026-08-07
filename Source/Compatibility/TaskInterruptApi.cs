@@ -303,11 +303,7 @@ namespace TaskInterrupt.Compatibility
                     parameterIndex++)
                 {
                     ParameterInfo parameter = parameters[parameterIndex];
-                    if (parameter.HasDefaultValue)
-                    {
-                        arguments[parameterIndex] = parameter.DefaultValue;
-                    }
-                    else if (parameter.ParameterType.IsValueType)
+                    if (parameter.ParameterType.IsValueType)
                     {
                         arguments[parameterIndex] = Activator.CreateInstance(
                             parameter.ParameterType);
