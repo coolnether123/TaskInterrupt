@@ -296,9 +296,23 @@ namespace TaskInterrupt.Compatibility
                     continue;
                 }
 
-                object[] arguments = parameters.Length == 1
-                    ? new object[] { condition }
-                    : new object[] { condition, false };
+                object[] arguments = new object[parameters.Length];
+                arguments[0] = condition;
+                for (int parameterIndex = 1;
+                    parameterIndex < parameters.Length;
+                    parameterIndex++)
+                {
+                    ParameterInfo parameter = parameters[parameterIndex];
+                    if (parameter.HasDefaultValue)
+                    {
+                        arguments[parameterIndex] = parameter.DefaultValue;
+                    }
+                    else if (parameter.ParameterType.IsValueType)
+                    {
+                        arguments[parameterIndex] = Activator.CreateInstance(
+                            parameter.ParameterType);
+                    }
+                }
                 method.Invoke(jobs, arguments);
                 return true;
             }
