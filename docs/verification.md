@@ -1,14 +1,14 @@
 # Verification record
 
-Task Interrupt was built and exercised against RimWorld 1.6.4871. The current
-implementation is keyboard-only and uses RimWorld's native command hotkey
-surface; it owns no mouse-input adapter or global input poll.
+Task Interrupt was built and exercised against RimWorld 1.6.4871 on 2026-08-07.
+The current implementation is keyboard-only and uses RimWorld's native command
+hotkey surface; it owns no mouse-input adapter or global input poll.
 
 ## Current artifact
 
 - Shipping DLL SHA-256:
-  `B394220B871A48A33CD787ADC94D32D84EF9FD228BA53C2C63C97D768FDA44AC`.
-- Shipping DLL size: 19,456 bytes.
+  `E11F55BCDF68E65D6C1824F60464F29CA4B8977924EEF5FE0CC27B81BF83A015`.
+- Shipping DLL size: 22,016 bytes.
 - Assembly version: 1.0.0.0.
 - Automated contracts: 15/15 passed, 76 assertions.
 - Package validation: `RWT-BUILD-PACKAGE-VALID`; the shipping package has one
@@ -21,26 +21,25 @@ prefix, the `UIRoot_Play` input postfix, and the InputLegacy project reference.
 The net source/test/documentation change removed 371 lines before this record
 was refreshed.
 
-## Final combined live lane
+## Final combined live lane — 2026-08-07
 
-Session `coolnether-suite-7dec0af702844a49b737a13f4b23608f` loaded Task
-Interrupt alongside Spine, Better Work Tab, the other seven gameplay mods, Harmony,
-Vehicle Framework, Save Our Ship 2, Ideology, and Biotech.
+Session `coolnether-suite-5fdd4071f3b345cbbb68688fc8331371` used the maintained
+`coolnether-suite` profile. All 16 declared non-core packages loaded, including
+Spine, Better Work Tab, the other seven gameplay mods, Harmony, Vehicle
+Framework, Save Our Ship 2, Ideology, Biotech, and Task Interrupt.
 
 | Scenario | Result |
 | --- | --- |
-| Native F input | Passed. With only ordinary inspect windows open, RimWorld's native gizmo hotkey changed pawn 22374 from `Wait` job 563 to `Wait_Wander` job 988. |
+| Native F input | Passed. RimWorld's native gizmo hotkey changed pawn 40060 from `Wait` job 76 to `Wait_Wander` job 77. |
 | State safety | Passed. Draft remained false; queue, carried item, and reservation counts remained zero. |
 | Input ownership | Passed. Harmony summary reports `CoolNether123.TaskInterrupt=1`; no dialog or global-update patch remains. |
-| Filter by Example coexistence | Passed. The same lane activated **Allow by example** through an ordinary native click with `matched=1`, `activated=True`. |
-| Save and reload | Passed. `FinalSuite_Current` completed load generation 1 and returned paused. |
-| Developer mode | Passed. `devMode=True` after reload. |
-| Logs | Passed. No matching in-game exception, no OnGUI misuse, and no Task Interrupt error. |
+| Full-stack startup | Passed. All declared packages were active in the generated colony. |
+| Logs | Passed for Task Interrupt. No Task Interrupt exception or error was present. Vehicle Framework emitted one dedicated-thread `ThreadAbortException` during normal lane shutdown; it is external to Task Interrupt. |
 
-Evidence session: `coolnether-suite-7dec0af702844a49b737a13f4b23608f`.
+Evidence session: `coolnether-suite-5fdd4071f3b345cbbb68688fc8331371`.
 
 Final capture:
-`final-suite-ready-20260802-062141-836.png`
+`A:/Dev/RimWorld/Runtime/AgentLanes/1.6/coolnether-suite-5fdd4071f3b345cbbb68688fc8331371/ipc/captures/taskinterrupt-fullsuite-after-20260807-050726-411.png`
 
 ## Covered safety behavior
 
@@ -52,16 +51,9 @@ Task Interrupt never drafts or undrafts, never clears queued jobs, and defers to
 `IsCurrentJobPlayerInterruptible` before using the vanilla forced-interruption
 path.
 
-At the time of this record Spine had no public distribution URL, so RimWorld
-emitted its missing-URL metadata warning. Spine's repository is public as of
-2026-08-05 and `About.xml` names it, so that warning no longer applies.
-
-The current candidate is a centralized-service and assembly-metadata rebuild
-against Spine SHA-256
-`3E857A09793BBFF839D0C18D197E480C9365B6384148F49F48669F068BBB9086`.
-The combined live lane above remains exact evidence for its named historical
-assembly; the parent release pass must record a final combined launch for this
-candidate.
+Spine's public repository URL is present in `About.xml`, so the missing-URL
+metadata warning does not apply. The current candidate was built against
+Spine SHA-256 `A63C2DC0D0FA138251E02144C282BF93C0CD1ADA552803DD67F86F9E11301201`.
 ## Final release-candidate gate — 2026-08-03
 
 Passed 15 contracts (76 assertions), clean build, and package checks. Live
@@ -108,5 +100,46 @@ Two defects this gate caught that the preceding suite build did not:
    audio it names, so an enabled Goofy mode would have been silent and logged
    a missing-clip error on every activation.
 
-Not covered by this gate: a fresh combined live lane with the full mod list,
-last exercised at the 2026-08-03 gate under the mod's previous name.
+## Final public-release gate — 2026-08-07
+
+- The 15 automated contracts and 76 assertions passed.
+- The centralized RimWorld 1.6 build passed with zero compiler errors and zero
+  compiler warnings.
+- The current shipping DLL is 22,016 bytes with SHA-256
+  `E11F55BCDF68E65D6C1824F60464F29CA4B8977924EEF5FE0CC27B81BF83A015`.
+- The Steam release allowlist contains only the runtime payload: `About`, the
+  1.6 assembly, `Defs`, `Languages`, `Patches`, and `Sounds`. `LICENSE` and
+  `README.md` remain in the source repository but are intentionally excluded
+  from the Steam payload.
+- The fresh full compatibility lane passed native `F` activation and state
+  safety with the complete `coolnether-suite` profile.
+
+## Goofy Mode and settings persistence — 2026-08-07
+
+Focused live session: `TaskBreak-eb8d1908bf8c43069d8484abab714c96`.
+
+- The real in-game settings window showed `Goofy mode` off, then the live
+  settings write used RimWorld's normal `Mod.WriteSettings()` path to turn it
+  on. A follow-up in-game capture showed the green check and the command label
+  changed from `Interrupt Task` to `Sneeze`.
+- With a selected pawn on `Wait`, the native `F` hotkey changed the job to
+  `Wait_Wander` while draft, queued-job, carried-item, and reservation state
+  stayed clear. The Unity capture visibly showed `AH-CHOO!` over the pawn and
+  the `Sneeze` gizmo.
+- The Goofy setting was saved to the isolated lane's normal mod-settings file
+  as `<goofyMode>True</goofyMode>`, then the saved colony was loaded through
+  `dev-run load-save ... --pause-after-load`; the live setting readback stayed
+  `True` after the load.
+- The direct Player.log scan found zero Task Interrupt error, warning,
+  exception, or missing-sound/clip lines. The harness's package-list entry is
+  the only matching line.
+- The Steam package's `TaskInterrupt_Achoo` `SoundDef` is present with four
+  non-empty RIFF/WAVE clips, and the fresh launch of the updated source
+  reported the package installed, active, enabled, compatible, and running as
+  `Task Interrupt` with settings category `Task Interrupt`.
+
+Captures:
+
+- Settings off: `A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-settings-before-20260807-052053-664.png`
+- Settings on and `Sneeze` label: `A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-current-20260807-052538-309.png`
+- Live Goofy activation: `A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-activation-after-20260807-052631-185.png`

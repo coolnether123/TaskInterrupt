@@ -1,31 +1,120 @@
 {
   "rimWorldVersion": "1.6.4871",
-  "recordDate": "2026-08-05",
-  "shippingDllSha256": "7B8B969A4C545C3DEB8DD499D1E8831A777FD9FA8C746A311A9440262C0B3761",
+  "recordDate": "2026-08-07",
+  "sourceCommit": "dbbe15a9c4f5d4b4ddab4d78baae6ade9b8944d1",
+  "sourceDirtyAtBuild": true,
+  "shippingDllSha256": "E11F55BCDF68E65D6C1824F60464F29CA4B8977924EEF5FE0CC27B81BF83A015",
   "shippingDllSizeBytes": 22016,
   "assemblyVersion": "1.0.0.0",
   "automatedContracts": "15/15",
   "automatedAssertions": 76,
   "packageValidation": "RWT-BUILD-PACKAGE-VALID",
   "shippingDllCount": 1,
+  "releasePackage": {
+    "path": "A:/Dev/RimWorld/Releases/TaskInterrupt-1.0.0-steam-rw1.6-20260807",
+    "validation": "RWT-BUILD-RELEASE-PACKAGE-VALID",
+    "fileCount": 12,
+    "assemblySha256": "E11F55BCDF68E65D6C1824F60464F29CA4B8977924EEF5FE0CC27B81BF83A015"
+  },
   "releaseIncludePaths": [
     "About",
     "1.6/Assemblies/TaskInterrupt.dll",
     "Defs",
     "Languages",
     "Patches",
-    "Sounds",
-    "LICENSE",
-    "README.md"
+    "Sounds"
   ],
-  "spineSha256": "FEFFA6D8EEF395D5C494BA335D0AD2A7823792C91A5967CBE2DBC2417FFD18CD",
+  "aboutMetadata": {
+    "name": "Task Interrupt",
+    "author": "CoolNether123",
+    "packageId": "CoolNether123.TaskInterrupt",
+    "modVersion": "1.0.0",
+    "supportedVersions": ["1.6"],
+    "dependencies": ["brrainz.harmony", "CoolNether123.Spine"],
+    "descriptionIncludesGoofyMode": true,
+    "freshLaunchSessionId": "TaskBreak-5b76e48a06ab401aafbc197e1895f199",
+    "freshLaunchInstalled": true,
+    "freshLaunchActive": true,
+    "freshLaunchRunningName": "Task Interrupt",
+    "freshLaunchSettingsCategory": "Task Interrupt"
+  },
+  "goofyMode": {
+    "sessionId": "TaskBreak-eb8d1908bf8c43069d8484abab714c96",
+    "settingsType": "TaskInterrupt.Settings.TaskInterruptSettings",
+    "initialValue": false,
+    "enabledValue": true,
+    "persistedValue": true,
+    "settingsFile": "A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/profile/Config/Mod_rwa-CoolNether123.TaskInterrupt-585C54F3_TaskInterruptMod.xml",
+    "settingsFileContains": "<goofyMode>True</goofyMode>",
+    "saveName": "TaskInterruptGoofyPersistence",
+    "loadReadback": true,
+    "settingsAfterLoad": {
+      "ShowGizmo": true,
+      "ConfirmForcedTasks": true,
+      "GoofyMode": true
+    },
+    "commandLabel": "Sneeze",
+    "activationTextObserved": "AH-CHOO!",
+    "activationCapture": "A:/Dev/RimWorld/Runtime/AgentLanes/1.6/TaskBreak-eb8d1908bf8c43069d8484abab714c96/ipc/captures/goofy-activation-after-20260807-052631-185.png",
+    "pawnJobBefore": "Wait",
+    "pawnJobAfter": "Wait_Wander",
+    "safetyState": {
+      "drafted": false,
+      "queuedJobs": 0,
+      "carriedThing": null,
+      "reservationCount": 0
+    },
+    "harmonyPatchCount": 1,
+    "directLogScan": {
+      "taskInterruptErrorWarningExceptionMissingAudioLines": 0,
+      "matchingPackageListLines": 1
+    },
+    "audioAssets": {
+      "soundDefCount": 1,
+      "wavCount": 4,
+      "allWavFilesHaveRiffWaveHeaders": true,
+      "releasePackageContainsAllWavFiles": true
+    }
+  },
+  "spineSha256": "A63C2DC0D0FA138251E02144C282BF93C0CD1ADA552803DD67F86F9E11301201",
   "spineSizeBytes": 113152,
   "inputModel": "RimWorld native keyboard gizmo hotkey only",
   "harmonyPatchCount": 1,
-  "runtimeArtifactNotice": "The finalLane block below predates the Task Break to Task Interrupt rename and names the mod and its Harmony owner ID as they were at that time. It is retained as exact evidence for that historical assembly, not as a description of the current one.",
-  "finalLane": {
+  "fullCompatibilityLane": {
+    "sessionId": "coolnether-suite-5fdd4071f3b345cbbb68688fc8331371",
+    "profile": "coolnether-suite",
+    "declaredPackageCount": 16,
+    "activePackages": [
+      "brrainz.harmony",
+      "Coolnether123.RimWorldAgent",
+      "Ludeon.RimWorld.Ideology",
+      "Ludeon.RimWorld.Biotech",
+      "CoolNether123.Spine",
+      "SmashPhil.VehicleFramework",
+      "kentington.saveourship2",
+      "CoolNether123.FilterSignals",
+      "CoolNether123.PrisonerInteractionTimer",
+      "CoolNether123.SOS2WeaponReadouts",
+      "CoolNether123.FactionLens",
+      "Coolnether123.BetterWorkTab",
+      "CoolNether123.MechMuster",
+      "CoolNether123.FilterByExample",
+      "CoolNether123.CaravanReadiness",
+      "CoolNether123.TaskInterrupt"
+    ],
+    "results": [
+      "All declared packages loaded in RimWorld 1.6.4871.",
+      "Task Interrupt owned one Pawn.GetGizmos postfix.",
+      "Native F changed pawn 40060 from Wait job 76 to Wait_Wander job 77.",
+      "Draft remained false; queued jobs, carried item, and reservations remained zero.",
+      "No Task Interrupt exception or error was present in Player.log.",
+      "The only exception-shaped shutdown line was Vehicle Framework's dedicated-thread ThreadAbortException during normal lane shutdown.",
+      "The lane stopped cleanly with ForcedTermination=false and ExitCode=0."
+    ],
+    "capturePath": "A:/Dev/RimWorld/Runtime/AgentLanes/1.6/coolnether-suite-5fdd4071f3b345cbbb68688fc8331371/ipc/captures/taskinterrupt-fullsuite-after-20260807-050726-411.png"
+  },
+  "historicalLane": {
     "sessionId": "coolnether-suite-7dec0af702844a49b737a13f4b23608f",
-    "saveName": "FinalSuite_Current",
     "recordedUnderName": "Task Break",
     "results": [
       "F changed Wait job 563 to Wait_Wander job 988 through the native command hotkey.",
@@ -39,6 +128,10 @@
     {
       "path": "docs/verification.md",
       "description": "Current reproducible verification record"
+    },
+    {
+      "path": "Engineering/build.json",
+      "description": "Current release package allowlist and build dependencies"
     }
   ]
 }

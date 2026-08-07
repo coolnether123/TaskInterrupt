@@ -31,6 +31,7 @@
 - Leaves medical care, birth, deathrest, caravan forming, rituals, and quest work alone
 - Forced work asks before it stops
 - Bound to F by default, rebindable
+- Optional Goofy Mode renames the command to Sneeze and adds cosmetic sneeze text, puffs, and sound effects
 
 Requires Harmony and SpineLib.</description>
 </ModMetaData>
