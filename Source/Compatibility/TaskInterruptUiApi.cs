@@ -36,7 +36,9 @@ namespace TaskInterrupt.Compatibility
 
                 ParameterInfo[] parameters = method.GetParameters();
                 if (parameters.Length < 2 ||
-                    parameters[0].ParameterType != typeof(string))
+                    parameters[0].ParameterType != typeof(string) ||
+                    messageType == null ||
+                    !parameters[1].ParameterType.IsInstanceOfType(messageType))
                 {
                     continue;
                 }
