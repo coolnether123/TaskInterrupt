@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <TaskInterrupt_Name>Task Interrupt</TaskInterrupt_Name>
+  <TaskInterrupt_Name>Interrupt Task</TaskInterrupt_Name>
   <TaskInterrupt_Command>Interrupt</TaskInterrupt_Command>
   <TaskInterrupt_Command_Tip>Stop the selected pawns' current tasks and let them choose what to do next. Queued tasks remain queued.</TaskInterrupt_Command_Tip>
-  <TaskInterrupt_Settings_Controls>Controls and safety</TaskInterrupt_Settings_Controls>
+  <TaskInterrupt_Settings_Controls>Interrupt behavior</TaskInterrupt_Settings_Controls>
   <TaskInterrupt_Settings_ShowGizmo>Show Interrupt Task Button</TaskInterrupt_Settings_ShowGizmo>
   <TaskInterrupt_Settings_ShowGizmo_Tip>Show the Interrupt Task button for controllable colonists, slaves, children, and overseen colony mechs. Disabling this renders this mod useless.</TaskInterrupt_Settings_ShowGizmo_Tip>
   <TaskInterrupt_Settings_ConfirmForced>Show Confirm Dialog when interrupting forced tasks</TaskInterrupt_Settings_ConfirmForced>
