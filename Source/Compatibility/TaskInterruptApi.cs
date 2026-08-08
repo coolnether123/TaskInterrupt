@@ -21,25 +21,41 @@ namespace TaskInterrupt.Compatibility
 
         internal static bool IsPlayerControlled(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn != null && pawn.IsColonistPlayerControlled;
+#else
             return pawn != null &&
                 (ReadBool(pawn, "IsColonistPlayerControlled") ||
                  ReadBool(pawn, "IsColonyMechPlayerControlled") ||
                  ReadBool(pawn, "UnderPlayerControl"));
+#endif
         }
 
         internal static Job CurrentJob(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn?.jobs?.curJob;
+#else
             return ReadMember(ReadMember(pawn, "jobs"), "curJob") as Job;
+#endif
         }
 
         internal static bool IsDead(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn != null && pawn.Dead;
+#else
             return ReadBool(pawn, "Dead");
+#endif
         }
 
         internal static bool IsDowned(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn != null && pawn.Downed;
+#else
             return ReadBool(pawn, "Downed");
+#endif
         }
 
         internal static bool IsRestUntilHealed(Job job)
@@ -65,6 +81,9 @@ namespace TaskInterrupt.Compatibility
                 return false;
             }
 
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn.Drafted;
+#else
             bool? direct = ReadNullableBool(pawn, "Drafted");
             if (direct.HasValue)
             {
@@ -74,11 +93,16 @@ namespace TaskInterrupt.Compatibility
             object controller = ReadMember(pawn, "playerController") ??
                 ReadMember(pawn, "drafter");
             return ReadBool(controller, "Drafted");
+#endif
         }
 
         internal static bool IsMentalState(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn != null && pawn.InMentalState;
+#else
             return ReadBool(pawn, "InMentalState");
+#endif
         }
 
         internal static bool IsDeathresting(Pawn pawn)
@@ -99,6 +123,10 @@ namespace TaskInterrupt.Compatibility
 
         internal static bool IsCurrentJobPlayerInterruptible(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn?.jobs != null &&
+                pawn.jobs.IsCurrentJobPlayerInterruptible();
+#else
             object jobs = ReadMember(pawn, "jobs");
             if (jobs == null)
             {
@@ -118,6 +146,7 @@ namespace TaskInterrupt.Compatibility
 
             object result = method.Invoke(jobs, null);
             return result is bool && (bool)result;
+#endif
         }
 
         internal static bool HasForceCompleteBeforeNextJob(Job job)
@@ -201,12 +230,31 @@ namespace TaskInterrupt.Compatibility
 
         internal static Map MapHeld(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn?.MapHeld;
+#else
             return ReadMember(pawn, "MapHeld") as Map ??
                 ReadMember(pawn, "Map") as Map;
+#endif
         }
 
         internal static IEnumerable<Pawn> SpawnedPawns(Map map)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            IEnumerable<Pawn> pawns = map?.mapPawns?.AllPawnsSpawned;
+            if (pawns == null)
+            {
+                yield break;
+            }
+
+            foreach (Pawn pawn in pawns)
+            {
+                if (pawn != null)
+                {
+                    yield return pawn;
+                }
+            }
+#else
             object mapPawns = ReadMember(map, "mapPawns");
             object pawns = ReadMember(mapPawns, "AllPawnsSpawned") ??
                 ReadMember(mapPawns, "SpawnedPawnsInFaction");
@@ -224,11 +272,30 @@ namespace TaskInterrupt.Compatibility
                     yield return pawn;
                 }
             }
+#endif
         }
 
         internal static List<Pawn> SelectedPawns()
         {
             List<Pawn> pawns = new List<Pawn>();
+#if TASK_INTERRUPT_RIMWORLD_1X
+            IEnumerable selected = Find.Selector?.SelectedObjects;
+            if (selected == null)
+            {
+                return pawns;
+            }
+
+            foreach (object selectedObject in selected)
+            {
+                Pawn pawn = selectedObject as Pawn;
+                if (pawn != null)
+                {
+                    pawns.Add(pawn);
+                }
+            }
+
+            return pawns;
+#else
             object selector = ReadStaticMember(typeof(Find), "Selector");
             object selected = ReadMember(selector, "SelectedPawns") ??
                 ReadMember(selector, "SelectedObjects");
@@ -248,23 +315,45 @@ namespace TaskInterrupt.Compatibility
             }
 
             return pawns;
+#endif
         }
 
         internal static int ThingId(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return pawn == null ? 0 : pawn.thingIDNumber;
+#else
             object value = ReadMember(pawn, "thingIDNumber");
             return value is int ? (int)value : 0;
+#endif
         }
 
         internal static int CurrentTick()
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            return Find.TickManager == null ? 0 : Find.TickManager.TicksGame;
+#else
             object tickManager = ReadStaticMember(typeof(Find), "TickManager");
             object value = ReadMember(tickManager, "TicksGame");
             return value is int ? (int)value : 0;
+#endif
         }
 
         internal static bool EndCurrentJob(Pawn pawn)
         {
+#if TASK_INTERRUPT_RIMWORLD_1X
+            if (pawn?.jobs == null)
+            {
+                return false;
+            }
+
+#if TASK_INTERRUPT_HAS_END_CURRENT_JOB_OPTIONS
+            pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, false, false);
+#else
+            pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+#endif
+            return true;
+#else
             object jobs = ReadMember(pawn, "jobs");
             if (jobs == null)
             {
@@ -314,6 +403,7 @@ namespace TaskInterrupt.Compatibility
             }
 
             return false;
+#endif
         }
 
         internal static void LookBool(ref bool value, string label, bool defaultValue)
@@ -365,8 +455,15 @@ namespace TaskInterrupt.Compatibility
 
         internal static void MarkPlayerInterruptedForced(Pawn pawn)
         {
+#if TASK_INTERRUPT_HAS_PLAYER_INTERRUPTED_FORCED
+            if (pawn?.jobs?.curJob != null)
+            {
+                pawn.jobs.curJob.playerInterruptedForced = true;
+            }
+#else
             object job = ReadMember(ReadMember(pawn, "jobs"), "curJob");
             SetMember(job, "playerInterruptedForced", true);
+#endif
         }
 
         private static object InvokeStaticPawnMethod(string name, Pawn pawn)

@@ -25,6 +25,8 @@ namespace TaskInterrupt.Tests
                 KeybindingDefaultsToF);
             Run("F reuse ignores only vanilla forbid",
                 ContextualFReuseIsSymmetric);
+            Run("keybinding XML follows engine era",
+                KeybindingXmlFollowsEngineEra);
             Run("assigned key uses native gizmo hotkey",
                 AssignedKeyUsesNativeGizmoHotkey);
             Run("input stays on RimWorld's keyboard gizmo path",
@@ -117,6 +119,7 @@ namespace TaskInterrupt.Tests
             var document = XDocument.Load(Path.Combine(
                 root,
                 "Shared",
+                "Modern",
                 "Defs",
                 "KeyBindings.xml"));
             string first = document.Root?
@@ -137,6 +140,7 @@ namespace TaskInterrupt.Tests
             var keyBindings = XDocument.Load(Path.Combine(
                 root,
                 "Shared",
+                "Modern",
                 "Defs",
                 "KeyBindings.xml"));
             string ignoredByTaskInterrupt = keyBindings.Root?
@@ -149,6 +153,8 @@ namespace TaskInterrupt.Tests
 
             var vanillaPatch = XDocument.Load(Path.Combine(
                 root,
+                "Shared",
+                "Modern",
                 "Patches",
                 "KeyBindingConflicts.xml"));
             string patchText = vanillaPatch.ToString();
@@ -159,6 +165,33 @@ namespace TaskInterrupt.Tests
                     "TaskInterrupt_CancelCurrentTask",
                     StringComparison.Ordinal),
                 "vanilla forbid must symmetrically ignore Task Interrupt");
+        }
+
+        private static void KeybindingXmlFollowsEngineEra()
+        {
+            string root = RepositoryRoot();
+            string legacyPath = Path.Combine(
+                root,
+                "Shared",
+                "Legacy",
+                "Defs",
+                "KeyBindings.xml");
+            var legacy = XDocument.Load(legacyPath);
+            Require(legacy.Root?.Element("KeyBindingDef")?.Element(
+                    "ignoreConflictsWith") == null,
+                "classic engines must not receive the modern conflict field");
+
+            string loadFolders = File.ReadAllText(
+                Path.Combine(root, "LoadFolders.xml"));
+            Require(loadFolders.Contains(
+                    "<v1.6>", StringComparison.Ordinal) &&
+                loadFolders.Contains(
+                    "<li>Shared/Modern</li>", StringComparison.Ordinal) &&
+                loadFolders.Contains(
+                    "<v1.5>", StringComparison.Ordinal) &&
+                loadFolders.Contains(
+                    "<li>Shared/Legacy</li>", StringComparison.Ordinal),
+                "load folders must route modern and classic keybinding definitions separately");
         }
 
         private static void NoDraftDanceInAssembly()
