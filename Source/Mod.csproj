@@ -22,21 +22,21 @@
   <PropertyGroup Condition="'$(Configuration)' == '1.5'">
     <RwtIsRimWorldMod>true</RwtIsRimWorldMod>
     <TargetFramework>net472</TargetFramework>
-    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_HAS_MODERN_EFFECTS;TASK_INTERRUPT_LEGACY_API;TRACE</DefineConstants>
+    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_HAS_MODERN_EFFECTS;TASK_INTERRUPT_RIMWORLD_1X;TASK_INTERRUPT_HAS_END_CURRENT_JOB_OPTIONS;TASK_INTERRUPT_HAS_PLAYER_INTERRUPTED_FORCED;TASK_INTERRUPT_LEGACY_API;TRACE</DefineConstants>
     <OutputPath>..\$(Configuration)\Assemblies\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == '1.4' Or '$(Configuration)' == '1.3' Or '$(Configuration)' == '1.2' Or '$(Configuration)' == '1.1'">
     <RwtIsRimWorldMod>true</RwtIsRimWorldMod>
     <TargetFramework>net472</TargetFramework>
-    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_LEGACY_API;TRACE</DefineConstants>
+    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_RIMWORLD_1X;TASK_INTERRUPT_HAS_END_CURRENT_JOB_OPTIONS;TASK_INTERRUPT_LEGACY_API;TRACE</DefineConstants>
     <OutputPath>..\$(Configuration)\Assemblies\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == '1.0' Or '$(Configuration)' == '0.19' Or '$(Configuration)' == '0.18' Or '$(Configuration)' == '0.17'">
     <RwtIsRimWorldMod>false</RwtIsRimWorldMod>
     <TargetFramework>net35</TargetFramework>
-    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
+    <DefineConstants>TASK_INTERRUPT_HAS_MOD_SETTINGS;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_HAS_DEFOF;TASK_INTERRUPT_RIMWORLD_1X;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
     <OutputPath Condition="'$(Configuration)' == '1.0'">..\1.0\Assemblies\</OutputPath>
     <OutputPath Condition="'$(Configuration)' != '1.0'">..\$(Configuration)\Assemblies\</OutputPath>
   </PropertyGroup>
@@ -57,7 +57,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == '0.14' Or '$(Configuration)' == '0.13'">
-    <DefineConstants>TASK_INTERRUPT_NO_MOD_API;TASK_INTERRUPT_STATIC_BOOTSTRAP;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
+    <DefineConstants>TASK_INTERRUPT_NO_MOD_API;TASK_INTERRUPT_STATIC_BOOTSTRAP;TASK_INTERRUPT_HAS_GET_GIZMOS;TASK_INTERRUPT_LEGACY_API;TASK_INTERRUPT_LEGACY_SCRIBE;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(RwtIsRimWorldMod)' != 'true'">

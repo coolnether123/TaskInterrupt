@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Task Interrupt</name>
+  <name>Interrupt Task</name>
   <author>CoolNether123</author>
   <packageId>CoolNether123.TaskInterrupt</packageId>
   <modVersion>1.0.0</modVersion>
