@@ -1,16 +1,16 @@
 # Verification record
 
-Task Interrupt was built and exercised against RimWorld 1.6.4871 on 2026-08-07.
+Interrupt Task was built and exercised against RimWorld 1.6.4871 on 2026-08-07.
 The current implementation is keyboard-only and uses RimWorld's native command
 hotkey surface; it owns no mouse-input adapter or global input poll.
 
 ## Current artifact
 
 - Shipping DLL SHA-256:
-  `E11F55BCDF68E65D6C1824F60464F29CA4B8977924EEF5FE0CC27B81BF83A015`.
-- Shipping DLL size: 22,016 bytes.
+  `1E8EC2D526B642F0D24A46F02543EC20F5D952426D643B1C776452D2E1388A9B`.
+- Shipping DLL size: 32,256 bytes.
 - Assembly version: 1.0.0.0.
-- Automated contracts: 15/15 passed, 76 assertions.
+- Automated contracts: 16/16 passed, 78 assertions.
 - Package validation: `RWT-BUILD-PACKAGE-VALID`; the shipping package has one
   DLL.
 - Harmony ownership: one `Pawn.GetGizmos` postfix.
@@ -169,3 +169,15 @@ The final Steam archive is
 It contains 13 runtime files, includes `LoadFolders.xml` and `Shared/Defs`,
 and contains neither `README.md` nor `LICENSE`. The preview's corrected
 `CoolNether123` author credit is included in that archive.
+
+## Published 1.6-only package refresh — 2026-08-08
+
+- The 16 automated contracts and 78 assertions passed.
+- The release package advertises only RimWorld 1.6 and contains exactly one
+  shipping assembly under `1.6/Assemblies`.
+- Legacy definitions and historical-version assemblies are excluded from the
+  published ZIP.
+- The shipping `TaskInterrupt.dll` is 32,256 bytes with SHA-256
+  `1E8EC2D526B642F0D24A46F02543EC20F5D952426D643B1C776452D2E1388A9B`.
+- The staged package passed `RWT-BUILD-PACKAGE-VALID` after its metadata and
+  load-folder routing were pruned to RimWorld 1.6.

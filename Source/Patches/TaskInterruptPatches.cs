@@ -22,7 +22,7 @@ namespace TaskInterrupt.Patches
         private static bool installed;
 #if TASK_INTERRUPT_USE_SPINE
         private static readonly IHarmonyPatchInstaller Installer =
-            SpineApi.Patching.CreateInstaller(HarmonyId, "[Task Interrupt]");
+            SpineApi.Patching.CreateInstaller(HarmonyId, "[Interrupt Task]");
 #else
         private static readonly Harmony Harmony = new Harmony(HarmonyId);
 #endif
