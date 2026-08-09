@@ -37,6 +37,8 @@ namespace TaskInterrupt.Tests
                 ActiveMedicalPatientsAreProtected);
             Run("gizmo assessment is amortized per frame",
                 GizmoAssessmentIsAmortizedPerFrame);
+            Run("modern pawn selection avoids assembly-wide reflection",
+                ModernPawnSelectionAvoidsAssemblyWideReflection);
             Run("Alt settings navigation consumes the gizmo",
                 AltSettingsNavigationConsumesGizmo);
             return Finish();
@@ -373,6 +375,35 @@ namespace TaskInterrupt.Tests
                     "cachedDecisionFrame == currentFrame",
                     StringComparison.Ordinal),
                 "duplicate grouped commands must share one selection assessment per frame");
+        }
+
+        private static void ModernPawnSelectionAvoidsAssemblyWideReflection()
+        {
+            string root = RepositoryRoot();
+            using AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(
+                Path.Combine(
+                    root,
+                    "1.6",
+                    "Assemblies",
+                    "TaskInterrupt.dll"));
+            MethodReference[] calls = assembly.MainModule.Types
+                .Where(type => type.Namespace.StartsWith(
+                    "TaskInterrupt",
+                    StringComparison.Ordinal))
+                .SelectMany(type => type.Methods)
+                .Where(method => method.HasBody)
+                .SelectMany(method => method.Body.Instructions)
+                .Where(instruction =>
+                    instruction.OpCode == OpCodes.Call ||
+                    instruction.OpCode == OpCodes.Callvirt)
+                .Select(instruction => instruction.Operand as MethodReference)
+                .Where(method => method != null)
+                .ToArray();
+
+            Require(!calls.Any(method =>
+                    method.DeclaringType.FullName == "System.Reflection.Assembly" &&
+                    method.Name == "GetTypes"),
+                "the 1.6 pawn gizmo path must use direct RimWorld APIs instead of scanning the game assembly");
         }
 
         private static void AltSettingsNavigationConsumesGizmo()
