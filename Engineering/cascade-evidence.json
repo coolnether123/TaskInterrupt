@@ -1,7 +1,7 @@
 {
   "recordDate": "2026-08-09",
   "sourceHeadBeforeFinalReleaseMetadata": "e818b4cc0fc44052009d3dfbc22033805aa7b6ee",
-  "verificationScope": "The 2026-08-09 cascade compile- and payload-validates all matrix targets. Runtime and Steam archive sections below retain prior evidence and were not rerun by this rebuild.",
+  "verificationScope": "The 2026-08-09 cascade compile- and payload-validates all matrix targets. A fresh 1.6 harness startup smoke also loaded the rebuilt package; interactive behavior, older-version runtime, and the Steam archive were not rerun.",
   "cascade": {
     "manifest": "Tools/CascadeManifest.json",
     "planPath": "A:/Dev/Temp/TaskBreak-cascade-20260809-alpha4fix/matrix-plan.json",
@@ -48,6 +48,8 @@
   "runtime": {
     "harnessDoctorRunnableVersions": ["1.6"],
     "runtimeTestedVersions": ["1.6"],
+    "freshCascadeStartupSessionId": "TaskBreak-cfd87395e2f24e2481826619bfc1f515",
+    "freshCascadeStartup": "Passed: rebuilt Interrupt Task loaded with Harmony and SpineLib; the owned session stopped with exit code 0 and no forced termination.",
     "olderVersionRuntimeStatus": "Not runtime-tested: no runnable older RimWorld executable was installed or found on the configured game roots.",
     "gameExecutable": "H:/Games/RimWorld1-6-4871Win64/RimWorldWin64.exe",
     "sessionId": "Codex-bfa2ac4503e64b5e884506574b9f3ac6",
