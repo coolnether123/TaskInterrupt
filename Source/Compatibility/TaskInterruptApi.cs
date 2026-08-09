@@ -2,8 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+#if TASK_INTERRUPT_USE_SPINE
+using RimWorld.Planet;
+#endif
 using Verse;
 using Verse.AI;
+#if TASK_INTERRUPT_USE_SPINE
+using Verse.AI.Group;
+#endif
 
 namespace TaskInterrupt.Compatibility
 {
@@ -18,6 +24,12 @@ namespace TaskInterrupt.Compatibility
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         private const BindingFlags StaticMembers =
             BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+#if !TASK_INTERRUPT_USE_SPINE
+        private static readonly Dictionary<string, MethodInfo>
+            StaticPawnMethods = new Dictionary<string, MethodInfo>();
+        private static readonly HashSet<string> MissingStaticPawnMethods =
+            new HashSet<string>();
+#endif
 
         internal static bool IsPlayerControlled(Pawn pawn)
         {
@@ -112,13 +124,21 @@ namespace TaskInterrupt.Compatibility
 
         internal static bool IsFormingCaravan(Pawn pawn)
         {
+#if TASK_INTERRUPT_USE_SPINE
+            return pawn != null && pawn.IsFormingCaravan();
+#else
             object result = InvokeStaticPawnMethod("IsFormingCaravan", pawn);
             return result is bool && (bool)result;
+#endif
         }
 
         internal static bool HasLord(Pawn pawn)
         {
+#if TASK_INTERRUPT_USE_SPINE
+            return pawn != null && pawn.GetLord() != null;
+#else
             return InvokeStaticPawnMethod("GetLord", pawn) != null;
+#endif
         }
 
         internal static bool IsCurrentJobPlayerInterruptible(Pawn pawn)
@@ -466,6 +486,7 @@ namespace TaskInterrupt.Compatibility
 #endif
         }
 
+#if !TASK_INTERRUPT_USE_SPINE
         private static object InvokeStaticPawnMethod(string name, Pawn pawn)
         {
             if (pawn == null)
@@ -473,40 +494,57 @@ namespace TaskInterrupt.Compatibility
                 return null;
             }
 
-            Type[] types;
-            try
+            Type pawnType = pawn.GetType();
+            string cacheKey = pawnType.AssemblyQualifiedName + "|" + name;
+            MethodInfo resolvedMethod;
+            if (!StaticPawnMethods.TryGetValue(cacheKey, out resolvedMethod) &&
+                !MissingStaticPawnMethods.Contains(cacheKey))
             {
-                types = pawn.GetType().Assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException error)
-            {
-                types = error.Types;
-            }
-
-            for (int i = 0; i < types.Length; i++)
-            {
-                Type type = types[i];
-                if (type == null)
+                Type[] types;
+                try
                 {
-                    continue;
+                    types = pawnType.Assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException error)
+                {
+                    types = error.Types;
                 }
 
-                MethodInfo[] methods = type.GetMethods(StaticMembers);
-                for (int j = 0; j < methods.Length; j++)
+                for (int i = 0; i < types.Length && resolvedMethod == null; i++)
                 {
-                    MethodInfo method = methods[j];
-                    ParameterInfo[] parameters = method.GetParameters();
-                    if (method.Name == name &&
-                        parameters.Length == 1 &&
-                        parameters[0].ParameterType.IsAssignableFrom(pawn.GetType()))
+                    Type type = types[i];
+                    if (type == null)
                     {
-                        return method.Invoke(null, new object[] { pawn });
+                        continue;
+                    }
+
+                    MethodInfo[] methods = type.GetMethods(StaticMembers);
+                    for (int j = 0; j < methods.Length; j++)
+                    {
+                        MethodInfo method = methods[j];
+                        ParameterInfo[] parameters = method.GetParameters();
+                        if (method.Name == name &&
+                            parameters.Length == 1 &&
+                            parameters[0].ParameterType.IsAssignableFrom(pawnType))
+                        {
+                            resolvedMethod = method;
+                            break;
+                        }
                     }
                 }
+
+                if (resolvedMethod == null)
+                {
+                    MissingStaticPawnMethods.Add(cacheKey);
+                    return null;
+                }
+
+                StaticPawnMethods.Add(cacheKey, resolvedMethod);
             }
 
-            return null;
+            return resolvedMethod.Invoke(null, new object[] { pawn });
         }
+#endif
 
         private static object ReadStaticMember(Type type, string name)
         {
