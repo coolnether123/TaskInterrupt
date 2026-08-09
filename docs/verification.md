@@ -7,10 +7,10 @@ hotkey surface; it owns no mouse-input adapter or global input poll.
 ## Current artifact
 
 - Shipping DLL SHA-256:
-  `1E8EC2D526B642F0D24A46F02543EC20F5D952426D643B1C776452D2E1388A9B`.
+  `05E32C71CF8E5B4436127F240D1125334B46C4128960946AD5EA3915F602A39E`.
 - Shipping DLL size: 32,256 bytes.
 - Assembly version: 1.0.0.0.
-- Automated contracts: 16/16 passed, 78 assertions.
+- Automated contracts: 18/18 passed, 80 assertions.
 - Package validation: `RWT-BUILD-PACKAGE-VALID`; the shipping package has one
   DLL.
 - Harmony ownership: one `Pawn.GetGizmos` postfix.
@@ -181,3 +181,23 @@ and contains neither `README.md` nor `LICENSE`. The preview's corrected
   `1E8EC2D526B642F0D24A46F02543EC20F5D952426D643B1C776452D2E1388A9B`.
 - The staged package passed `RWT-BUILD-PACKAGE-VALID` after its metadata and
   load-folder routing were pruned to RimWorld 1.6.
+
+## Final performance and compatibility gate — 2026-08-08
+
+- The 18 automated contracts and 80 assertions passed against the freshly
+  rebuilt assembly.
+- The shipping DLL was built against the Steam SpineLib 1.0.1 assembly with
+  SHA-256
+  `A63C2DC0D0FA138251E02144C282BF93C0CD1ADA552803DD67F86F9E11301201`.
+- The active-patient scan now routes every targeted job through the shared
+  medical classifier, including modded work assigned to the Doctor work type.
+- Task Interrupt records installation only when Spine reports that the pawn
+  gizmo patch succeeded.
+- Dubs Performance Analyzer measured the complete pawn-gizmo postfix at
+  0.025823 ms per rendered frame on average over 1,999 sampled frames. The
+  selection decision averaged 0.018239 ms and used no assembly-wide reflection.
+- Clean focused lane `TaskBreak-4e2b44a7877c4db3a6f39780cb6fedac`
+  loaded RimWorld 1.6.4871 with Steam SpineLib, Task Interrupt, and Dubs. The
+  live `Interrupt` gizmo was enabled, Harmony reported exactly one Task
+  Interrupt patch, and the Player log contained no Task Interrupt exception or
+  error.

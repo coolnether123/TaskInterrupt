@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using TaskInterrupt.Bootstrap;
 using TaskInterrupt.Compatibility;
@@ -36,7 +35,7 @@ namespace TaskInterrupt.Patches
 
 #if TASK_INTERRUPT_HAS_GET_GIZMOS
 #if TASK_INTERRUPT_USE_SPINE
-            Installer.TryPatch(
+            installed = Installer.TryPatch(
                 "pawn gizmos",
                 AccessTools.Method(typeof(Pawn), nameof(Pawn.GetGizmos)),
                 postfix: new HarmonyMethod(
@@ -56,7 +55,9 @@ namespace TaskInterrupt.Patches
                     typeof(TaskInterruptPatches),
                     nameof(PawnCommandsPostfix)));
 #endif
+#if !TASK_INTERRUPT_USE_SPINE
             installed = true;
+#endif
         }
 
 #if TASK_INTERRUPT_HAS_GET_GIZMOS
@@ -81,8 +82,7 @@ namespace TaskInterrupt.Patches
                 return;
             }
 
-            __result = (__result ?? Enumerable.Empty<Gizmo>())
-                .Concat(new Gizmo[] { new Command_TaskInterrupt() });
+            __result = AppendGizmo(__result, new Command_TaskInterrupt());
         }
 #else
         private static void PawnCommandsPostfix(
@@ -95,8 +95,39 @@ namespace TaskInterrupt.Patches
                 return;
             }
 
-            __result = (__result ?? Enumerable.Empty<Command>())
-                .Concat(new Command[] { new Command_TaskInterrupt() });
+            __result = AppendCommand(
+                __result,
+                new Command_TaskInterrupt());
+        }
+#endif
+
+#if TASK_INTERRUPT_HAS_GET_GIZMOS
+        private static IEnumerable<Gizmo> AppendGizmo(
+            IEnumerable<Gizmo> source,
+            Gizmo command)
+        {
+            if (source != null)
+            {
+                foreach (Gizmo gizmo in source)
+                {
+                    yield return gizmo;
+                }
+            }
+            yield return command;
+        }
+#else
+        private static IEnumerable<Command> AppendCommand(
+            IEnumerable<Command> source,
+            Command command)
+        {
+            if (source != null)
+            {
+                foreach (Command item in source)
+                {
+                    yield return item;
+                }
+            }
+            yield return command;
         }
 #endif
     }

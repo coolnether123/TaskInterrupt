@@ -4,9 +4,6 @@ using TaskInterrupt.Domain;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-#if TASK_INTERRUPT_USE_SPINE
-using RimWorld;
-#endif
 
 namespace TaskInterrupt.Runtime
 {
@@ -68,11 +65,9 @@ namespace TaskInterrupt.Runtime
                 {
                     Job actorJob = actor?.jobs?.curJob;
                     Pawn target = actorJob?.targetA.Pawn;
-                    Job job = actorJob;
                     if (target != null &&
                         actor != target &&
-                        (job.def == JobDefOf.TendPatient ||
-                         job.bill is Bill_Medical))
+                        TaskInterruptApi.IsMedicalJob(actorJob))
                     {
                         ActiveMedicalPatients.Add(target);
                     }
