@@ -16,7 +16,9 @@ namespace TaskInterrupt.Presentation
     /// Exposes interruption through a grouped native command so RimWorld owns
     /// key routing while Spine can provide the contextual settings gesture.
     /// </summary>
+#if !TASK_INTERRUPT_NO_MOD_API || TASK_INTERRUPT_STATIC_BOOTSTRAP
     [StaticConstructorOnStartup]
+#endif
     internal sealed class Command_TaskInterrupt : Command_Action
     {
         private const int SharedGroupKey = 188137392;
