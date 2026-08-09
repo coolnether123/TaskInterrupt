@@ -35,6 +35,8 @@ namespace TaskInterrupt.Tests
             Run("compiled implementation avoids draft dance", NoDraftDanceInAssembly);
             Run("active medical patients are protected",
                 ActiveMedicalPatientsAreProtected);
+            Run("patch installation tracks Spine success",
+                PatchInstallationTracksSpineSuccess);
             Run("gizmo assessment is amortized per frame",
                 GizmoAssessmentIsAmortizedPerFrame);
             Run("modern pawn selection avoids assembly-wide reflection",
@@ -336,16 +338,27 @@ namespace TaskInterrupt.Tests
                     StringComparison.Ordinal),
                 "care protection must index and query the exact targeted patient");
             Require(assessment.Contains(
-                    "job.def == JobDefOf.TendPatient",
-                    StringComparison.Ordinal) &&
-                assessment.Contains(
-                    "job.bill is Bill_Medical",
+                    "TaskInterruptApi.IsMedicalJob(actorJob)",
                     StringComparison.Ordinal),
-                "tending and active medical bills must both be protected");
+                "active care must use the shared medical classifier so modded Doctor work is protected");
             Require(!assessment.Contains(
                     "reservationManager.IsReserved",
                     StringComparison.Ordinal),
                 "unrelated reservations must not disable Task Interrupt");
+        }
+
+        private static void PatchInstallationTracksSpineSuccess()
+        {
+            string root = RepositoryRoot();
+            string patches = File.ReadAllText(Path.Combine(
+                root,
+                "Source",
+                "Patches",
+                "TaskInterruptPatches.cs"));
+            Require(patches.Contains(
+                    "installed = Installer.TryPatch(",
+                    StringComparison.Ordinal),
+                "modern startup must not report installation after Spine rejects the patch");
         }
 
         private static void GizmoAssessmentIsAmortizedPerFrame()

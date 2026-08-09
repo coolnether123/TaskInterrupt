@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using TaskInterrupt.Bootstrap;
 using TaskInterrupt.Compatibility;
 using TaskInterrupt.Domain;
@@ -20,16 +19,31 @@ namespace TaskInterrupt.Runtime
             new ActivationGate(RepeatGuardTicks);
         private static TaskInterruptDecision cachedFirstDecision;
         private static int cachedDecisionFrame = -1;
+        private static readonly List<Pawn> FramePawns = new List<Pawn>();
 
-        internal static List<Pawn> SelectedSupportedPawns()
+        internal static void SelectedSupportedPawns(List<Pawn> pawns)
         {
+            pawns.Clear();
+            TaskInterruptApi.AddSelectedPawns(pawns);
+            int writeIndex = 0;
+            for (int readIndex = 0; readIndex < pawns.Count; readIndex++)
+            {
+                Pawn pawn = pawns[readIndex];
+                if (pawn != null && TaskInterruptApi.IsPlayerControlled(pawn))
+                {
+                    pawns[writeIndex++] = pawn;
+                }
+            }
+            if (writeIndex < pawns.Count)
+            {
+                pawns.RemoveRange(writeIndex, pawns.Count - writeIndex);
+            }
+
             // Stable pawn order makes the reported first rejection independent
             // of RimWorld's selection enumeration.
-            return TaskInterruptApi.SelectedPawns()
-                .Where(pawn => pawn != null &&
-                    TaskInterruptApi.IsPlayerControlled(pawn))
-                .OrderBy(TaskInterruptApi.ThingId)
-                .ToList();
+            pawns.Sort((left, right) =>
+                TaskInterruptApi.ThingId(left).CompareTo(
+                    TaskInterruptApi.ThingId(right)));
         }
 
         internal static TaskInterruptDecision FirstDecision()
@@ -42,13 +56,13 @@ namespace TaskInterrupt.Runtime
 
             // Grouped gizmos construct one command per pawn; a frame-local
             // aggregate avoids repeating the full selection safety scan.
-            List<Pawn> pawns = SelectedSupportedPawns();
+            SelectedSupportedPawns(FramePawns);
             TaskInterruptDecision result = new TaskInterruptDecision(
                 TaskInterruptBlockReason.NoCurrentTask);
-            for (int i = 0; i < pawns.Count; i++)
+            for (int i = 0; i < FramePawns.Count; i++)
             {
                 TaskInterruptDecision decision =
-                    PawnTaskInterruptAssessment.Evaluate(pawns[i]);
+                    PawnTaskInterruptAssessment.Evaluate(FramePawns[i]);
                 if (i == 0)
                 {
                     result = decision;
@@ -81,16 +95,26 @@ namespace TaskInterrupt.Runtime
 
         private static void InterruptSelected()
         {
-            List<Pawn> pawns = SelectedSupportedPawns();
+            var pawns = new List<Pawn>();
+            SelectedSupportedPawns(pawns);
             // Only ask when more than one pawn is selected. Interrupting one
             // pawn's forced work means the player changed their mind about that
             // pawn and a prompt is just a click in the way. Interrupting several
             // at once is the case where a forced task can be swept up without
             // the player noticing it was in the selection.
-            bool needsConfirmation = pawns.Count > 1 &&
-                pawns.Any(pawn =>
-                    PawnTaskInterruptAssessment.Evaluate(pawn)
-                        .RequiresForcedConfirmation);
+            bool needsConfirmation = false;
+            if (pawns.Count > 1)
+            {
+                for (int i = 0; i < pawns.Count; i++)
+                {
+                    if (PawnTaskInterruptAssessment.Evaluate(pawns[i])
+                        .RequiresForcedConfirmation)
+                    {
+                        needsConfirmation = true;
+                        break;
+                    }
+                }
+            }
             if (needsConfirmation &&
                 TaskInterruptMod.Settings.ConfirmForcedTasks)
             {

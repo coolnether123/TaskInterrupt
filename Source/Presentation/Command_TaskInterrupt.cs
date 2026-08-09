@@ -16,15 +16,18 @@ namespace TaskInterrupt.Presentation
     /// Exposes interruption through a grouped native command so RimWorld owns
     /// key routing while Spine can provide the contextual settings gesture.
     /// </summary>
+    [StaticConstructorOnStartup]
     internal sealed class Command_TaskInterrupt : Command_Action
     {
         private const int SharedGroupKey = 188137392;
+        private static readonly Texture2D InterruptIcon =
+            ContentFinder<Texture2D>.Get("UI/Commands/Halt");
 
         internal Command_TaskInterrupt()
         {
             defaultLabel = TaskInterruptText.Translate("TaskInterrupt_Command");
             defaultDesc = TaskInterruptText.Translate("TaskInterrupt_Command_Tip");
-            icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt");
+            icon = InterruptIcon;
 #if TASK_INTERRUPT_HAS_DEFOF
             hotKey = TaskInterruptDefOf.TaskInterrupt_CancelCurrentTask;
 #endif
