@@ -12,10 +12,12 @@
     "About",
     "LoadFolders.xml",
     "1.6/Assemblies/TaskInterrupt.dll",
-    "Shared",
+    "Shared/Defs",
+    "Shared/Modern",
     "Languages",
     "Patches",
-    "Sounds"
+    "Sounds",
+    "LICENSE"
   ],
   "dependencies": [
     "harmony",

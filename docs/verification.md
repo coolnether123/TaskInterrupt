@@ -1,14 +1,16 @@
 # Verification record
 
-Interrupt Task was built and exercised against RimWorld 1.6.4871 on 2026-08-07.
+Interrupt Task was rebuilt against RimWorld 1.6.4871 and SpineLib 1.1.0 on
+2026-08-13. The most recent live behavior evidence remains the 2026-08-07
+harness sessions recorded below.
 The current implementation is keyboard-only and uses RimWorld's native command
 hotkey surface; it owns no mouse-input adapter or global input poll.
 
 ## Current artifact
 
 - Shipping DLL SHA-256:
-  `05E32C71CF8E5B4436127F240D1125334B46C4128960946AD5EA3915F602A39E`.
-- Shipping DLL size: 32,256 bytes.
+  `075C0E7E9B7AB1DF43542D37D08E1A2B4B2146489792A5581FB3927A432FB943`.
+- Shipping DLL size: 32,768 bytes.
 - Assembly version: 1.0.0.0.
 - Automated contracts: 18/18 passed, 80 assertions.
 - Package validation: `RWT-BUILD-PACKAGE-VALID`; the shipping package has one
@@ -53,7 +55,8 @@ path.
 
 Spine's public repository URL is present in `About.xml`, so the missing-URL
 metadata warning does not apply. The current candidate was built against
-Spine SHA-256 `A63C2DC0D0FA138251E02144C282BF93C0CD1ADA552803DD67F86F9E11301201`.
+SpineLib 1.1.0, SHA-256
+`87D11805F615FE24AE8A0A28A5F0FC4C7D09D4BB805C17F83EE7E909B87729F3`.
 ## Final release-candidate gate — 2026-08-03
 
 Passed 15 contracts (76 assertions), clean build, and package checks. Live

@@ -56,7 +56,7 @@ Animals and arbitrary selectable entities are intentionally outside scope.
 
 - RimWorld 1.6
 - Harmony
-- SpineLib 1.0.1 or newer
+- SpineLib 1.1.0 or newer
 
 Published packages contain the RimWorld 1.6 build only.
 

@@ -51,7 +51,7 @@ function Invoke-SharedBuild
         -Version $Configuration `
         -OutputRoot $outputRoot `
         -Engine MSBuild `
-        -Dependency $DependencyIds `
+        -Dependency ($DependencyIds -join ',') `
         -ResultPath $resultPath | Out-Null
 
     if (-not (Test-Path -LiteralPath $resultPath -PathType Leaf))
@@ -62,59 +62,7 @@ function Invoke-SharedBuild
     return Get-Content -Raw -LiteralPath $resultPath | ConvertFrom-Json
 }
 
-function Invoke-CurrentSpineBuild
-{
-    Import-Module (Join-Path $toolingRoot 'modules\RimWorld.Tooling.Depot\RimWorld.Tooling.Depot.psd1') -Force
-    Import-Module (Join-Path $toolingRoot 'modules\RimWorld.Tooling.Build\RimWorld.Tooling.Build.psd1') -Force
-
-    $environment = Resolve-RwtEnvironment `
-        -Version $Configuration `
-        -Purpose Compile `
-        -Dependency @('harmony') `
-        -VersionManifestPath (Join-Path $toolingRoot 'manifests\rimworld-versions.json') `
-        -DependencyManifestPath (Join-Path $toolingRoot 'manifests\dependencies.json')
-
-    $spinePath = Join-Path `
-        (Join-Path (Split-Path -Parent $repository) 'Spine') `
-        '1.6\Assemblies\Spine.dll'
-    if (-not (Test-Path -LiteralPath $spinePath -PathType Leaf))
-    {
-        throw "The current standalone Spine 1.6 assembly is missing: $spinePath"
-    }
-
-    $dependenciesWithSpine = @($environment.Dependencies) + @(
-        [PSCustomObject]@{
-            Id = 'spine'
-            Path = $spinePath
-            Sha256 = (Get-FileHash -LiteralPath $spinePath -Algorithm SHA256).Hash
-        })
-    $environment | Add-Member `
-        -NotePropertyName Dependencies `
-        -NotePropertyValue $dependenciesWithSpine `
-        -Force
-
-    $result = Invoke-RwtBuild `
-        -Project $project `
-        -Configuration $Configuration `
-        -Environment $environment `
-        -OutputRoot $outputRoot `
-        -Engine MSBuild
-    $result | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $resultPath -Encoding utf8
-    return $result
-}
-
-$result = if ($Configuration -eq '1.6')
-{
-    # The dependency manifest currently carries an older Spine hash than the
-    # checked-out 1.6 assembly. Keep the build manifest authoritative for all
-    # other dependencies, but use the current sibling Spine binary until that
-    # shared manifest is refreshed by its owner.
-    Invoke-CurrentSpineBuild
-}
-else
-{
-    Invoke-SharedBuild -DependencyIds $dependencies
-}
+$result = Invoke-SharedBuild -DependencyIds $dependencies
 
 if (-not [bool]$result.Succeeded)
 {
