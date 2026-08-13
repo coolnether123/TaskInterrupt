@@ -2,10 +2,6 @@ using UnityEngine;
 using Verse;
 using TaskInterrupt.Compatibility;
 
-#if TASK_INTERRUPT_USE_SPINE
-using Spine.Api;
-#endif
-
 namespace TaskInterrupt.Settings
 {
     /// <summary>
@@ -24,9 +20,7 @@ namespace TaskInterrupt.Settings
 #if TASK_INTERRUPT_USE_SPINE
         public override void ExposeData()
         {
-            SpineApi.Settings.Scribe(
-                this,
-                TaskInterruptSettingsRegistry.Definitions);
+            TaskInterruptSettingsRegistry.Schema.Scribe(this);
             base.ExposeData();
         }
 #elif TASK_INTERRUPT_HAS_MOD_SETTINGS

@@ -21,9 +21,10 @@ namespace TaskInterrupt.Bootstrap
             : base(
                 content,
                 "CoolNether123.TaskInterrupt",
-                new SemanticVersion(1, 0, 0),
-                TaskInterruptSettingsRegistry.Definitions,
-                SpineCapability.HarmonyPatching,
+                new SemanticVersion(1, 1, 0),
+                TaskInterruptSettingsRegistry.Schema.Definitions,
+                SpineCapability.HarmonyPatching |
+                SpineCapability.SettingsSchema,
                 new ModSettingsPageOptions { RowHeight = 38f })
         {
             TaskInterruptPatches.Install();
