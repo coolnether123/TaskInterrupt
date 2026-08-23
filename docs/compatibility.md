@@ -11,7 +11,7 @@ Toggle forbidden command but remains context-separated on controllable pawns
 and fully configurable. The two definitions symmetrically ignore only each
 other in RimWorld's native conflict model; other binding conflicts remain
 active. Keyboard bindings remain on the untouched base `Command` path. Task
-Task Interrupt does not patch the Controls dialog, poll global input, or add mouse
+Interrupt does not patch the Controls dialog, poll global input, or add mouse
 binding behavior. Hiding the gizmo also removes its contextual hotkey surface.
 
 The current compatibility surface investigated includes Achtung, Perspective

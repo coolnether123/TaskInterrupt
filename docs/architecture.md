@@ -1,6 +1,6 @@
 # Architecture
 
-Task Interrupt has four small responsibilities:
+Task Interrupt has four responsibilities:
 
 1. `TaskInterruptPolicy` evaluates an immutable, game-independent fact snapshot.
 2. `PawnTaskInterruptAssessment` maps current RimWorld state to that snapshot.
@@ -11,22 +11,21 @@ Task Interrupt has four small responsibilities:
 The mod owns exactly one Harmony patch: a `Pawn.GetGizmos` postfix. Its
 `Command_Action` uses RimWorld's normal `KeyBindingDef` and `hotKey` path, so
 the game owns keyboard routing, dialog suppression, conflict handling, and
-event consumption. Task Interrupt adds no binding-dialog patch, mouse adapter, or
-global input poll. It stores no gameplay state and never consumes an IMGUI
-event. While
-commands are visible, it
-indexes active medical targets on demand at most once per map/rendered frame and
+event consumption. Task Interrupt adds no binding-dialog patch, mouse adapter,
+or global input poll. It stores no gameplay state and never consumes an IMGUI
+event. While commands are visible, it indexes active medical targets on demand
+at most once per map per rendered frame. It
 shares one aggregate selection decision across the grouped pawn commands for
 that frame. This avoids multiplying a map scan by both selection size and
 command count, while still observing direct job orders made while the game is
 paused. The bounded activation-only repeat guard is not serialized and a game
 tick rollback is treated as a new session.
 
-The primary binding defaults to `F`. Task Interrupt and vanilla's item-only Toggle
-forbidden definition symmetrically list only each other in
-`ignoreConflictsWith`. This uses RimWorld's native contextual-overlap contract:
-both commands and rebindings remain intact, the false startup warning is
-avoided, and unrelated binding conflicts continue to be detected normally.
+The primary binding defaults to `F`. Task Interrupt and the base game's
+item-only Toggle forbidden definition list only each other in
+`ignoreConflictsWith`. This uses RimWorld's contextual overlap rules. Both
+commands remain intact, the false startup warning is avoided, and RimWorld
+still detects unrelated binding conflicts.
 
 Spine 1.0 owns settings rendering, scribing, contextual Alt-click routing,
 scrolling, and highlighting. Task Interrupt contributes two setting definitions

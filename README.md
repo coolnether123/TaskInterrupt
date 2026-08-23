@@ -1,13 +1,12 @@
 # Interrupt Task
 
-Interrupt Task is a RimWorld 1.6 quality-of-life mod for stopping a controllable
-pawn's current task without the draft/undraft dance.
+Interrupt Task stops a controllable pawn's current task without making you
+draft and undraft them. It supports RimWorld 1.6.
 
-Select one pawn or a mixed group and use **Interrupt**. Every safe selected
-pawn stops the current task, keeps any queued tasks, and immediately returns
-to normal AI decision-making. The command uses RimWorld's own interruption and
-cleanup path, so reservations and carried items receive normal job-driver
-cleanup.
+Select one pawn or a mixed group and use **Interrupt**. Every selected pawn
+whose work is safe to interrupt stops the current task, keeps the queue, and
+returns to normal AI behavior. RimWorld's own job system cleans up reservations
+and carried items.
 
 ## Safety
 
@@ -27,21 +26,20 @@ task, so the command would only ever be a disabled button competing for space in
 an already crowded gizmo row. Selecting a drafted pawn alongside undrafted ones
 still shows the command; the drafted pawns are reported as skipped.
 
-Forced work is supported but asks for confirmation by default. A short
-per-pawn guard prevents a held or rapidly repeated input from cancelling each
-new task the AI selects.
+Forced work can be interrupted, but the mod asks for confirmation by default.
+A short per-pawn delay stops a held or repeated key from cancelling each new
+task the AI chooses.
 
-The keybinding is configured in RimWorld's normal controls and defaults to
-**F**. Vanilla also uses F to toggle forbidden items, but the commands are
-context-separated: Interrupt Task is available for controllable pawns and Toggle
-forbidden is available for items. Those two definitions explicitly ignore only
-each other for conflict reporting, so vanilla forbid remains intact without a
-false startup warning. It can be rebound to another keyboard key through
-RimWorld's ordinary controls. Interrupt Task does not install a mouse-input adapter
-or a global input poll. The gizmo can be hidden in mod settings; hiding it also
-hides its native contextual hotkey surface.
-Alt-clicking the gizmo opens and highlights that setting via SpineLib's shared
-contextual-settings convention.
+The keybinding uses RimWorld's normal controls and defaults to **F**. The base
+game also uses F to toggle forbidden items, but the commands appear in
+different contexts. Interrupt Task is available for controllable pawns, while
+Toggle forbidden is available for items. They ignore only each other during
+conflict checks, so both commands keep working without a false startup warning.
+You can rebind Interrupt Task to another keyboard key.
+
+The mod does not add mouse handling or poll for global input. You can hide the
+gizmo in the mod settings, which also disables its hotkey. Alt-click the gizmo
+to open that setting through SpineLib.
 
 ## Supported pawns
 
@@ -50,7 +48,7 @@ contextual-settings convention.
 - player-controlled children; and
 - overseen, player-controlled colony mechs.
 
-Animals and arbitrary selectable entities are intentionally outside scope.
+Animals and other selectable entities are outside the mod's scope.
 
 ## Requirements
 

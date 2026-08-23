@@ -20,11 +20,11 @@ namespace TaskInterrupt.Settings
                 "Controls",
                 "TaskInterrupt_Settings_Controls");
             controls.Toggle("controls.gizmo", settings => settings.ShowGizmo,
-                "Show Interrupt Task Button")
+                "Show Interrupt Task button")
                 .Localized("TaskInterrupt_Settings_ShowGizmo", "TaskInterrupt_Settings_ShowGizmo_Tip");
             controls.Toggle("safety.forced",
                 settings => settings.ConfirmForcedTasks,
-                "Show Confirm Dialog when interrupting forced tasks")
+                "Confirm before interrupting forced tasks")
                 .Localized("TaskInterrupt_Settings_ConfirmForced", "TaskInterrupt_Settings_ConfirmForced_Tip");
             // Cosmetic only. Advanced because nobody should meet it by
             // accident, and off by default because the plain wording is
