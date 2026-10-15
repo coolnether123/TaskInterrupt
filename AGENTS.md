@@ -14,4 +14,4 @@ gizmo's top-left and place the gizmo at the far right.
 Use `SpineMod<TaskBreakSettings>` and Spine's patching/contextual contracts.
 Metadata, `Tools\CascadeManifest.json`, project files, and `Tests` are the local
 support and verification authorities. Follow
-`A:\Dev\RimWorld\AGENTS.md` for shared build/runtime work.
+`H:\Dev\RimWorld\AGENTS.md` for shared build/runtime work.
